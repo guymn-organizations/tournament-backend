@@ -1,6 +1,7 @@
 package tour.rov.profile.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,11 +22,15 @@ public class ProfileService {
 
     @Transactional
     public void saveProfile(Profile profile) {
-        try {
-            profileRepo.save(profile);
-        } catch (DataAccessException e) {
-            
-        }
+        profileRepo.save(profile);
+
     }
 
+    public boolean existingProfile(String profileId) {
+        return profileRepo.existsById(profileId);
+    }
+
+    public Optional<Profile> findById(String id) {
+        return profileRepo.findById(id);
+    }
 }

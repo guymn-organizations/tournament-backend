@@ -2,6 +2,7 @@ package tour.rov.profile.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,9 +39,44 @@ public class ProfileController {
         return ResponseEntity.ok(profiles);
     }
 
-    @PostMapping
-    public ResponseEntity<?> postProfile(@RequestBody Profile profile) {
+    @PostMapping("/register")
+    public ResponseEntity<?> registerProfile(@RequestBody Profile profile) {
+        try {
+            profile.setImageUrl(null);
+            profile.setProfileGame(null);
+            profile.setMessages(null);
+            profileService.saveProfile(profile);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Profile was created");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while updating the profile.");
+        }
+    }
+
+    @PutMapping("/{profileId}")
+    public ResponseEntity<?> updateProfile(@PathVariable String profileId, @RequestBody Profile updatedProfile) {
+        // Check if the specified profile exists
+        Optional<Profile> existingProfile = profileService.findById(profileId);
+
+        if (!existingProfile.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Profile profile = existingProfile.get();
+
+        // Update the fields of the existing profile
+        profile.setBirthday(updatedProfile.getBirthday());
+        profile.setEmail(updatedProfile.getEmail());
+        profile.setFirstName(updatedProfile.getFirstName());
+        profile.setGender(updatedProfile.getGender());
+        profile.setLastName(updatedProfile.getLastName());
+        profile.setPassword(updatedProfile.getPassword());
+        profile.setImageUrl(updatedProfile.getImageUrl());
+        profile.setProfileGame(updatedProfile.getProfileGame());
+
+        // Save the updated profile
         profileService.saveProfile(profile);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Profile was created");
+
+        return ResponseEntity.ok().body("Profile was updated");
     }
 }
