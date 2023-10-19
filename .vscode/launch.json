@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProfileApplication<profile>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "tour.rov.profile.ProfileApplication",
+            "projectName": "profile",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
