@@ -49,28 +49,18 @@ public class ProfileController {
         }
     }
 
-    @PutMapping("/{profileId}")
-    public ResponseEntity<?> updateProfile(@PathVariable String profileId, @RequestBody Profile updatedProfile) {
-
-        if (!profileService.existingProfile(profileId)) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editProfile(@PathVariable String id, @RequestBody Profile updatedProfile) {
+        if (profileService.existingProfile(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
         }
 
-        Profile profile = profileService.findById(profileId);
-
-        // Update the fields of the existing profile
-        profile.setBirthday(updatedProfile.getBirthday());
-        profile.setEmail(updatedProfile.getEmail());
-        profile.setFirstName(updatedProfile.getFirstName());
-        profile.setGender(updatedProfile.getGender());
-        profile.setLastName(updatedProfile.getLastName());
-        profile.setPassword(updatedProfile.getPassword());
-        profile.setImageProfileUrl(updatedProfile.getImageProfileUrl());
-        profile.setProfileGame(updatedProfile.getProfileGame());
-
-        // Save the updated profile
-        profileService.saveProfile(profile);
-
-        return ResponseEntity.ok().body("Profile was updated");
+        try {
+            profileService.updateProfile(id, updatedProfile);
+            return ResponseEntity.ok().body("Profile was updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to edit profile : " + e.getMessage());
+        }
     }
 }
