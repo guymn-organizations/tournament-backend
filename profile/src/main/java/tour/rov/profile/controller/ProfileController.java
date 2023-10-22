@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Profile;
+import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.service.ProfileService;
 
 @RestController
@@ -33,8 +34,10 @@ public class ProfileController {
 
     @GetMapping("/login/{email}/{password}")
     public ResponseEntity<?> login(@PathVariable String email, @PathVariable String password) {
+
         try {
             Profile profile = profileService.getProfileByEmail(email);
+
             if (profile == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng email");
 
@@ -42,6 +45,7 @@ public class ProfileController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng password");
 
             }
+
             return ResponseEntity.ok(profile);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -51,16 +55,32 @@ public class ProfileController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> editProfile(@PathVariable String id, @RequestBody Profile updatedProfile) {
-        if (profileService.existingProfile(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
-        }
 
         try {
+            if (profileService.existingProfile(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
+            }
+
             profileService.updateProfile(id, updatedProfile);
             return ResponseEntity.ok().body("Profile was updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to edit profile : " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/set_profile_game")
+    public ResponseEntity<?> setProfileGame(@PathVariable String id, @RequestBody ProfileGame profileGame) {
+        try {
+            if (profileService.existingProfile(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
+            }
+
+            profileService.updateProfileGame(id, profileGame);
+            return ResponseEntity.ok().body("ProfileGame  was updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to edit game profile : " + e.getMessage());
         }
     }
 }
