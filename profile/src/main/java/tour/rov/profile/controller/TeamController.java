@@ -30,7 +30,7 @@ public class TeamController {
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to create the team: " + e.getMessage());
+                    .body("Failed to create team: " + e.getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ public class TeamController {
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to delete the team: " + e.getMessage());
+                    .body("Failed to delete team: " + e.getMessage());
         }
     }
 }
