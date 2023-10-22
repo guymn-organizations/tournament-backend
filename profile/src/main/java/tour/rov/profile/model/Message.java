@@ -1,4 +1,4 @@
-package tour.rov.profile.entity;
+package tour.rov.profile.model;
 
 public class Message {
     private String sender;

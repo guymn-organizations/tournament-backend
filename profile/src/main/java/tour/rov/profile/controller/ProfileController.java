@@ -1,10 +1,8 @@
 package tour.rov.profile.controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,21 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import springfox.documentation.annotations.ApiIgnore;
+import tour.rov.profile.model.Profile;
 import tour.rov.profile.service.ProfileService;
-import tour.rov.profile.entity.Profile;
 
 @RestController
 @RequestMapping("profile")
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
-
-    @ApiIgnore
-    @RequestMapping(value = "/")
-    public void redirect(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/swagger-ui.html");
-    }
 
     @GetMapping
     public ResponseEntity<?> getAllProfile() {
@@ -42,7 +33,7 @@ public class ProfileController {
     @PostMapping("/register")
     public ResponseEntity<?> registerProfile(@RequestBody Profile profile) {
         try {
-            profile.setImageUrl(null);
+            profile.setImageProfileUrl(null);
             profile.setProfileGame(null);
             profile.setMessages(null);
             profileService.saveProfile(profile);
@@ -71,7 +62,7 @@ public class ProfileController {
         profile.setGender(updatedProfile.getGender());
         profile.setLastName(updatedProfile.getLastName());
         profile.setPassword(updatedProfile.getPassword());
-        profile.setImageUrl(updatedProfile.getImageUrl());
+        profile.setImageProfileUrl(updatedProfile.getImageProfileUrl());
         profile.setProfileGame(updatedProfile.getProfileGame());
 
         // Save the updated profile
