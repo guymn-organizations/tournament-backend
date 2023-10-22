@@ -13,7 +13,15 @@ public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
-    public void saveTeam(Team team){
+    public void saveTeam(Team team) {
         teamRepository.save(team);
+    }
+
+    public Team findById(String id) {
+        return teamRepository.findById(id).get();
+    }
+
+    public void deleteTeam(String id) {
+        teamRepository.deleteById(id);
     }
 }
