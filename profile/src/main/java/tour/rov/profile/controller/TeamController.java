@@ -52,7 +52,13 @@ public class TeamController {
     @PutMapping("/{id}/add_dsl")
     public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @RequestBody Profile dslPlayer) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was  DSL player");
+            if (teamService.existingTeam(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+            Team team = new Team();
+            team.setDSL(dslPlayer);
+            teamService.updateTeam(id, team);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added DSL player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
