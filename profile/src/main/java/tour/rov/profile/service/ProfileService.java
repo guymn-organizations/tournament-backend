@@ -30,7 +30,7 @@ public class ProfileService {
     }
 
     public boolean existingProfile(String profileId) {
-        return profileRepo.existsById(profileId);
+        return !profileRepo.existsById(profileId);
     }
 
     public Profile getProfileByEmail(String email) {
@@ -41,15 +41,33 @@ public class ProfileService {
         Profile profile = findById(id);
 
         profile.setId(id);
-        profile.setBirthday(updatedProfile.getBirthday());
-        profile.setEmail(updatedProfile.getEmail());
-        profile.setFirstName(updatedProfile.getFirstName());
-        profile.setLastName(updatedProfile.getLastName());
-        profile.setGender(updatedProfile.getGender());
-        profile.setPassword(updatedProfile.getPassword());
-        profile.setImageProfileUrl(updatedProfile.getImageProfileUrl());
-        profile.setProfileGame(updatedProfile.getProfileGame());
-        profile.setMessages(updatedProfile.getMessages());
+        if (updatedProfile.getBirthday() != null) {
+            profile.setBirthday(updatedProfile.getBirthday());
+        }
+        if (updatedProfile.getEmail() != null) {
+            profile.setEmail(updatedProfile.getEmail());
+        }
+        if (updatedProfile.getFirstName() != null) {
+            profile.setFirstName(updatedProfile.getFirstName());
+        }
+        if (updatedProfile.getLastName() != null) {
+            profile.setLastName(updatedProfile.getLastName());
+        }
+        if (updatedProfile.getGender() != null) {
+            profile.setGender(updatedProfile.getGender());
+        }
+        if (updatedProfile.getPassword() != null) {
+            profile.setPassword(updatedProfile.getPassword());
+        }
+        if (updatedProfile.getImageProfileUrl() != null) {
+            profile.setImageProfileUrl(updatedProfile.getImageProfileUrl());
+        }
+        if (updatedProfile.getProfileGame() != null) {
+            profile.setProfileGame(updatedProfile.getProfileGame());
+        }
+        if (updatedProfile.getMessages() != null) {
+            profile.setMessages(updatedProfile.getMessages());
+        }
 
         saveProfile(profile);
     }

@@ -24,4 +24,45 @@ public class TeamService {
     public void deleteTeam(String id) {
         teamRepository.deleteById(id);
     }
+
+    public boolean existingTeam(String teamId) {
+        return !teamRepository.existsById(teamId);
+    }
+
+    public void updateTeam(String id, Team updateTeam) {
+        Team team = findById(id);
+
+        if (updateTeam.getId() != null) {
+            team.setId(updateTeam.getId());
+        }
+        if (updateTeam.getName() != null) {
+            team.setName(updateTeam.getName());
+        }
+        if (updateTeam.getLeader() != null) {
+            team.setLeader(updateTeam.getLeader());
+        }
+        if (updateTeam.getDSL() != null) {
+            team.setDSL(updateTeam.getDSL());
+        }
+        if (updateTeam.getJG() != null) {
+            team.setJG(updateTeam.getJG());
+        }
+        if (updateTeam.getMID() != null) {
+            team.setMID(updateTeam.getMID());
+        }
+        if (updateTeam.getADL() != null) {
+            team.setADL(updateTeam.getADL());
+        }
+        if (updateTeam.getSUP() != null) {
+            team.setSUP(updateTeam.getSUP());
+        }
+        if (updateTeam.getTeamReserve() != null) {
+            team.setTeamReserve(updateTeam.getTeamReserve());
+        }
+        if (updateTeam.getMessages() != null) {
+            team.setMessages(updateTeam.getMessages());
+        }
+
+        saveTeam(team);
+    }
 }

@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.service.TeamService;
 
@@ -44,6 +46,17 @@ public class TeamController {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to delete team: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/add_dsl")
+    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @RequestBody Profile dslPlayer) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Team was  DSL player");
+        } catch (Exception e) {
+            // Handle exceptions and return an appropriate response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add DSL member : " + e.getMessage());
         }
     }
 }
