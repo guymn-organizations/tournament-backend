@@ -1,6 +1,7 @@
 package tour.rov.profile.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -30,13 +31,13 @@ public class Profile {
     private ProfileGame profileGame;
 
     @DBRef
-    private Message[] messages;
+    private List<Message> messages;
 
     public Profile() {
     }
 
     public Profile(String id, LocalDate birthday, String email, String firstName, Gender gender, String lastName,
-            String password, String imageProfileUrl, ProfileGame profileGame, Message[] messages) {
+            String password, String imageProfileUrl, ProfileGame profileGame, List<Message> messages) {
         this.id = id;
         this.birthday = birthday;
         this.email = email;
@@ -126,11 +127,11 @@ public class Profile {
         this.profileGame = profileGame;
     }
 
-    public Message[] getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(Message[] messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 

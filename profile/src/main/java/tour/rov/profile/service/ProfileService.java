@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.repository.ProfileRepo;
@@ -62,6 +63,11 @@ public class ProfileService {
         profile.getProfileGame().setImageGameUrl(updatedProfileGame.getImageGameUrl());
 
         updateProfile(id, profile);
+    }
+
+    public List<Message> getMessages(String id) {
+        Profile profile = findById(id);
+        return profile.getMessages();
     }
 
 }
