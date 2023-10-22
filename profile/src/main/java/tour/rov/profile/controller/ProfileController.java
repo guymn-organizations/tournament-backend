@@ -1,9 +1,5 @@
 package tour.rov.profile.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,41 +15,48 @@ import tour.rov.profile.model.Profile;
 import tour.rov.profile.service.ProfileService;
 
 @RestController
-@RequestMapping("profile")
+@RequestMapping("profiles")
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllProfile() {
-        List<Profile> profiles = profileService.getAllProfile();
-        return ResponseEntity.ok(profiles);
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<?> registerProfile(@RequestBody Profile profile) {
+    public ResponseEntity<?> register(@RequestBody Profile profile) {
         try {
-            profile.setImageProfileUrl(null);
-            profile.setProfileGame(null);
-            profile.setMessages(null);
             profileService.saveProfile(profile);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Profile was created");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Profile was created\n" + profile);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while updating the profile.");
+                    .body("Failed to register : " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/login/{email}/{password}")
+    public ResponseEntity<?> login(@PathVariable String email, @PathVariable String password) {
+        try {
+            Profile profile = profileService.getProfileByEmail(email);
+            if (profile == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng email");
+
+            } else if (password.equals(profile.getPassword())) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng password");
+
+            }
+            return ResponseEntity.ok(profile);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to login : " + e.getMessage());
         }
     }
 
     @PutMapping("/{profileId}")
     public ResponseEntity<?> updateProfile(@PathVariable String profileId, @RequestBody Profile updatedProfile) {
-        // Check if the specified profile exists
-        Optional<Profile> existingProfile = profileService.findById(profileId);
 
-        if (!existingProfile.isPresent()) {
-            return ResponseEntity.notFound().build();
+        if (!profileService.existingProfile(profileId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
         }
 
-        Profile profile = existingProfile.get();
+        Profile profile = profileService.findById(profileId);
 
         // Update the fields of the existing profile
         profile.setBirthday(updatedProfile.getBirthday());

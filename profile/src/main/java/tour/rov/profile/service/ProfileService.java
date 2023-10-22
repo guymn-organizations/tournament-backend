@@ -1,7 +1,6 @@
 package tour.rov.profile.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +19,24 @@ public class ProfileService {
         return profileRepo.findAll();
     }
 
+    public Profile findById(String id) {
+        return profileRepo.findById(id).get();
+    }
+
     public void saveProfile(Profile profile) {
         profileRepo.save(profile);
-
     }
 
     public boolean existingProfile(String profileId) {
         return profileRepo.existsById(profileId);
     }
 
-    public Optional<Profile> findById(String id) {
-        return profileRepo.findById(id);
+    public Profile getProfileByEmail(String email) {
+        return profileRepo.getProfileByEmail(email);
     }
+
+    public void updateProfile() {
+
+    }
+
 }
