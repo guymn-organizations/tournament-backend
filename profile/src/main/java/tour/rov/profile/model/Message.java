@@ -5,16 +5,17 @@ public class Message {
     private MessageType messageType;
     private String content;
 
-    public Message(String sender, MessageType messageType, String content) {
+    public Message(String sender, MessageType class1, String content) {
         this.sender = sender;
-        this.messageType = messageType;
+        this.messageType = class1;
         this.content = content;
     }
 
     public enum MessageType {
         INVITE_TO_JOIN_TEAM,
         REQUEST_TO_JOIN_TEAM,
-        INVITE_TO_SCRIMS
+        INVITE_TO_SCRIMS,
+        SYSTEM_ALERT
     }
 
     public String getSender() {

@@ -75,10 +75,22 @@ public class ProfileService {
     public void updateProfileGame(String id, ProfileGame updatedProfileGame) {
         Profile profile = findById(id);
 
-        profile.getProfileGame().setName(updatedProfileGame.getName());
-        profile.getProfileGame().setOpenId(updatedProfileGame.getOpenId());
-        profile.getProfileGame().setMyTeam(updatedProfileGame.getMyTeam());
-        profile.getProfileGame().setImageGameUrl(updatedProfileGame.getImageGameUrl());
+        if (profile.getProfileGame() == null) {
+            profile.setProfileGame(updatedProfileGame);
+        } else {
+            if (updatedProfileGame.getName() != null) {
+                profile.getProfileGame().setName(updatedProfileGame.getName());
+            }
+            if (updatedProfileGame.getOpenId() != null) {
+                profile.getProfileGame().setOpenId(updatedProfileGame.getOpenId());
+            }
+            if (updatedProfileGame.getMyTeam() != null) {
+                profile.getProfileGame().setMyTeam(updatedProfileGame.getMyTeam());
+            }
+            if (updatedProfileGame.getImageGameUrl() != null) {
+                profile.getProfileGame().setImageGameUrl(updatedProfileGame.getImageGameUrl());
+            }
+        }
 
         updateProfile(id, profile);
     }

@@ -1,5 +1,6 @@
 package tour.rov.profile.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ProfileController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Profile profile) {
         try {
+            profile.setMessages(new ArrayList<Message>());
             profileService.saveProfile(profile);
             return ResponseEntity.status(HttpStatus.CREATED).body("Profile was created\n" + profile);
         } catch (Exception e) {
@@ -44,8 +46,9 @@ public class ProfileController {
             if (profile == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng email");
 
-            } else if (password.equals(profile.getPassword())) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng password");
+            } else if (!password.equals(profile.getPassword())) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(password + " Worng password\n" + profile.getPassword());
 
             }
 
