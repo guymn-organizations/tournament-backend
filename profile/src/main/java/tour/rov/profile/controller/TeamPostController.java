@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tour.rov.profile.model.PlayerPost;
+import tour.rov.profile.model.TeamPost;
 import tour.rov.profile.model.Position;
-import tour.rov.profile.service.PlayerPostService;
+import tour.rov.profile.service.TeamPostService;
 
 @RestController
-@RequestMapping("player_post")
-public class PlayerPostController {
+@RequestMapping("team_post")
+public class TeamPostController {
     @Autowired
-    private PlayerPostService playerPostService;
+    private TeamPostService TeamPostService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(@RequestBody PlayerPost playerPost) {
+    public ResponseEntity<?> createPost(@RequestBody TeamPost TeamPost) {
         try {
-            playerPost.setPositions(new ArrayList<Position>());
-            playerPostService.savePlayerPost(playerPost);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Post was created\n" + playerPost);
+            TeamPost.setPositions(new ArrayList<Position>());
+            TeamPostService.saveTeamPost(TeamPost);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Post was created\n" + TeamPost);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create post : " + e.getMessage());
@@ -37,10 +37,10 @@ public class PlayerPostController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPlayerPost() {
+    public ResponseEntity<?> getAllTeamPost() {
         try {
-            List<PlayerPost> playerPosts = playerPostService.getAllPlayerPosts();
-            return ResponseEntity.ok(playerPosts);
+            List<TeamPost> teamPosts = TeamPostService.getAllTeamPosts();
+            return ResponseEntity.ok(teamPosts);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to get posts : " + e.getMessage());
@@ -48,14 +48,13 @@ public class PlayerPostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editPost(@PathVariable String id, @RequestBody PlayerPost playerPost) {
+    public ResponseEntity<?> editPost(@PathVariable String id, @RequestBody TeamPost TeamPost) {
         try {
-            playerPostService.updatePlayerPost(id, playerPost);
+            TeamPostService.updateTeamPost(id, TeamPost);
             return ResponseEntity.ok().body("Post was updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to get posts : " + e.getMessage());
         }
     }
-
 }
