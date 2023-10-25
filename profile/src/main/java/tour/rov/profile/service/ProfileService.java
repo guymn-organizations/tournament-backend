@@ -40,7 +40,6 @@ public class ProfileService {
     public void updateProfile(String id, Profile updatedProfile) {
         Profile profile = findById(id);
 
-        profile.setId(id);
         if (updatedProfile.getBirthday() != null) {
             profile.setBirthday(updatedProfile.getBirthday());
         }
