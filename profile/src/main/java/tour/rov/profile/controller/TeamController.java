@@ -31,7 +31,7 @@ public class TeamController {
             // Save the team to the MongoDB database
             team.setMessages(new ArrayList<Message>());
             team.setTeamReserve(new ArrayList<Profile>());
-
+            team.getTeamReserve().add(team.getLeader());
             teamService.saveTeam(team);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(team);
