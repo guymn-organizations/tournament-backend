@@ -30,10 +30,10 @@ public class ProfileController {
         try {
             profile.setMessages(new ArrayList<Message>());
             profileService.saveProfile(profile);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Profile was created\n" + profile);
+            return ResponseEntity.ok(profile);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to register : " + e.getMessage());
+                    .body("Exist email");
         }
     }
 
@@ -48,7 +48,7 @@ public class ProfileController {
 
             } else if (!password.equals(profile.getPassword())) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(password + " Worng password\n" + profile.getPassword());
+                        .body("Worng password");
 
             }
 
