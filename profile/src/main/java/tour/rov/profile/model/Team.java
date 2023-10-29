@@ -3,7 +3,6 @@ package tour.rov.profile.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +11,6 @@ public class Team {
     @Id
     private String id;
 
-    @Indexed(unique = true)
     private String name;
 
     @DBRef
@@ -42,21 +40,25 @@ public class Team {
     @DBRef
     private List<Message> messages;
 
+    private String imageTeamUrl;
+
     public Team() {
     }
 
     public Team(String id, String name, Profile leader, Profile dSL, Profile jG, Profile mID, Profile aDL, Profile sUP,
-            List<Profile> teamReserve, List<Message> messages) {
+            List<Profile> teamReserve, List<Message> messages, String imageTeamUrl) {
         this.id = id;
         this.name = name;
         this.leader = leader;
-        DSL = dSL;
-        JG = jG;
-        MID = mID;
-        ADL = aDL;
-        SUP = sUP;
+        this.DSL = dSL;
+        this.JG = jG;
+        this.MID = mID;
+        this.ADL = aDL;
+        this.SUP = sUP;
         this.teamReserve = teamReserve;
         this.messages = messages;
+        this.imageTeamUrl = imageTeamUrl;
+
     }
 
     public String getId() {
@@ -139,4 +141,13 @@ public class Team {
         this.messages = messages;
     }
 
+    public String getImageTeamUrl() {
+        return imageTeamUrl;
+    }
+
+    public void setImageTeamUrl(String imageTeamUrl) {
+        this.imageTeamUrl = imageTeamUrl;
+    }
+
+    
 }

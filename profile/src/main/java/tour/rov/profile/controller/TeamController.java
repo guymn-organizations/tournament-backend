@@ -29,6 +29,10 @@ public class TeamController {
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody Team team) {
         try {
+            if (teamService.existingTeamName(team.getName())) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Name is already use");
+            }
             // Save the team to the MongoDB database
             team.setMessages(new ArrayList<Message>());
             team.setTeamReserve(new ArrayList<Profile>());

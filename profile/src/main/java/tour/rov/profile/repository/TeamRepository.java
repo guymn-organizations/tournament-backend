@@ -5,5 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import tour.rov.profile.model.Team;
 
 public interface TeamRepository extends MongoRepository<Team, String> {
+    public boolean existsByName(String name);
 
 }

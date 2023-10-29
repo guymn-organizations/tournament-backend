@@ -29,6 +29,10 @@ public class TeamService {
         return !teamRepository.existsById(teamId);
     }
 
+    public boolean existingTeamName(String name) {
+        return teamRepository.existsByName(name);
+    }
+
     public void updateTeam(String id, Team updateTeam) {
         Team team = findById(id);
 
