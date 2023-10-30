@@ -1,8 +1,13 @@
 package tour.rov.profile.model;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 public class Position {
     private PositionType positionType;
+    
     private String position_name;
+
+    @DBRef
     private Profile player;
 
     public Position() {
