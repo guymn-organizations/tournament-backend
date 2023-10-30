@@ -2,13 +2,9 @@ package tour.rov.profile.model;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class Chat {
     private String sender;
     private String content;
-
-    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate timeSend;
 
     public Chat(){}

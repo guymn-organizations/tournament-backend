@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,6 +68,22 @@ public class TournamentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create and add a match to the tournament: " + e.getMessage());
+        }
+    }
+    @GetMapping("/Featured")
+    //หา tournament ที่มี reward สูงที่สุด
+    public ResponseEntity<?> getTournamentWithHighestReward() {
+        try {
+            Tournament featuredTournament = tournamentService.findTournamentWithHighestReward();
+            
+            if (featuredTournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No featured tournaments found.");
+            }
+    
+            return ResponseEntity.ok(featuredTournament);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Failed to retrieve featured tournament: " + e.getMessage());
         }
     }
 }

@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Document(collection = "scrims")
 public class Scrims {
     @Id
@@ -20,7 +18,6 @@ public class Scrims {
     @DBRef
     private Team teamB;
 
-    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate startDate;
 
     @DBRef

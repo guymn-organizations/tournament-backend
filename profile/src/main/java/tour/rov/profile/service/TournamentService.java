@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Sort;
 import tour.rov.profile.model.Match;
 import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
@@ -19,6 +23,9 @@ public class TournamentService {
 
     @Autowired
     private MatchRepo matchRepo;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public Tournament findById(String id){
         return tournamentRepo.findById(id).get();
@@ -76,5 +83,12 @@ public class TournamentService {
 
         // คืนรายการแมทช์ที่สร้างขึ้น
         return matches;
+    }
+    public Tournament findTournamentWithHighestReward() {
+        // Create a query to find the tournament with the highest reward
+        Query query = new Query().with(Sort.by(Sort.Order.desc("reward"))).limit(1);
+
+        // Execute the query and retrieve the tournament with the highest reward
+        return mongoTemplate.findOne(query, Tournament.class);
     }
 }

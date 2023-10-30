@@ -21,13 +21,8 @@ public class Tournament {
     private String detail;
     private Double reward;
 
-    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate startRegisterDate;
-
-    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate endRegisterDate;
-
-    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate startTourDate;
     //private String imageTourUrl;
     private TournamenType tournamenType;
