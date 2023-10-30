@@ -26,7 +26,7 @@ public class ImageContriller {
             Image image = new Image();
             image.setImageUrl(url);
             imageService.saveImage(image);
-            return ResponseEntity.ok("Success");
+            return ResponseEntity.ok(image.getId());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create image : " + e.getMessage());
