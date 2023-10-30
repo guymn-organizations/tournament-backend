@@ -1,7 +1,6 @@
 package tour.rov.profile.model;
 
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class ProfileGame {
     @Indexed(unique = true)
@@ -10,19 +9,11 @@ public class ProfileGame {
     @Indexed(unique = true)
     private String openId;
 
-    @DBRef
-    private Team myTeam;
+    private String myTeam;
 
     private String imageGameUrl;
 
     public ProfileGame() {
-    }
-
-    public ProfileGame(String name, String openId, Team myTeam, String imageGameUrl) {
-        this.name = name;
-        this.openId = openId;
-        this.myTeam = myTeam;
-        this.imageGameUrl = imageGameUrl;
     }
 
     public String getName() {
@@ -41,11 +32,11 @@ public class ProfileGame {
         this.openId = openId;
     }
 
-    public Team getMyTeam() {
+    public String getMyTeam() {
         return myTeam;
     }
 
-    public void setMyTeam(Team myTeam) {
+    public void setMyTeam(String myTeam) {
         this.myTeam = myTeam;
     }
 
