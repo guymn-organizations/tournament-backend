@@ -149,5 +149,4 @@ public class Team {
         this.imageTeamUrl = imageTeamUrl;
     }
 
-    
 }

@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TournamentApplication",
+            "request": "launch",
+            "mainClass": "tour.rov.tournament.TournamentApplication",
+            "projectName": "profile"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ProfileApplication<profile>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
