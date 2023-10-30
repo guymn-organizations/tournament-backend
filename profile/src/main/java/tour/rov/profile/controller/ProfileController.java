@@ -61,17 +61,13 @@ public class ProfileController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getPrifileById(@PathVariable String id) {
 
-        try {
-            if (profileService.existingProfile(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("please login");
-            }
-            Profile profile = profileService.findById(id);
-
-            return ResponseEntity.ok(profile);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to login : " + e.getMessage());
+        if (profileService.existingProfile(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notfound profile");
         }
+        Profile profile = profileService.findById(id);
+
+        return ResponseEntity.ok(profile);
+
     }
 
     @PutMapping("/{id}")

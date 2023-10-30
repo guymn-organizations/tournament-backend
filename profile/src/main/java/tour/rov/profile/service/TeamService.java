@@ -45,20 +45,8 @@ public class TeamService {
         if (updateTeam.getLeader() != null) {
             team.setLeader(updateTeam.getLeader());
         }
-        if (updateTeam.getDSL() != null) {
-            team.setDSL(updateTeam.getDSL());
-        }
-        if (updateTeam.getJG() != null) {
-            team.setJG(updateTeam.getJG());
-        }
-        if (updateTeam.getMID() != null) {
-            team.setMID(updateTeam.getMID());
-        }
-        if (updateTeam.getADL() != null) {
-            team.setADL(updateTeam.getADL());
-        }
-        if (updateTeam.getSUP() != null) {
-            team.setSUP(updateTeam.getSUP());
+        if (updateTeam.getPositions() != null) {
+            team.setPositions(updateTeam.getPositions());
         }
         if (updateTeam.getTeamReserve() != null) {
             team.setTeamReserve(updateTeam.getTeamReserve());

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Message;
+import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
+import tour.rov.profile.model.Position.PositionType;
 import tour.rov.profile.service.TeamService;
 
 @RestController
@@ -85,8 +87,10 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.setDSL(dslPlayer);
+            Position position = new Position(PositionType.DSL, "DARK SLAYER LANE", dslPlayer);
+            team.getPositions().add(position);
             teamService.updateTeam(id, team);
+
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added DSL player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -102,7 +106,8 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.setJG(jgPlayer);
+            Position position = new Position(PositionType.JG, "JUNGLE", jgPlayer);
+            team.getPositions().add(position);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added JG player");
         } catch (Exception e) {
@@ -119,7 +124,8 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.setMID(midPlayer);
+            Position position = new Position(PositionType.MID, "MID LANE", midPlayer);
+            team.getPositions().add(position);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added MID player");
         } catch (Exception e) {
@@ -136,7 +142,8 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.setADL(adlPlayer);
+            Position position = new Position(PositionType.ADL, "ABYSSAL DRAGON LANE", adlPlayer);
+            team.getPositions().add(position);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added ADL player");
         } catch (Exception e) {
@@ -153,7 +160,8 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.setSUP(supPlayer);
+            Position position = new Position(PositionType.SUP, "SUPPORT", supPlayer);
+            team.getPositions().add(position);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
         } catch (Exception e) {

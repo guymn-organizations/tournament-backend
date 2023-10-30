@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,11 +21,9 @@ public class ImageContriller {
     @Autowired
     private ImageService imageService;
 
-    @PostMapping("/{url}")
-    public ResponseEntity<?> createImage(@PathVariable String url) {
+    @PostMapping("/post_image")
+    public ResponseEntity<?> createImage(@RequestBody Image image) {
         try {
-            Image image = new Image();
-            image.setImageUrl(url);
             imageService.saveImage(image);
             return ResponseEntity.ok(image.getId());
         } catch (Exception e) {
