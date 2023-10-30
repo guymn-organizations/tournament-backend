@@ -29,17 +29,17 @@ public class ProfileController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Profile profile) {
-        try {
-            profile.setMessages(new ArrayList<Message>());
-            profile.setProfileGame(null);
-            profile.getProfileGame().setMyTeam(null);
-
-            profileService.saveProfile(profile);
-            return ResponseEntity.ok(profile);
-        } catch (Exception e) {
+        if (profileService.existingProfileByEmail(profile.getEmail())) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Exist email");
+                    .body("Email is already use");
         }
+
+        profile.setMessages(new ArrayList<Message>());
+        profile.setProfileGame(null);
+
+        profileService.saveProfile(profile);
+        return ResponseEntity.ok(profile);
+
     }
 
     @GetMapping("/login/{email}/{password}")

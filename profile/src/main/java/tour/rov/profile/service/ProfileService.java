@@ -33,6 +33,10 @@ public class ProfileService {
         return !profileRepo.existsById(profileId);
     }
 
+    public boolean existingProfileByEmail(String email) {
+        return profileRepo.existsByEmail(email);
+    }
+
     public Profile getProfileByEmail(String email) {
         return profileRepo.getProfileByEmail(email);
     }
