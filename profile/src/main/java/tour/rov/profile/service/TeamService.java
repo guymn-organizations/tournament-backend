@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.TeamRepository;
 
@@ -46,7 +47,11 @@ public class TeamService {
             team.setLeader(updateTeam.getLeader());
         }
         if (updateTeam.getPositions() != null) {
-            team.setPositions(updateTeam.getPositions());
+            for (int i = 0; i < team.getPositions().size(); i++) {
+                if (updateTeam.getPositions().get(i).getPlayer() != null) {
+                    team.getPositions().get(i).setPlayer(updateTeam.getPositions().get(i).getPlayer());
+                }
+            }
         }
         if (updateTeam.getTeamReserve() != null) {
             team.setTeamReserve(updateTeam.getTeamReserve());

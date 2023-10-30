@@ -8,6 +8,10 @@ public class Position {
     public Position() {
     }
 
+    public Position(Profile player) {
+        this.player = player;
+    }
+
     public Position(PositionType positionType, String position_name, Profile player) {
         this.positionType = positionType;
         this.position_name = position_name;
