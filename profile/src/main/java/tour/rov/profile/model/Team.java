@@ -1,10 +1,13 @@
 package tour.rov.profile.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import tour.rov.profile.model.Position.PositionType;
 
 @Document(collection = "team")
 public class Team {
@@ -30,6 +33,12 @@ public class Team {
     // private List<Tournament> tournament;
 
     public Team() {
+        setPositions(new ArrayList<Position>());
+        getPositions().add(new Position(PositionType.DSL, "DARK SLAYER LANE", null));
+        getPositions().add(new Position(PositionType.JG, "JUNGLE", null));
+        getPositions().add(new Position(PositionType.MID, "MID LANE", null));
+        getPositions().add(new Position(PositionType.ADL, "ABYSSAL DRAGON LANE", null));
+        getPositions().add(new Position(PositionType.SUP, "SUPPORT", null));
     }
 
     public String getId() {

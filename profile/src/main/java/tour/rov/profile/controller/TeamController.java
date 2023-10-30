@@ -20,6 +20,7 @@ import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.model.Position.PositionType;
+import tour.rov.profile.service.ProfileService;
 import tour.rov.profile.service.TeamService;
 
 @RestController
@@ -29,6 +30,9 @@ public class TeamController {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private ProfileService profileService;
 
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody Team team) {
@@ -85,14 +89,15 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/DSL")
-    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @RequestBody Profile dslPlayer) {
+    @PutMapping("/{id}/DSL/{player_id}")
+    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @PathVariable String player_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.getPositions().get(0).setPlayer(dslPlayer);
+            Profile profile = profileService.findById(player_id);
+            team.getPositions().get(0).setPlayer(profile);
             teamService.updateTeam(id, team);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added DSL player");
@@ -103,14 +108,15 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/JG")
-    public ResponseEntity<?> addJGPlayer(@PathVariable String id, @RequestBody Profile jgPlayer) {
+    @PutMapping("/{id}/JG/{player_id}")
+    public ResponseEntity<?> addJGPlayer(@PathVariable String id, @PathVariable String player_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.getPositions().get(1).setPlayer(jgPlayer);
+            Profile profile = profileService.findById(player_id);
+            team.getPositions().get(1).setPlayer(profile);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added JG player");
         } catch (Exception e) {
@@ -120,14 +126,15 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/MID")
-    public ResponseEntity<?> addMIDPlayer(@PathVariable String id, @RequestBody Profile midPlayer) {
+    @PutMapping("/{id}/MID/{player_id}")
+    public ResponseEntity<?> addMIDPlayer(@PathVariable String id, @PathVariable String player_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.getPositions().get(2).setPlayer(midPlayer);
+            Profile profile = profileService.findById(player_id);
+            team.getPositions().get(2).setPlayer(profile);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added MID player");
         } catch (Exception e) {
@@ -137,14 +144,16 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/ADL")
-    public ResponseEntity<?> addADLPlayer(@PathVariable String id, @RequestBody Profile adlPlayer) {
+    @PutMapping("/{id}/ADL/{player_id}")
+    public ResponseEntity<?> addADLPlayer(@PathVariable String id, @PathVariable String player_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.getPositions().get(3).setPlayer(adlPlayer);
+            Profile profile = profileService.findById(player_id);
+
+            team.getPositions().get(3).setPlayer(profile);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added ADL player");
         } catch (Exception e) {
@@ -154,14 +163,16 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/SUP")
-    public ResponseEntity<?> addSUPPlayer(@PathVariable String id, @RequestBody Profile supPlayer) {
+    @PutMapping("/{id}/SUP/{player_id}")
+    public ResponseEntity<?> addSUPPlayer(@PathVariable String id, @PathVariable String player_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             Team team = new Team();
-            team.getPositions().get(4).setPlayer(supPlayer);
+            Profile profile = profileService.findById(player_id);
+
+            team.getPositions().get(4).setPlayer(profile);
             teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
         } catch (Exception e) {

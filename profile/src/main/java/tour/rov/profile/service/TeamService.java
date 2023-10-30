@@ -45,11 +45,9 @@ public class TeamService {
         if (updateTeam.getLeader() != null) {
             team.setLeader(updateTeam.getLeader());
         }
-        if (updateTeam.getPositions() != null) {
-            for (int i = 0; i < team.getPositions().size(); i++) {
-                if (updateTeam.getPositions().get(i).getPlayer() != null) {
-                    team.getPositions().get(i).setPlayer(updateTeam.getPositions().get(i).getPlayer());
-                }
+        for (int i = 0; i < team.getPositions().size(); i++) {
+            if (updateTeam.getPositions().get(i).getPlayer() != null) {
+                team.getPositions().get(i).setPlayer(updateTeam.getPositions().get(i).getPlayer());
             }
         }
         if (updateTeam.getTeamReserve() != null) {
