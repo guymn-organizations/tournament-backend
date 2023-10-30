@@ -1,6 +1,5 @@
 package tour.rov.profile.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -16,13 +15,13 @@ public class Team {
 
     private Profile leader;
 
-    private List<Position> positions = new ArrayList<>();
+    private List<Position> positions;
 
     @DBRef
-    private List<Profile> teamReserve = new ArrayList<>();
+    private List<Profile> teamReserve;
 
     @DBRef
-    private List<Message> messages = new ArrayList<>();
+    private List<Message> messages;
 
     private String imageTeamUrl;
 

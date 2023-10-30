@@ -40,9 +40,9 @@ public class TeamController {
             // Save the team to the MongoDB database
             team.setMessages(new ArrayList<Message>());
             team.setTeamReserve(new ArrayList<Profile>());
-            team.getTeamReserve().add(team.getLeader());
-            teamService.saveTeam(team);
+            team.setPositions(new ArrayList<Position>());
 
+            teamService.saveTeam(team);
             return ResponseEntity.status(HttpStatus.CREATED).body(team);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
