@@ -1,4 +1,4 @@
-package tour.rov.tournament.entity;
+package tour.rov.profile.model;
 
 public enum Status {
     รอดำเนินการ, 
