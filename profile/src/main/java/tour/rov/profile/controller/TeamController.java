@@ -183,8 +183,8 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/add_reserve")
-    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @RequestBody String reserver_id) {
+    @PutMapping("/{id}/reserver/{reserver_id}")
+    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @PathVariable String reserver_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
