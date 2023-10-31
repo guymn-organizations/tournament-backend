@@ -115,4 +115,19 @@ public class ProfileController {
                     .body("Failed to get message : " + e.getMessage());
         }
     }
+
+    @PutMapping("/{id}/add_message")
+    public ResponseEntity<?> addMessages(@PathVariable String id, @RequestBody Message message) {
+        try {
+            if (profileService.existingProfile(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
+            }
+
+            profileService.addMeaasge(id, message);
+            return ResponseEntity.ok("Message added");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to get message : " + e.getMessage());
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package tour.rov.profile.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -208,4 +209,33 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/{id}/message")
+    public ResponseEntity<?> getMessages(@PathVariable String id) {
+        try {
+            if (teamService.existingTeam(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+
+            List<Message> messages = teamService.getMessages(id);
+            return ResponseEntity.ok(messages);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to get message : " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/add_message")
+    public ResponseEntity<?> addMessages(@PathVariable String id, @RequestBody Message message) {
+        try {
+            if (teamService.existingTeam(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+
+            teamService.addMeaasge(id, message);
+            return ResponseEntity.ok("Message added");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to get message : " + e.getMessage());
+        }
+    }
 }

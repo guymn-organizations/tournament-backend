@@ -1,11 +1,14 @@
 package tour.rov.profile.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Image;
+import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.TeamRepository;
@@ -140,6 +143,17 @@ public class TeamService {
         profile.getProfileGame().setMyTeam(null);
 
         profileService.saveProfile(profile);
+        saveTeam(team);
+    }
+
+    public List<Message> getMessages(String id) {
+        Team team = findById(id);
+        return team.getMessages();
+    }
+
+    public void addMeaasge(String id, Message message) {
+        Team team = findById(id);
+        team.getMessages().add(message);
         saveTeam(team);
     }
 
