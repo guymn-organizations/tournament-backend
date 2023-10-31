@@ -48,13 +48,24 @@ public class ImageContriller {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> delete() {
+    public ResponseEntity<?> deleteAll() {
         try {
             imageService.deleteAll();
             return ResponseEntity.ok("Deleted");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to create image : " + e.getMessage());
+                    .body("Failed to delete image : " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable String id) {
+        try {
+            imageService.deleteById(id);
+            return ResponseEntity.ok("Deleted");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete image : " + e.getMessage());
         }
     }
 }
