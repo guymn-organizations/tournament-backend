@@ -184,14 +184,13 @@ public class TeamController {
     }
 
     @PutMapping("/{id}/add_reserve")
-    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @RequestBody Profile reservePlayer) {
+    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @RequestBody String reserver_id) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Team team = new Team();
-            team.getTeamReserve().add(reservePlayer);
-            teamService.updateTeam(id, team);
+            Profile profile = profileService.findById(reserver_id);
+            teamService.addTeamReserve(id, profile);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.TeamRepository;
 
@@ -68,4 +69,11 @@ public class TeamService {
         team.getTournamentId().add(tour_id);
         saveTeam(team);
     }
+
+    public void addTeamReserve(String id, Profile player) {
+        Team team = findById(id);
+        team.getTeamReserve().add(player);
+        saveTeam(team);
+    }
+
 }
