@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Position {
     private PositionType positionType;
-    
+
     private String position_name;
 
     @DBRef
@@ -21,10 +21,6 @@ public class Position {
         this.positionType = positionType;
         this.position_name = position_name;
         this.player = player;
-    }
-
-    public enum PositionType {
-        DSL, JG, MID, ADL, SUP
     }
 
     public String getPosition_name() {
