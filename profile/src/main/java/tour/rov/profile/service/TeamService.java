@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tour.rov.profile.model.Profile;
+import tour.rov.profile.model.Image;
 import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.TeamRepository;
@@ -17,6 +18,9 @@ public class TeamService {
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private ImageService imageService;
 
     public void saveTeam(Team team) {
         teamRepository.save(team);
@@ -43,6 +47,9 @@ public class TeamService {
             temp.getProfileGame().setMyTeam(null);
             profileService.saveProfile(temp);
         }
+
+        Image image = imageService.getImageById(team.getImageTeamUrl());
+        imageService.deleteById(image.getId());
 
         teamRepository.deleteById(id);
     }

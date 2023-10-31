@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,9 @@ public class ImageContriller {
     @PostMapping("/post_image")
     public ResponseEntity<?> createImage(@RequestBody Image image) {
         try {
+            if (image.getImageUrl() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Must have image");
+            }
             imageService.saveImage(image);
             return ResponseEntity.ok(image.getId());
         } catch (Exception e) {
@@ -37,6 +41,17 @@ public class ImageContriller {
         try {
             Image image = imageService.getImageById(id);
             return ResponseEntity.ok(image.getImageUrl());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create image : " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete() {
+        try {
+            imageService.deleteAll();
+            return ResponseEntity.ok("Deleted");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create image : " + e.getMessage());

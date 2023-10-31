@@ -18,4 +18,12 @@ public class ImageService {
     public Image getImageById(String id) {
         return imageRepository.findById(id).get();
     }
+
+    public void deleteById(String id) {
+        imageRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        imageRepository.deleteAll();
+    }
 }
