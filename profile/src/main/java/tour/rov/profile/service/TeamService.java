@@ -27,6 +27,23 @@ public class TeamService {
     }
 
     public void deleteTeam(String id) {
+        Team team = findById(id);
+
+        for (Position position : team.getPositions()) {
+            if (position.getPlayer() != null) {
+                Profile temp = profileService.findById(position.getPlayer().getId());
+                temp.getProfileGame().setMyTeam(null);
+                profileService.saveProfile(temp);
+            }
+
+        }
+
+        for (Profile profile : team.getTeamReserve()) {
+            Profile temp = profileService.findById(profile.getId());
+            temp.getProfileGame().setMyTeam(null);
+            profileService.saveProfile(temp);
+        }
+
         teamRepository.deleteById(id);
     }
 
