@@ -19,7 +19,7 @@ import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
-import tour.rov.profile.model.Position.PositionType;
+import tour.rov.profile.model.PositionType;
 import tour.rov.profile.service.ProfileService;
 import tour.rov.profile.service.TeamService;
 
@@ -45,6 +45,7 @@ public class TeamController {
             team.setMessages(new ArrayList<Message>());
             team.setTeamReserve(new ArrayList<Profile>());
             team.setPositions(new ArrayList<Position>());
+            team.setTournamentId(new ArrayList<String>());
             team.getPositions().add(new Position(PositionType.DSL, "DARK SLAYER LANE", null));
             team.getPositions().add(new Position(PositionType.JG, "JUNGLE", null));
             team.getPositions().add(new Position(PositionType.MID, "MID LANE", null));
@@ -199,7 +200,16 @@ public class TeamController {
         }
     }
 
-    // @PutMapping("/{id}/join_tournament")
-    // public ResponseEntity<?> joinTournamnet
+    @PutMapping("/{id}/join_tournament/{tour_id}")
+    public ResponseEntity<?> joinTournamnet(@PathVariable String id, @PathVariable String tour_id) {
+        try {
+            teamService.addTourNamentId(id, tour_id);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
+        } catch (Exception e) {
+            // Handle exceptions and return an appropriate response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add DSL member : " + e.getMessage());
+        }
+    }
 
 }

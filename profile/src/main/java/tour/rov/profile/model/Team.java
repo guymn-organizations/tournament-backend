@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import tour.rov.profile.model.Position.PositionType;
-
 @Document(collection = "team")
 public class Team {
     @Id
@@ -29,8 +27,7 @@ public class Team {
 
     private String imageTeamUrl;
 
-    // @DBRef
-    // private List<Tournament> tournament;
+    private List<String> tournamentId;
 
     public Team() {
         setPositions(new ArrayList<Position>());
@@ -95,6 +92,14 @@ public class Team {
 
     public void setLeader(Profile leader) {
         this.leader = leader;
+    }
+
+    public List<String> getTournamentId() {
+        return tournamentId;
+    }
+
+    public void setTournamentId(List<String> tournamentId) {
+        this.tournamentId = tournamentId;
     }
 
 }

@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Document(collection = "tournament")
 public class Tournament {
     @Id
@@ -19,25 +17,33 @@ public class Tournament {
     private String name;
 
     private String detail;
+
     private Double reward;
 
     private LocalDate startRegisterDate;
+
     private LocalDate endRegisterDate;
+
     private LocalDate startTourDate;
-    //private String imageTourUrl;
+
+    private String imageTourUrl;
+
     private TournamenType tournamenType;
-    
-    @DBRef
+
     private int BOqualifyingRound;
 
     private int BOfinalRound;
+
+    @DBRef
     private List<TeamInTournament> teamJoin;
+
     private Status status;
 
     @DBRef
     private List<Match> matchList;
 
-    public Tournament(){}
+    public Tournament() {
+    }
 
     public Tournament(String id, String name, String detail, Double reward, LocalDate startRegisterDate,
             LocalDate endRegisterDate, LocalDate startTourDate, int bOqualifyingRound, int bOfinalRound,
@@ -124,6 +130,14 @@ public class Tournament {
         return BOfinalRound;
     }
 
+    public String getImageTourUrl() {
+        return imageTourUrl;
+    }
+
+    public void setImageTourUrl(String imageTourUrl) {
+        this.imageTourUrl = imageTourUrl;
+    }
+
     public void setBOfinalRound(int bOfinalRound) {
         BOfinalRound = bOfinalRound;
     }
@@ -159,5 +173,5 @@ public class Tournament {
     public void setTournamenType(TournamenType tournamenType) {
         this.tournamenType = tournamenType;
     }
-    
+
 }

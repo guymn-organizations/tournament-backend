@@ -56,7 +56,16 @@ public class TeamService {
         if (updateTeam.getMessages() != null) {
             team.setMessages(updateTeam.getMessages());
         }
+        if (updateTeam.getTournamentId() != null) {
+            team.setTournamentId(updateTeam.getTournamentId());
+        }
 
+        saveTeam(team);
+    }
+
+    public void addTourNamentId(String id, String tour_id) {
+        Team team = findById(id);
+        team.getTournamentId().add(tour_id);
         saveTeam(team);
     }
 }
