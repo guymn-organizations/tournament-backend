@@ -20,7 +20,6 @@ import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.model.PositionType;
-import tour.rov.profile.service.ProfileService;
 import tour.rov.profile.service.TeamService;
 
 @RestController
@@ -31,8 +30,6 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
-    @Autowired
-    private ProfileService profileService;
 
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody Team team) {
@@ -96,11 +93,7 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Team team = new Team();
-            Profile profile = profileService.findById(player_id);
-            team.getPositions().get(0).setPlayer(profile);
-            teamService.updateTeam(id, team);
-
+            teamService.addPlayer(id, 0, player_id);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added DSL player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -115,15 +108,12 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Team team = new Team();
-            Profile profile = profileService.findById(player_id);
-            team.getPositions().get(1).setPlayer(profile);
-            teamService.updateTeam(id, team);
+            teamService.addPlayer(id, 1, player_id);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added JG player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add DSL member : " + e.getMessage());
+                    .body("Failed to add JG member : " + e.getMessage());
         }
     }
 
@@ -133,15 +123,12 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Team team = new Team();
-            Profile profile = profileService.findById(player_id);
-            team.getPositions().get(2).setPlayer(profile);
-            teamService.updateTeam(id, team);
+            teamService.addPlayer(id, 2, player_id);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added MID player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add DSL member : " + e.getMessage());
+                    .body("Failed to add MID member : " + e.getMessage());
         }
     }
 
@@ -151,16 +138,13 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Team team = new Team();
-            Profile profile = profileService.findById(player_id);
+            teamService.addPlayer(id, 3, player_id);
 
-            team.getPositions().get(3).setPlayer(profile);
-            teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added ADL player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add DSL member : " + e.getMessage());
+                    .body("Failed to add ADL member : " + e.getMessage());
         }
     }
 
@@ -170,16 +154,13 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Team team = new Team();
-            Profile profile = profileService.findById(player_id);
+            teamService.addPlayer(id, 4, player_id);
 
-            team.getPositions().get(4).setPlayer(profile);
-            teamService.updateTeam(id, team);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add DSL member : " + e.getMessage());
+                    .body("Failed to add SUP member : " + e.getMessage());
         }
     }
 
@@ -189,8 +170,7 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            Profile profile = profileService.findById(reserver_id);
-            teamService.addTeamReserve(id, profile);
+            teamService.addTeamReserve(id, reserver_id);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
