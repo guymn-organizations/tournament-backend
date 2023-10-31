@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tour.rov.profile.model.Profile;
+import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.TeamRepository;
 
@@ -90,6 +91,29 @@ public class TeamService {
 
         team.getPositions().get(position).setPlayer(profile);
         profile.getProfileGame().setMyTeam(id);
+
+        profileService.saveProfile(profile);
+        saveTeam(team);
+    }
+
+    public void leaveTeam(String id, String player_id) {
+        Team team = findById(id);
+        Profile profile = profileService.findById(player_id);
+        Boolean breaker = true;
+
+        for (Position position : team.getPositions()) {
+            if (position.getPlayer() != null && position.getPlayer().getId().equals(profile.getId())) {
+                position.setPlayer(null);
+                breaker = false;
+                break; // Exit the loop as you've found the desired position
+            }
+        }
+
+        if (breaker) {
+            team.getTeamReserve().removeIf(profileR -> profileR.getId().equals(profile.getId()));
+        }
+
+        profile.getProfileGame().setMyTeam(null);
 
         profileService.saveProfile(profile);
         saveTeam(team);

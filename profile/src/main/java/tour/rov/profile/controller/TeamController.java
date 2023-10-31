@@ -30,7 +30,6 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
-
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody Team team) {
         try {
@@ -171,6 +170,21 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addTeamReserve(id, reserver_id);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added reserver player");
+        } catch (Exception e) {
+            // Handle exceptions and return an appropriate response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add reserver member : " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/join_tournament/{tour_id}")
+    public ResponseEntity<?> joinTournamnet(@PathVariable String id, @PathVariable String tour_id) {
+        try {
+            if (teamService.existingTeam(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+            teamService.addTourNamentId(id, tour_id);
             return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -179,15 +193,18 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/join_tournament/{tour_id}")
-    public ResponseEntity<?> joinTournamnet(@PathVariable String id, @PathVariable String tour_id) {
+    @PutMapping("/{id}/leave/{player_id}")
+    public ResponseEntity<?> leaveTeam(@PathVariable String id, @PathVariable String player_id) {
         try {
-            teamService.addTourNamentId(id, tour_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
+            if (teamService.existingTeam(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+            teamService.leaveTeam(id, player_id);
+            return ResponseEntity.ok("You leaved");
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add DSL member : " + e.getMessage());
+                    .body("Failed to leave teeam : " + e.getMessage());
         }
     }
 
