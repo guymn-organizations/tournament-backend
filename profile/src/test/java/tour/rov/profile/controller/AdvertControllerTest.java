@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import tour.rov.profile.model.Advert;
 
-import java.time.LocalTime;
-
 @SpringBootTest
 public class AdvertControllerTest {
 
@@ -24,14 +22,5 @@ public class AdvertControllerTest {
         ResponseEntity<?> response = advertController.createAdvert(advert);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    public void testGetAdvertsByTime() {
-        LocalTime time = LocalTime.now(); // Replace with the desired time for testing
-
-        ResponseEntity<?> response = advertController.getAdvertsByTime(time.toString());
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

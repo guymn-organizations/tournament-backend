@@ -1,5 +1,7 @@
 package tour.rov.profile.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class AdvertService {
     public void saveAdvert(Advert advert) {
         advertRepo.save(advert);
     }
-
+    
+    public List<Advert> getAllAdverts() {
+        return advertRepo.findAll();
+    }
    
 }
