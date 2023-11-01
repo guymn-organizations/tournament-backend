@@ -16,9 +16,8 @@ public class AdvertService {
     public void saveAdvert(Advert advert) {
         advertRepo.save(advert);
     }
-    
+
     public List<Advert> getAllAdverts() {
         return advertRepo.findAll();
     }
-   
 }

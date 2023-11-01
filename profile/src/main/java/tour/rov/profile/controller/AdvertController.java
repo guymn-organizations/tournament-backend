@@ -32,7 +32,7 @@ public class AdvertController {
                     .body("Failed to retrieve all advertisements: " + e.getMessage());
         }
     }
-    
+
     @PostMapping("/create")
     public ResponseEntity<?> createAdvert(@RequestBody Advert advert) {
         try {
