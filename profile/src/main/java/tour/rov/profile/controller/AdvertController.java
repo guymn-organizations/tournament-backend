@@ -24,24 +24,17 @@ public class AdvertController {
     @Autowired
     private AdvertService advertService;
 
-    @GetMapping("/{time}")
-    public ResponseEntity<?> getAdvertsByTime(@RequestParam String time) {
-    try {
-        LocalTime localTime = LocalTime.parse(time);
-
-        List<Advert> adverts = advertService.findAdvertsByTime(localTime);
-
-        if (adverts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No advertisements found for the specified time");
+    @GetMapping()
+    public ResponseEntity<?> getAllAdvert() {
+        try {
+            List<Advert> allAdverts = advertService.getAllAdverts();
+            return ResponseEntity.ok(allAdverts);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve all advertisements: " + e.getMessage());
         }
-
-        return ResponseEntity.ok(adverts);
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Failed to retrieve advertisements by time: " + e.getMessage());
     }
-}
-
+    
     @PostMapping("/create")
     public ResponseEntity<?> createAdvert(@RequestBody Advert advert) {
         try {

@@ -1,8 +1,5 @@
 package tour.rov.profile.service;
 
-import java.time.LocalTime;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +15,5 @@ public class AdvertService {
         advertRepo.save(advert);
     }
 
-    public List<Advert> findAdvertsByTime(LocalTime localTime) {
-        return advertRepo.findByTime(localTime);
-    }
+   
 }
