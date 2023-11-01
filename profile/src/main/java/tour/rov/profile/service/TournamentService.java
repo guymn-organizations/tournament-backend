@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Sort;
+
+import tour.rov.profile.model.Image;
 import tour.rov.profile.model.Match;
 import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
@@ -27,23 +29,26 @@ public class TournamentService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public Tournament findById(String id){
+    @Autowired
+    private ImageService imageService;
+
+    public Tournament findById(String id) {
         return tournamentRepo.findById(id).get();
     }
 
-    public void saveTournament(Tournament tournament){
+    public void saveTournament(Tournament tournament) {
         tournamentRepo.save(tournament);
     }
 
-    public boolean existingTournament(String tournamentId){
+    public boolean existingTournament(String tournamentId) {
         return !tournamentRepo.existsById(tournamentId);
     }
 
-    public void updateStatus(String id, Tournament updatetournament){
+    public void updateStatus(String id, Tournament updatetournament) {
         Tournament tournament = findById(id);
 
         tournament.setId(id);
-        if (updatetournament.getStatus() != null){
+        if (updatetournament.getStatus() != null) {
             tournament.setStatus(updatetournament.getStatus());
         }
 
@@ -84,11 +89,24 @@ public class TournamentService {
         // คืนรายการแมทช์ที่สร้างขึ้น
         return matches;
     }
+
     public Tournament findTournamentWithHighestReward() {
         // Create a query to find the tournament with the highest reward
         Query query = new Query().with(Sort.by(Sort.Order.desc("reward"))).limit(1);
 
         // Execute the query and retrieve the tournament with the highest reward
         return mongoTemplate.findOne(query, Tournament.class);
+    }
+
+    public void createTournament(Tournament tournament) {
+
+        //เอารูป base64 จาก tournament มาสร้าง Image 
+        Image image = new Image();
+        image.setImageUrl(tournament.getImageTourUrl());
+        imageService.saveImage(image);
+
+        //เก็บ id รูปลง tour
+        tournament.setImageTourUrl(image.getId());
+        saveTournament(tournament);
     }
 }
