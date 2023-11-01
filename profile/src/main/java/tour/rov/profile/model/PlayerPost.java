@@ -14,15 +14,9 @@ public class PlayerPost {
     @DBRef
     private Profile profile;
 
-    private List<Position> positions;
+    private List<PositionType> positions;
 
     public PlayerPost() {
-    }
-
-    public PlayerPost(String id, Profile profile, List<Position> positions) {
-        this.id = id;
-        this.profile = profile;
-        this.positions = positions;
     }
 
     public String getId() {
@@ -41,12 +35,14 @@ public class PlayerPost {
         this.profile = profile;
     }
 
-    public List<Position> getPositions() {
+    public List<PositionType> getPositions() {
         return positions;
     }
 
-    public void setPositions(List<Position> positions) {
+    public void setPositions(List<PositionType> positions) {
         this.positions = positions;
     }
+
+    
 
 }

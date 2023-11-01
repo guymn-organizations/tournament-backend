@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.PlayerPost;
-import tour.rov.profile.model.Position;
 import tour.rov.profile.service.PlayerPostService;
 
 @RestController
@@ -29,9 +28,8 @@ public class PlayerPostController {
     @PostMapping("/create")
     public ResponseEntity<?> createPost(@RequestBody PlayerPost playerPost) {
         try {
-            playerPost.setPositions(new ArrayList<Position>());
             playerPostService.savePlayerPost(playerPost);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Post was created\n" + playerPost);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Post was created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create post : " + e.getMessage());
