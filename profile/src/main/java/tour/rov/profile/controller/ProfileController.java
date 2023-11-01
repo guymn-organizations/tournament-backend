@@ -29,33 +29,43 @@ public class ProfileController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Profile profile) {
-        if (profileService.existingProfileByEmail(profile.getEmail())) {
+        try {
+
+            if (profileService.existingProfileByEmail(profile.getEmail())) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Email is already use");
+            }
+
+            profile.setMessages(new ArrayList<Message>());
+            profile.setProfileGame(null);
+
+            profileService.saveProfile(profile);
+            return ResponseEntity.ok(profile);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Email is already use");
+                    .body("Failed to register : " + e.getMessage());
         }
-
-        profile.setMessages(new ArrayList<Message>());
-        profile.setProfileGame(null);
-
-        profileService.saveProfile(profile);
-        return ResponseEntity.ok(profile);
-
     }
 
     @GetMapping("/login/{email}/{password}")
     public ResponseEntity<?> login(@PathVariable String email, @PathVariable String password) {
+        try {
+            Profile profile = profileService.getProfileByEmail(email);
 
-        Profile profile = profileService.getProfileByEmail(email);
+            if (profile == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng email");
 
-        if (profile == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Worng email");
+            } else if (!password.equals(profile.getPassword())) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Worng password");
 
-        } else if (!password.equals(profile.getPassword())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Worng password");
-
+            }
+            return ResponseEntity.ok(profile.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to login : " + e.getMessage());
         }
-        return ResponseEntity.ok(profile.getId());
+
     }
 
     @GetMapping("/{id}")
