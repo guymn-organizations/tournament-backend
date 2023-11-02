@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import tour.rov.profile.model.Profile;
-import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.model.Profile.Gender;
 
 @SpringBootTest

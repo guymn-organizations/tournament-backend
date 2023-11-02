@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Profile;
+import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.service.ProfileService;
 
 @RestController
@@ -37,6 +38,7 @@ public class ProfileController {
 
             profile.setMessages(new ArrayList<Message>());
             profile.setProfileGame(null);
+            profile.setImageProfileUrl(null);
 
             profileService.saveProfile(profile);
             return ResponseEntity.ok(profile);
@@ -88,10 +90,26 @@ public class ProfileController {
             }
 
             profileService.updateProfile(id, updatedProfile);
-            return ResponseEntity.ok().body("Profile was updated");
+            return ResponseEntity.ok().body(profileService.findById(id));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to edit profile : " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/game")
+    public ResponseEntity<?> editProfileGame(@PathVariable String id, @RequestBody ProfileGame updatedProfileGame) {
+
+        try {
+            if (profileService.existingProfile(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
+            }
+
+            profileService.updateProfileGame(id, updatedProfileGame);
+            return ResponseEntity.ok().body(profileService.findById(id).getProfileGame());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to edit profile game : " + e.getMessage());
         }
     }
 

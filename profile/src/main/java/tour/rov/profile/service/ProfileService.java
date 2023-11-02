@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tour.rov.profile.model.Image;
 import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.ProfileGame;
@@ -65,22 +66,37 @@ public class ProfileService {
         if (updatedProfile.getPassword() != null) {
             profile.setPassword(updatedProfile.getPassword());
         }
-        if (updatedProfile.getImageProfileUrl() != null) {
-            profile.setImageProfileUrl(updatedProfile.getImageProfileUrl());
-        }
-        if (updatedProfile.getProfileGame() != null) {
-            updateProfileGame(profile, updatedProfile.getProfileGame());
-        }
         if (updatedProfile.getMessages() != null) {
             profile.setMessages(updatedProfile.getMessages());
+        }
+
+        if (updatedProfile.getImageProfileUrl() != null) {
+            if (profile.getImageProfileUrl() != null) {
+                Image image = imageService.getImageById(profile.getImageProfileUrl());
+
+                if (image.getImageUrl().equals(updatedProfile.getImageProfileUrl())) {
+                    saveProfile(profile);
+                    return;
+                }
+
+                imageService.deleteById(image.getId());
+            }
+
+            Image imageToSave = new Image();
+            imageToSave.setImageUrl(updatedProfile.getImageProfileUrl());
+            imageService.saveImage(imageToSave);
+
+            profile.setImageProfileUrl(imageToSave.getId());
         }
 
         saveProfile(profile);
     }
 
-    public void updateProfileGame(Profile profile, ProfileGame updatedProfileGame) {
+    public void updateProfileGame(String id, ProfileGame updatedProfileGame) {
+        Profile profile = findById(id);
+
         if (profile.getProfileGame() == null) {
-            profile.setProfileGame(updatedProfileGame);
+            profile.setProfileGame(new ProfileGame());
         } else {
             if (updatedProfileGame.getName() != null) {
                 profile.getProfileGame().setName(updatedProfileGame.getName());
@@ -91,12 +107,25 @@ public class ProfileService {
             if (updatedProfileGame.getMyTeam() != null) {
                 profile.getProfileGame().setMyTeam(updatedProfileGame.getMyTeam());
             }
+
             if (updatedProfileGame.getImageGameUrl() != null) {
-                if (updatedProfileGame.getImageGameUrl() != profile.getProfileGame().getImageGameUrl()) {
-                    imageService.deleteById(profile.getProfileGame().getImageGameUrl());
+                Image image = imageService.getImageById(profile.getProfileGame().getImageGameUrl());
+
+                if (image.getImageUrl().equals(updatedProfileGame.getImageGameUrl())) {
+                    saveProfile(profile);
+                    return;
                 }
-                profile.getProfileGame().setImageGameUrl(updatedProfileGame.getImageGameUrl());
+
+                imageService.deleteById(image.getId());
+
+                Image imageToSave = new Image();
+                imageToSave.setImageUrl(updatedProfileGame.getImageGameUrl());
+                imageService.saveImage(imageToSave);
+
+                profile.getProfileGame().setImageGameUrl(imageToSave.getId());
             }
+
+            saveProfile(profile);
         }
 
     }
