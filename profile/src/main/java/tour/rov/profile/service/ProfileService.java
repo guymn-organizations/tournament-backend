@@ -109,14 +109,16 @@ public class ProfileService {
         }
 
         if (updatedProfileGame.getImageGameUrl() != null) {
-            Image image = imageService.getImageById(profile.getProfileGame().getImageGameUrl());
+            if (profile.getProfileGame().getImageGameUrl() != null) {
+                Image image = imageService.getImageById(profile.getProfileGame().getImageGameUrl());
 
-            if (image.getImageUrl().equals(updatedProfileGame.getImageGameUrl())) {
-                saveProfile(profile);
-                return;
+                if (image.getImageUrl().equals(updatedProfileGame.getImageGameUrl())) {
+                    saveProfile(profile);
+                    return;
+                }
+
+                imageService.deleteById(image.getId());
             }
-
-            imageService.deleteById(image.getId());
 
             Image imageToSave = new Image();
             imageToSave.setImageUrl(updatedProfileGame.getImageGameUrl());

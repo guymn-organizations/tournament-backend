@@ -106,7 +106,7 @@ public class ProfileController {
             }
 
             profileService.updateProfileGame(id, updatedProfileGame);
-            return ResponseEntity.ok().body(profileService.findById(id));
+            return ResponseEntity.ok().body(profileService.findById(id).getProfileGame());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to edit profile game : " + e.getMessage());
