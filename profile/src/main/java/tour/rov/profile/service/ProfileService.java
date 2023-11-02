@@ -97,36 +97,36 @@ public class ProfileService {
 
         if (profile.getProfileGame() == null) {
             profile.setProfileGame(new ProfileGame());
-        } else {
-            if (updatedProfileGame.getName() != null) {
-                profile.getProfileGame().setName(updatedProfileGame.getName());
-            }
-            if (updatedProfileGame.getOpenId() != null) {
-                profile.getProfileGame().setOpenId(updatedProfileGame.getOpenId());
-            }
-            if (updatedProfileGame.getMyTeam() != null) {
-                profile.getProfileGame().setMyTeam(updatedProfileGame.getMyTeam());
-            }
-
-            if (updatedProfileGame.getImageGameUrl() != null) {
-                Image image = imageService.getImageById(profile.getProfileGame().getImageGameUrl());
-
-                if (image.getImageUrl().equals(updatedProfileGame.getImageGameUrl())) {
-                    saveProfile(profile);
-                    return;
-                }
-
-                imageService.deleteById(image.getId());
-
-                Image imageToSave = new Image();
-                imageToSave.setImageUrl(updatedProfileGame.getImageGameUrl());
-                imageService.saveImage(imageToSave);
-
-                profile.getProfileGame().setImageGameUrl(imageToSave.getId());
-            }
-
-            saveProfile(profile);
         }
+        if (updatedProfileGame.getName() != null) {
+            profile.getProfileGame().setName(updatedProfileGame.getName());
+        }
+        if (updatedProfileGame.getOpenId() != null) {
+            profile.getProfileGame().setOpenId(updatedProfileGame.getOpenId());
+        }
+        if (updatedProfileGame.getMyTeam() != null) {
+            profile.getProfileGame().setMyTeam(updatedProfileGame.getMyTeam());
+        }
+
+        if (updatedProfileGame.getImageGameUrl() != null) {
+            Image image = imageService.getImageById(profile.getProfileGame().getImageGameUrl());
+
+            if (image.getImageUrl().equals(updatedProfileGame.getImageGameUrl())) {
+                saveProfile(profile);
+                return;
+            }
+
+            imageService.deleteById(image.getId());
+
+            Image imageToSave = new Image();
+            imageToSave.setImageUrl(updatedProfileGame.getImageGameUrl());
+            imageService.saveImage(imageToSave);
+
+            profile.getProfileGame().setImageGameUrl(imageToSave.getId());
+
+        }
+
+        saveProfile(profile);
 
     }
 
