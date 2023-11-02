@@ -49,7 +49,7 @@ public class TeamController {
             team.getPositions().add(new Position(PositionType.ADL, "ABYSSAL DRAGON LANE", null));
             team.getPositions().add(new Position(PositionType.SUP, "SUPPORT", null));
 
-            teamService.saveTeam(team);
+            teamService.createTeam(team);
             return ResponseEntity.status(HttpStatus.CREATED).body(team);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -94,7 +94,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addPlayer(id, 0, player_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added DSL player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -109,7 +109,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addPlayer(id, 1, player_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added JG player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -124,7 +124,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addPlayer(id, 2, player_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added MID player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -140,7 +140,7 @@ public class TeamController {
             }
             teamService.addPlayer(id, 3, player_id);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added ADL player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -156,7 +156,7 @@ public class TeamController {
             }
             teamService.addPlayer(id, 4, player_id);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -171,7 +171,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addTeamReserve(id, reserver_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added reserver player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -186,7 +186,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addTourNamentId(id, tour_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -201,7 +201,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.leaveTeam(id, player_id);
-            return ResponseEntity.ok("You leaved");
+            return ResponseEntity.ok(null);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

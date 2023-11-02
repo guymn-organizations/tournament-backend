@@ -33,6 +33,17 @@ public class TeamService {
         return teamRepository.findById(id).get();
     }
 
+    public void createTeam(Team team) {
+        if (team.getImageTeamUrl() != null) {
+            Image image = new Image();
+            image.setImageUrl(team.getImageTeamUrl());
+            imageService.saveImage(image);
+
+            team.setImageTeamUrl(image.getId());
+        }
+        saveTeam(team);
+    }
+
     public void deleteTeam(String id) {
         Team team = findById(id);
 
@@ -115,6 +126,11 @@ public class TeamService {
     public void addPlayer(String id, int position, String player_id) {
         Team team = findById(id);
         Profile profile = profileService.findById(player_id);
+
+        if (team.getPositions().get(position).getPlayer() != null) {
+            addTeamReserve(id, player_id);
+            return;
+        }
 
         team.getPositions().get(position).setPlayer(profile);
         profile.getProfileGame().setMyTeam(id);
