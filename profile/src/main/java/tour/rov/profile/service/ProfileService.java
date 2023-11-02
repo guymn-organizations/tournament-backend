@@ -17,6 +17,9 @@ public class ProfileService {
     @Autowired
     private ProfileRepo profileRepo;
 
+    @Autowired
+    private ImageService imageService;
+
     public List<Profile> getAllProfile() {
         return profileRepo.findAll();
     }
@@ -66,7 +69,7 @@ public class ProfileService {
             profile.setImageProfileUrl(updatedProfile.getImageProfileUrl());
         }
         if (updatedProfile.getProfileGame() != null) {
-            profile.setProfileGame(updatedProfile.getProfileGame());
+            updateProfileGame(profile, updatedProfile.getProfileGame());
         }
         if (updatedProfile.getMessages() != null) {
             profile.setMessages(updatedProfile.getMessages());
@@ -75,9 +78,7 @@ public class ProfileService {
         saveProfile(profile);
     }
 
-    public void updateProfileGame(String id, ProfileGame updatedProfileGame) {
-        Profile profile = findById(id);
-
+    public void updateProfileGame(Profile profile, ProfileGame updatedProfileGame) {
         if (profile.getProfileGame() == null) {
             profile.setProfileGame(updatedProfileGame);
         } else {
@@ -91,11 +92,13 @@ public class ProfileService {
                 profile.getProfileGame().setMyTeam(updatedProfileGame.getMyTeam());
             }
             if (updatedProfileGame.getImageGameUrl() != null) {
+                if (updatedProfileGame.getImageGameUrl() != profile.getProfileGame().getImageGameUrl()) {
+                    imageService.deleteById(profile.getProfileGame().getImageGameUrl());
+                }
                 profile.getProfileGame().setImageGameUrl(updatedProfileGame.getImageGameUrl());
             }
         }
 
-        updateProfile(id, profile);
     }
 
     public List<Message> getMessages(String id) {

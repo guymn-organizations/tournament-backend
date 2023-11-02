@@ -52,15 +52,6 @@ public class ProfileControllerTest {
     }
 
     @Test
-    public void testSetProfileGame() {
-        ProfileGame profileGame = new ProfileGame();
-        profileGame.setName("guymanZG");
-        profileGame.setOpenId("12q35wetrewr32");
-        ResponseEntity<?> response = profileController.setProfileGame("testId", profileGame);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
     public void testGetMessages() {
         ResponseEntity<?> response = profileController.getMessages("testId");
         assertEquals(HttpStatus.OK, response.getStatusCode());
