@@ -88,4 +88,38 @@ public class TournamentController {
                     .body("Failed to retrieve featured tournament: " + e.getMessage());
         }
     }
+
+    @GetMapping()
+    public ResponseEntity<?> getAllTournament() {
+        try {
+            List<Tournament> tournaments = tournamentService.getAllTournaments();
+            
+            if (tournaments.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No tournaments found.");
+            }
+
+            return ResponseEntity.ok(tournaments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve tournaments: " + e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTournamentById(@PathVariable String id) {
+        try {
+            Tournament tournament = tournamentService.getTournamentById(id);
+            
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found with ID: " + id);
+            }
+
+            return ResponseEntity.ok(tournament);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve the tournament: " + e.getMessage());
+        }
+    }
+
 }
