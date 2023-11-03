@@ -1,7 +1,6 @@
 package tour.rov.profile.model;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -18,20 +17,9 @@ public class Scrims {
     @DBRef
     private Team teamB;
 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
-    @DBRef
-    private List<Chat> chat;
-
-    public Scrims(){}
-
-    public Scrims(String id, Team teamA, Team teamB, 
-    LocalDate startDate, List<Chat> chat) {
-        this.id = id;
-        this.teamA = teamA;
-        this.teamB = teamB;
-        this.startDate = startDate;
-        this.chat = chat;
+    public Scrims() {
     }
 
     public String getId() {
@@ -58,21 +46,12 @@ public class Scrims {
         this.teamB = teamB;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
-
-    public List<Chat> getChat() {
-        return chat;
-    }
-
-    public void setChat(List<Chat> chat) {
-        this.chat = chat;
-    }
-    
 
 }

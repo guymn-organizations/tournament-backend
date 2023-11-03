@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import tour.rov.profile.model.Scrims;
-import tour.rov.profile.model.Chat;
 
 @SpringBootTest
 public class ScrimsControllerTest {
@@ -24,16 +23,6 @@ public class ScrimsControllerTest {
         ResponseEntity<?> response = scrimsController.createScrims(scrims);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    public void testSendChat() {
-        String scrimsId = "testScrimsId";
-        Chat chat = new Chat(); // Create a chat object with test data
-
-        ResponseEntity<?> response = scrimsController.sendChat(scrimsId, chat);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
