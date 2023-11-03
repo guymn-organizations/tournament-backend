@@ -46,8 +46,9 @@ public class Tournament {
     }
 
     public Tournament(String id, String name, String detail, Double reward, LocalDate startRegisterDate,
-            LocalDate endRegisterDate, LocalDate startTourDate, int bOqualifyingRound, int bOfinalRound,
-            List<TeamInTournament> teamJoin, Status status, List<Match> matchList) {
+            LocalDate endRegisterDate, LocalDate startTourDate, String imageTourUrl, TournamenType tournamenType,
+            int bOqualifyingRound, int bOfinalRound, List<TeamInTournament> teamJoin, Status status,
+            List<Match> matchList) {
         this.id = id;
         this.name = name;
         this.detail = detail;
@@ -55,6 +56,8 @@ public class Tournament {
         this.startRegisterDate = startRegisterDate;
         this.endRegisterDate = endRegisterDate;
         this.startTourDate = startTourDate;
+        this.imageTourUrl = imageTourUrl;
+        this.tournamenType = tournamenType;
         BOqualifyingRound = bOqualifyingRound;
         BOfinalRound = bOfinalRound;
         this.teamJoin = teamJoin;
