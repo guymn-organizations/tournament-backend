@@ -238,4 +238,21 @@ public class TeamController {
                     .body("Failed to get message : " + e.getMessage());
         }
     }
+
+    @PutMapping("/{id}/set_contact")
+    public ResponseEntity<String> setContact(@PathVariable String id, @RequestBody String contact) {
+        try {
+            if (teamService.existingTeam(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+
+            Team team = teamService.findById(id);
+            team.setContact(contact);
+            teamService.saveTeam(team);
+            return ResponseEntity.ok(team.getContact());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to set contact : " + e.getMessage());
+        }
+    }
 }

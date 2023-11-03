@@ -29,6 +29,8 @@ public class Team {
 
     private List<String> tournamentId;
 
+    private String contact;
+
     public Team() {
         setPositions(new ArrayList<Position>());
         getPositions().add(new Position(PositionType.DSL, "DARK SLAYER LANE", null));
@@ -100,6 +102,14 @@ public class Team {
 
     public void setTournamentId(List<String> tournamentId) {
         this.tournamentId = tournamentId;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
 }
