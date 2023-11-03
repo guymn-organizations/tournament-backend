@@ -42,6 +42,19 @@ public class Tournament {
     @DBRef
     private List<Match> matchList;
 
+    public enum TournamenType {
+        Free,
+        Paid
+    }
+
+    public enum Status {
+        รอดำเนินการ, 
+        เปิดรับสมัคร, 
+        ปิดรับสมัคร, 
+        กำลังแข่งขัน, 
+        จบการแข่งขัน
+    }
+    
     public Tournament() {
     }
 
@@ -176,5 +189,4 @@ public class Tournament {
     public void setTournamenType(TournamenType tournamenType) {
         this.tournamenType = tournamenType;
     }
-
 }
