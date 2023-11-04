@@ -28,7 +28,7 @@ public class PlayerPostController {
     public ResponseEntity<?> createPost(@RequestBody PlayerPost playerPost) {
         try {
             playerPostService.savePlayerPost(playerPost);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Post was created");
+            return ResponseEntity.status(HttpStatus.CREATED).body(playerPostService.findById(playerPost.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create post : " + e.getMessage());
