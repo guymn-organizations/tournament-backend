@@ -1,8 +1,10 @@
 package tour.rov.profile.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,19 +34,14 @@ public class MessageService {
     }
 
     public List<Message> deleteMessagesIfSendDateMoreThanOneYearAgo(List<Message> messages) {
-        List<Message> messagesToRemove = new ArrayList<>();
-        LocalDate currentDate = LocalDate.now();
-        LocalDate oneYearAgo = currentDate.minusYears(1);
+        LocalDate oneYearAgo = LocalDate.now().minusYears(1);
 
-        for (Message message : messages) {
-            if (message.getSendDate().isBefore(oneYearAgo)) {
-                messagesToRemove.add(message);
-            }
-        }
+        List<Message> filteredMessages = messages.stream()
+                .filter(message -> !message.getSendDate().isBefore(oneYearAgo))
+                .collect(Collectors.toList());
 
-        messages.removeAll(messagesToRemove);
-        //sort by sendDate --> 
-        return messages;
+        Collections.reverse(filteredMessages);
+        return filteredMessages;
     }
 
     public void inviteToJoinTeam(String team_name, String profile_game_name, String content) {
