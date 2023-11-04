@@ -7,4 +7,6 @@ import tour.rov.profile.model.Team;
 public interface TeamRepository extends MongoRepository<Team, String> {
     public boolean existsByName(String name);
 
+    public Team findByName(String name);
+
 }

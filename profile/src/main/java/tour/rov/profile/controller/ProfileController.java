@@ -79,6 +79,12 @@ public class ProfileController {
 
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> getPrifileByName(@PathVariable String name) {
+        Profile profile = profileService.getProfileByProfilegameName(name);
+        return ResponseEntity.ok(profile);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> editProfile(@PathVariable String id, @RequestBody Profile updatedProfile) {
 
@@ -101,6 +107,12 @@ public class ProfileController {
         try {
             if (profileService.existingProfile(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
+            }
+
+            Profile profile = profileService.getProfileByProfilegameName(updatedProfileGame.getName());
+            if (profile != null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Name has already to use");
+
             }
 
             profileService.updateProfileGame(id, updatedProfileGame);

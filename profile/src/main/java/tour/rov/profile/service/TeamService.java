@@ -32,6 +32,10 @@ public class TeamService {
         return teamRepository.findById(id).get();
     }
 
+    public Team findByName(String name) {
+        return teamRepository.findByName(name);
+    }
+
     public void createTeam(Team team) {
         if (team.getImageTeamUrl() != null) {
             Image image = new Image();
@@ -166,8 +170,8 @@ public class TeamService {
         return team.getMessages();
     }
 
-    public void addMeaasge(String id, String message) {
-        Team team = findById(id);
+    public void addMeaasge(String name, String message) {
+        Team team = findByName(name);
         team.getMessages().add(0, message);
         saveTeam(team);
     }

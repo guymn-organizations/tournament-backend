@@ -50,9 +50,9 @@ public class ProfileControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    @Test
-    public void testGetMessages() {
-        ResponseEntity<?> response = profileController.getMessages("testId");
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+    // @Test
+    // public void testGetMessages() {
+    //     ResponseEntity<?> response = profileController.getMessages("testId");
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    // }
 }

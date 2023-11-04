@@ -44,6 +44,10 @@ public class ProfileService {
         return profileRepo.getProfileByEmail(email);
     }
 
+    public Profile getProfileByProfilegameName(String name) {
+        return profileRepo.findByProfileGameName(name);
+    }
+
     public void updateProfile(String id, Profile updatedProfile) {
         Profile profile = findById(id);
 
@@ -136,8 +140,8 @@ public class ProfileService {
         return profile.getMessages();
     }
 
-    public void addMeaasge(String id, String message) {
-        Profile profile = findById(id);
+    public void addMeaasge(String name, String message) {
+        Profile profile = getProfileByProfilegameName(name);
         profile.getMessages().add(0, message);
         saveProfile(profile);
     }

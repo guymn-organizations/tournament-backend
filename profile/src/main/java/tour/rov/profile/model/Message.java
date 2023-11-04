@@ -18,8 +18,9 @@ public class Message {
 
     private LocalDate sendDate;
 
-    public Message() {
+    public Message(MessageType messageType) {
         this.sendDate = LocalDate.now();
+        this.messageType = messageType;
     }
 
     public enum MessageType {
