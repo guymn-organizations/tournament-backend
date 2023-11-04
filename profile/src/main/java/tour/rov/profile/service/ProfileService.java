@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tour.rov.profile.model.Image;
-import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.repository.ProfileRepo;
@@ -132,14 +131,14 @@ public class ProfileService {
 
     }
 
-    public List<Message> getMessages(String id) {
+    public List<String> getMessages(String id) {
         Profile profile = findById(id);
         return profile.getMessages();
     }
 
-    public void addMeaasge(String id, Message message) {
+    public void addMeaasge(String id, String message) {
         Profile profile = findById(id);
-        profile.getMessages().add(message);
+        profile.getMessages().add(0, message);
         saveProfile(profile);
     }
 

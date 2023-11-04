@@ -22,8 +22,7 @@ public class Team {
     @DBRef
     private List<Profile> teamReserve;
 
-    @DBRef
-    private List<Message> messages;
+    private List<String> messages;
 
     private String imageTeamUrl;
 
@@ -72,14 +71,6 @@ public class Team {
         this.teamReserve = teamReserve;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public String getImageTeamUrl() {
         return imageTeamUrl;
     }
@@ -110,6 +101,14 @@ public class Team {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
     }
 
 }

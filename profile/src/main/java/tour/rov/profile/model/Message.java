@@ -1,14 +1,27 @@
 package tour.rov.profile.model;
 
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "message")
 public class Message {
+    @Id
+    private String id;
+
     private String sender;
+
+    private String identify;
+
     private MessageType messageType;
+
     private String content;
 
-    public Message(String sender, MessageType class1, String content) {
-        this.sender = sender;
-        this.messageType = class1;
-        this.content = content;
+    private LocalDate sendDate;
+
+    public Message() {
+        this.sendDate = LocalDate.now();
     }
 
     public enum MessageType {
@@ -40,6 +53,30 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getIdentify() {
+        return identify;
+    }
+
+    public void setIdentify(String identify) {
+        this.identify = identify;
+    }
+
+    public LocalDate getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(LocalDate sendDate) {
+        this.sendDate = sendDate;
     }
 
 }

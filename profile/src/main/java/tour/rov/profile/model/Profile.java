@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "profile")
@@ -28,24 +27,9 @@ public class Profile {
 
     private ProfileGame profileGame;
 
-    @DBRef
-    private List<Message> messages;
+    private List<String> messages;
 
     public Profile() {
-    }
-
-    public Profile(String id, LocalDate birthday, String email, String firstName, Gender gender, String lastName,
-            String password, String imageProfileUrl, ProfileGame profileGame, List<Message> messages) {
-        this.id = id;
-        this.birthday = birthday;
-        this.email = email;
-        this.firstName = firstName;
-        this.gender = gender;
-        this.lastName = lastName;
-        this.password = password;
-        this.imageProfileUrl = imageProfileUrl;
-        this.profileGame = profileGame;
-        this.messages = messages;
     }
 
     public enum Gender {
@@ -125,11 +109,11 @@ public class Profile {
         this.profileGame = profileGame;
     }
 
-    public List<Message> getMessages() {
+    public List<String> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(List<String> messages) {
         this.messages = messages;
     }
 
