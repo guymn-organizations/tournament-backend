@@ -117,7 +117,7 @@ public class TeamService {
 
     public void addTeamReserve(String id, String player) {
         Team team = findById(id);
-        Profile profile = profileService.findById(player);
+        Profile profile = profileService.getProfileByProfilegameName(player);
 
         team.getTeamReserve().add(profile);
         profile.getProfileGame().setMyTeam(id);
@@ -126,12 +126,12 @@ public class TeamService {
         saveTeam(team);
     }
 
-    public void addPlayer(String id, int position, String player_id) {
+    public void addPlayer(String id, int position, String player_name) {
         Team team = findById(id);
-        Profile profile = profileService.findById(player_id);
+        Profile profile = profileService.getProfileByProfilegameName(player_name);
 
         if (team.getPositions().get(position).getPlayer() != null) {
-            addTeamReserve(id, player_id);
+            addTeamReserve(id, player_name);
             return;
         }
 
@@ -142,9 +142,9 @@ public class TeamService {
         saveTeam(team);
     }
 
-    public void leaveTeam(String id, String player_id) {
+    public void leaveTeam(String id, String player_name) {
         Team team = findById(id);
-        Profile profile = profileService.findById(player_id);
+        Profile profile = profileService.getProfileByProfilegameName(player_name);
         Boolean breaker = true;
 
         for (Position position : team.getPositions()) {

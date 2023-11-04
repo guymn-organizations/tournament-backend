@@ -85,13 +85,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/DSL/{player_id}")
-    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/DSL/{player_name}")
+    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 0, player_id);
+            teamService.addPlayer(id, 0, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -100,13 +100,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/JG/{player_id}")
-    public ResponseEntity<?> addJGPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/JG/{player_name}")
+    public ResponseEntity<?> addJGPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 1, player_id);
+            teamService.addPlayer(id, 1, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -115,13 +115,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/MID/{player_id}")
-    public ResponseEntity<?> addMIDPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/MID/{player_name}")
+    public ResponseEntity<?> addMIDPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 2, player_id);
+            teamService.addPlayer(id, 2, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -130,13 +130,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/ADL/{player_id}")
-    public ResponseEntity<?> addADLPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/ADL/{player_name}")
+    public ResponseEntity<?> addADLPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 3, player_id);
+            teamService.addPlayer(id, 3, player_name);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
@@ -146,13 +146,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/SUP/{player_id}")
-    public ResponseEntity<?> addSUPPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/SUP/{player_name}")
+    public ResponseEntity<?> addSUPPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 4, player_id);
+            teamService.addPlayer(id, 4, player_name);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
@@ -162,13 +162,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/reserver/{reserver_id}")
-    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @PathVariable String reserver_id) {
+    @PutMapping("/{id}/reserver/{reserver}")
+    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @PathVariable String reserver) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addTeamReserve(id, reserver_id);
+            teamService.addTeamReserve(id, reserver);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -192,13 +192,13 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/leave/{player_id}")
-    public ResponseEntity<?> leaveTeam(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/leave/{player_name}")
+    public ResponseEntity<?> leaveTeam(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.leaveTeam(id, player_id);
+            teamService.leaveTeam(id, player_name);
             return ResponseEntity.ok(null);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
