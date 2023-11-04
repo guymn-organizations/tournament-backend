@@ -1,7 +1,6 @@
 package tour.rov.profile.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
@@ -39,7 +37,7 @@ public class TeamController {
                         .body("Name is already use");
             }
             // Save the team to the MongoDB database
-            team.setMessages(new ArrayList<Message>());
+            team.setMessages(new ArrayList<String>());
             team.setTeamReserve(new ArrayList<Profile>());
             team.setPositions(new ArrayList<Position>());
             team.setTournamentId(new ArrayList<String>());
@@ -206,36 +204,6 @@ public class TeamController {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to leave teeam : " + e.getMessage());
-        }
-    }
-
-    @GetMapping("/{id}/message")
-    public ResponseEntity<?> getMessages(@PathVariable String id) {
-        try {
-            if (teamService.existingTeam(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
-            }
-
-            List<Message> messages = teamService.getMessages(id);
-            return ResponseEntity.ok(messages);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to get message : " + e.getMessage());
-        }
-    }
-
-    @PutMapping("/{id}/add_message")
-    public ResponseEntity<?> addMessages(@PathVariable String id, @RequestBody Message message) {
-        try {
-            if (teamService.existingTeam(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
-            }
-
-            teamService.addMeaasge(id, message);
-            return ResponseEntity.ok("Message added");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to get message : " + e.getMessage());
         }
     }
 

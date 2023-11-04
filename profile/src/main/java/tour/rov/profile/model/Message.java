@@ -12,8 +12,6 @@ public class Message {
 
     private String sender;
 
-    private String identify;
-
     private MessageType messageType;
 
     private String content;
@@ -61,14 +59,6 @@ public class Message {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getIdentify() {
-        return identify;
-    }
-
-    public void setIdentify(String identify) {
-        this.identify = identify;
     }
 
     public LocalDate getSendDate() {
