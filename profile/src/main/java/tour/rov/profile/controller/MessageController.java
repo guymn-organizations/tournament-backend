@@ -34,10 +34,38 @@ public class MessageController {
         }
     }
 
-    @PutMapping("{team_name}/INVITE_TO_JOIN_TEAM/{profile_id}")
-    public ResponseEntity<?> sendInviteToJoinTeam(@PathVariable String team_name, @PathVariable String profile_id ,@RequestBody String content) {
+    @PutMapping("{team_name}/INVITE_TO_JOIN_TEAM/{profile_game_name}")
+    public ResponseEntity<?> sendInviteToJoinTeam(@PathVariable String team_name,
+            @PathVariable String profile_game_name,
+            @RequestBody String content) {
         try {
-            messageService.inviteToJoinTeam(team_name,profile_id,content);
+            messageService.inviteToJoinTeam(team_name, profile_game_name, content);
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{team_name}/REQUEST_TO_JOIN_TEAM/{profile_game_name}")
+    public ResponseEntity<?> sendReqToJoinTeam(@PathVariable String team_name,
+            @PathVariable String profile_game_name,
+            @RequestBody String content) {
+        try {
+            messageService.requestToJoinTeam(team_name, profile_game_name, content);
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @PutMapping("{team_nameA}/INVITE_TO_SCRIMS/{team_nameB}")
+    public ResponseEntity<?> sendInviteToScrims(@PathVariable String team_nameA,
+            @PathVariable String team_nameB,
+            @RequestBody String content) {
+        try {
+            messageService.inviteToScrims(team_nameA, team_nameB, content);
             return ResponseEntity.ok(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
