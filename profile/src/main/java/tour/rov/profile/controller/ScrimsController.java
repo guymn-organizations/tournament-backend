@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Scrims;
+import tour.rov.profile.model.Team;
 import tour.rov.profile.service.ScrimsService;
+import tour.rov.profile.service.TeamService;
 
 @RestController
 @RequestMapping("scrims")
@@ -23,6 +26,9 @@ import tour.rov.profile.service.ScrimsService;
 public class ScrimsController {
     @Autowired
     private ScrimsService scrimsService;
+
+    @Autowired
+    private TeamService teamService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createScrims(@RequestBody Scrims scrims) {
@@ -47,6 +53,23 @@ public class ScrimsController {
             return ResponseEntity.ok(scrimsList);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No scrimmages found for the team");
+        }
+    }
+
+    @PutMapping("/{id}/add_teamB")
+    // หาจากทั้งทีม A และ B sort by startDate
+    public ResponseEntity<?> setTeamB(@PathVariable String id, @RequestBody String team_id) {
+        try {
+            if (scrimsService.exsitById(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Scrims not found");
+            }
+            Team teamB = teamService.findById(team_id);
+            Scrims scrims = scrimsService.findScrimsById(id);
+            scrims.setTeamB(teamB);
+            scrimsService.saveScrims(scrims);
+            return ResponseEntity.ok(scrims);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

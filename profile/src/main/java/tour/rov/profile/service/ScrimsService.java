@@ -30,11 +30,14 @@ public class ScrimsService {
         return scrims.orElse(null);
     }
 
+    public Boolean exsitById(String id) {
+        return !scrimsRepo.existsById(id);
+    }
+
     public List<Scrims> findScrimsByTeamId(String teamId) {
         Criteria criteria = new Criteria().orOperator(
-            Criteria.where("teamA.id").is(teamId),
-            Criteria.where("teamB.id").is(teamId)
-        );
+                Criteria.where("teamA.id").is(teamId),
+                Criteria.where("teamB.id").is(teamId));
 
         Query query = new Query(criteria);
         return mongoTemplate.find(query, Scrims.class);
