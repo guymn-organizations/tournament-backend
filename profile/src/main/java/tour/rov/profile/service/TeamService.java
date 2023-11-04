@@ -22,9 +22,6 @@ public class TeamService {
     private ProfileService profileService;
 
     @Autowired
-    private MessageService messageService;
-
-    @Autowired
     private ImageService imageService;
 
     public void saveTeam(Team team) {
@@ -127,6 +124,15 @@ public class TeamService {
 
         profileService.saveProfile(profile);
         saveTeam(team);
+
+        // String content = "Player " + profile.getProfileGame().getName() +
+        // " joins your team.\nPosition : Reserver";
+
+        // messageService.systemAlertToTeam(team.getName(), content);
+
+        // content = "You are now a member of the " + team.getName() + " team.";
+
+        // messageService.systemAlertToProfile(player, content);
     }
 
     public void addPlayer(String id, int position, String player_name) {
@@ -144,14 +150,15 @@ public class TeamService {
         profileService.saveProfile(profile);
         saveTeam(team);
 
-        String content = "Player " + profile.getProfileGame().getName() +
-                " joins your team.\nPosition : " + team.getPositions().get(position).getPositionName();
+        // String content = "Player " + profile.getProfileGame().getName() +
+        // " joins your team.\nPosition : " +
+        // team.getPositions().get(position).getPositionName();
 
-        messageService.systemAlertToTeam(team.getName(), content);
+        // messageService.systemAlertToTeam(team.getName(), content);
 
-        content = "You are now a member of the " + team.getName() + " team.";
+        // content = "You are now a member of the " + team.getName() + " team.";
 
-        messageService.systemAlertToProfile(player_name, content);
+        // messageService.systemAlertToProfile(player_name, content);
     }
 
     public void leaveTeam(String id, String player_name) {

@@ -27,7 +27,7 @@ public class MessageService {
     }
 
     public List<Message> findAllById(List<String> id) {
-        List<Message> messages = messageRepository.findAllById(id);
+        List<Message> messages = messageRepository.findAllByIdIn(id);
         return deleteMessagesIfSendDateMoreThanOneYearAgo(messages);
     }
 
@@ -43,6 +43,7 @@ public class MessageService {
         }
 
         messages.removeAll(messagesToRemove);
+        //sort by sendDate --> 
         return messages;
     }
 
