@@ -78,7 +78,7 @@ public class TeamService {
     }
 
     public boolean existingTeamName(String name) {
-        return teamRepository.existsByName(name);
+        return !teamRepository.existsByName(name);
     }
 
     public void updateTeam(String id, Team updateTeam) {

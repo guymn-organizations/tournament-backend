@@ -32,7 +32,7 @@ public class TeamController {
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody Team team) {
         try {
-            if (teamService.existingTeamName(team.getName())) {
+            if (!teamService.existingTeamName(team.getName())) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body("Name is already use");
             }
@@ -170,6 +170,23 @@ public class TeamController {
             }
             teamService.addTeamReserve(id, reserver);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
+        } catch (Exception e) {
+            // Handle exceptions and return an appropriate response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add reserver member : " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{team_name}/out_reserver/{reserver}")
+    public ResponseEntity<?> outTeamReserve(@PathVariable String team_name, @PathVariable String reserver) {
+        try {
+            if (teamService.existingTeamName(team_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+            Team team = teamService.findByName(team_name);
+            team.getTeamReserve().remove(Integer.parseInt(reserver));
+            teamService.saveTeam(team);
+            return ResponseEntity.status(HttpStatus.CREATED).body(team.getTeamReserve());
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
