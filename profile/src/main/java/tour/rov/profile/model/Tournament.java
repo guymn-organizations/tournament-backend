@@ -30,14 +30,14 @@ public class Tournament {
 
     private TournamenType tournamenType;
 
-    private int BOqualifyingRound;
+    private int bOqualifyingRound;
 
-    private int BOfinalRound;
+    private int bOfinalRound;
 
     @DBRef
     private List<TeamInTournament> teamJoin;
 
-    private Status status;
+    private Status status ;
 
     @DBRef
     private List<Match> matchList;
@@ -74,8 +74,8 @@ public class Tournament {
         this.startTourDate = startTourDate;
         this.imageTourUrl = imageTourUrl;
         this.tournamenType = tournamenType;
-        BOqualifyingRound = bOqualifyingRound;
-        BOfinalRound = bOfinalRound;
+        this.bOqualifyingRound = bOqualifyingRound;
+        this.bOfinalRound = bOfinalRound;
         this.teamJoin = teamJoin;
         this.status = status;
         this.matchList = matchList;
@@ -138,18 +138,6 @@ public class Tournament {
         this.startTourDate = startTourDate;
     }
 
-    public int getBOqualifyingRound() {
-        return BOqualifyingRound;
-    }
-
-    public void setBOqualifyingRound(int bOqualifyingRound) {
-        BOqualifyingRound = bOqualifyingRound;
-    }
-
-    public int getBOfinalRound() {
-        return BOfinalRound;
-    }
-
     public String getImageTourUrl() {
         return imageTourUrl;
     }
@@ -158,8 +146,28 @@ public class Tournament {
         this.imageTourUrl = imageTourUrl;
     }
 
-    public void setBOfinalRound(int bOfinalRound) {
-        BOfinalRound = bOfinalRound;
+    public TournamenType getTournamenType() {
+        return tournamenType;
+    }
+
+    public void setTournamenType(TournamenType tournamenType) {
+        this.tournamenType = tournamenType;
+    }
+
+    public int getbOqualifyingRound() {
+        return bOqualifyingRound;
+    }
+
+    public void setbOqualifyingRound(int bOqualifyingRound) {
+        this.bOqualifyingRound = bOqualifyingRound;
+    }
+
+    public int getbOfinalRound() {
+        return bOfinalRound;
+    }
+
+    public void setbOfinalRound(int bOfinalRound) {
+        this.bOfinalRound = bOfinalRound;
     }
 
     public List<TeamInTournament> getTeamJoin() {
@@ -186,14 +194,6 @@ public class Tournament {
         this.matchList = matchList;
     }
 
-    public TournamenType getTournamenType() {
-        return tournamenType;
-    }
-
-    public void setTournamenType(TournamenType tournamenType) {
-        this.tournamenType = tournamenType;
-    }
-
     public List<payment> getPayments() {
         return payments;
     }
@@ -202,5 +202,5 @@ public class Tournament {
         this.payments = payments;
     }
 
-    
+   
 }
