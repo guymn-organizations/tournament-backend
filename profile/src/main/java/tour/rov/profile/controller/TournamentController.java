@@ -1,5 +1,6 @@
 package tour.rov.profile.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Match;
+import tour.rov.profile.model.Team;
+import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
+import tour.rov.profile.service.TeamService;
 import tour.rov.profile.service.TournamentService;
 
 @RestController
@@ -24,6 +28,9 @@ import tour.rov.profile.service.TournamentService;
 public class TournamentController {
     @Autowired
     private TournamentService tournamentService;
+
+    @Autowired
+    private TeamService teamService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createTournament(@RequestBody Tournament tournament) {
@@ -119,6 +126,37 @@ public class TournamentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to retrieve the tournament: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/teamJoin/{teamId}")
+    public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamId) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found with ID: " + id);
+            }
+
+            Team team = teamService.findById(teamId);
+            if (team == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found with ID: " + teamId);
+            }
+
+            for (TeamInTournament teamInTournament : tournament.getTeamJoin()) {
+                if (teamInTournament.getTeam().getId().equals(teamId)) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team is already part of the tournament.");
+                }
+            }
+
+            TeamInTournament teamInTournament = new TeamInTournament(team, 0, 0, 0);
+            tournament.getTeamJoin().add(teamInTournament);
+
+            tournamentService.saveTournament(tournament);
+
+            return ResponseEntity.ok("Team added to the tournament successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add the team to the tournament: " + e.getMessage());
         }
     }
 

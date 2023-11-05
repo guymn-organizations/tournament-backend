@@ -44,12 +44,12 @@ public class TournamentService {
         return !tournamentRepo.existsById(tournamentId);
     }
 
-    public void updateStatus(String id, Tournament updatetournament) {
+    public void updateStatus(String id, Tournament updateStatus) {
         Tournament tournament = findById(id);
 
         tournament.setId(id);
-        if (updatetournament.getStatus() != null) {
-            tournament.setStatus(updatetournament.getStatus());
+        if (updateStatus.getStatus() != null) {
+            tournament.setStatus(updateStatus.getStatus());
         }
 
         saveTournament(tournament);

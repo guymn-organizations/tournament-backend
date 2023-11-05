@@ -1,6 +1,7 @@
 package tour.rov.profile.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -59,6 +60,7 @@ public class Tournament {
     }
     
     public Tournament() {
+        this.teamJoin = new ArrayList<>();
     }
 
     public Tournament(String id, String name, String detail, Double reward, LocalDate startRegisterDate,
