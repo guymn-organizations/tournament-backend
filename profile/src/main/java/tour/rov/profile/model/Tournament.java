@@ -71,8 +71,8 @@ public class Tournament {
         this.startTourDate = startTourDate;
         this.imageTourUrl = imageTourUrl;
         this.tournamenType = tournamenType;
-        BOqualifyingRound = bOqualifyingRound;
-        BOfinalRound = bOfinalRound;
+        this.BOqualifyingRound = bOqualifyingRound;
+        this.BOfinalRound = bOfinalRound;
         this.teamJoin = teamJoin;
         this.status = status;
         this.matchList = matchList;
