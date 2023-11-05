@@ -52,7 +52,7 @@ public class MessageService {
         Message message = new Message(MessageType.INVITE_TO_JOIN_TEAM);
         message.setSender(team_name);
         message.setPositionType(positionType);
-        message.setContent(team_name + " has invited you to join the team in position" + positionType);
+        message.setContent(team_name + " has invited you to join the team in position " + positionType);
         saveMessage(message);
 
         profileService.addMeaasge(profile_game_name, message.getId());
@@ -63,7 +63,7 @@ public class MessageService {
         Message message = new Message(MessageType.REQUEST_TO_JOIN_TEAM);
         message.setSender(profile_game_name);
         message.setPositionType(positionType);
-        message.setContent(profile_game_name + " want to join your team in position" + positionType);
+        message.setContent(profile_game_name + " want to join your team in position " + positionType);
         saveMessage(message);
 
         teamService.addMeaasge(team_name, message.getId());
@@ -99,6 +99,16 @@ public class MessageService {
 
         teamService.addMeaasge(team_name, message.getId());
 
+    }
+
+    public void requestToJoinTeamReserver(String profile_name, String team_id) {
+        Message message = new Message(MessageType.REQUEST_TO_JOIN_TEAM);
+        message.setSender(profile_name);
+        message.setScrimsId("reserver");
+        message.setContent(profile_name + " want to join your team in position reserver");
+        saveMessage(message);
+
+        teamService.addMeaasgeById(team_id, message.getId());
     }
 
 }

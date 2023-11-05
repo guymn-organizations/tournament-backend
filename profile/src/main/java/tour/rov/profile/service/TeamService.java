@@ -65,8 +65,10 @@ public class TeamService {
             profileService.saveProfile(temp);
         }
 
-        Image image = imageService.getImageById(team.getImageTeamUrl());
-        imageService.deleteById(image.getId());
+        if (team.getImageTeamUrl() != null) {
+            Image image = imageService.getImageById(team.getImageTeamUrl());
+            imageService.deleteById(image.getId());
+        }
 
         teamRepository.deleteById(id);
     }
@@ -191,6 +193,12 @@ public class TeamService {
 
     public void addMeaasge(String name, String message) {
         Team team = findByName(name);
+        team.getMessages().add(0, message);
+        saveTeam(team);
+    }
+
+    public void addMeaasgeById(String id, String message) {
+        Team team = findById(id);
         team.getMessages().add(0, message);
         saveTeam(team);
     }
