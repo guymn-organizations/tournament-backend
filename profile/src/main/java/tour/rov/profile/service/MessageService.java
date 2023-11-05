@@ -2,7 +2,6 @@ package tour.rov.profile.service;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tour.rov.profile.model.Message;
+import tour.rov.profile.model.Scrims;
 import tour.rov.profile.model.Message.MessageType;
+import tour.rov.profile.model.PositionType;
 import tour.rov.profile.repository.MessageRepository;
 
 @Service
@@ -23,6 +24,9 @@ public class MessageService {
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private ScrimsService scrimsService;
 
     public void saveMessage(Message message) {
         messageRepository.save(message);
@@ -44,34 +48,37 @@ public class MessageService {
         return filteredMessages;
     }
 
-    public void inviteToJoinTeam(String team_name, String profile_game_name, String content) {
+    public void inviteToJoinTeam(String team_name, String profile_game_name, PositionType positionType) {
         Message message = new Message(MessageType.INVITE_TO_JOIN_TEAM);
         message.setSender(team_name);
-        message.setContent(content);
+        message.setPositionType(positionType);
+        message.setContent(team_name + " has invited you to join the team in position" + positionType);
         saveMessage(message);
 
         profileService.addMeaasge(profile_game_name, message.getId());
 
     }
 
-    public void requestToJoinTeam(String team_name, String profile_game_name, String content) {
+    public void requestToJoinTeam(String team_name, String profile_game_name, PositionType positionType) {
         Message message = new Message(MessageType.REQUEST_TO_JOIN_TEAM);
         message.setSender(profile_game_name);
-        message.setContent(content);
+        message.setPositionType(positionType);
+        message.setContent(profile_game_name + " want to join your team in position" + positionType);
         saveMessage(message);
 
         teamService.addMeaasge(team_name, message.getId());
 
     }
 
-    public void inviteToScrims(String team_nameA, String team_nameB, String content) {
+    public void inviteToScrims(String team_nameA, String team_nameB, String scrims_id) {
         Message message = new Message(MessageType.INVITE_TO_SCRIMS);
         message.setSender(team_nameB);
-        message.setContent(content);
+        Scrims scrims = scrimsService.findScrimsById(scrims_id);
+        message.setScrimsId(scrims_id);
+        message.setContent(scrimsService.formatLocalDateTime(scrims.getStartDate()));
         saveMessage(message);
 
         teamService.addMeaasge(team_nameA, message.getId());
-
     }
 
     public void systemAlertToProfile(String profile_game_name, String content) {

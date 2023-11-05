@@ -12,6 +12,10 @@ public class Message {
 
     private String sender;
 
+    private String scrimsId;
+
+    private PositionType positionType;
+
     private MessageType messageType;
 
     private String content;
@@ -68,6 +72,22 @@ public class Message {
 
     public void setSendDate(LocalDate sendDate) {
         this.sendDate = sendDate;
+    }
+
+    public String getScrimsId() {
+        return scrimsId;
+    }
+
+    public void setScrimsId(String scrimsId) {
+        this.scrimsId = scrimsId;
+    }
+
+    public PositionType getPositionType() {
+        return positionType;
+    }
+
+    public void setPositionType(PositionType positionType) {
+        this.positionType = positionType;
     }
 
 }

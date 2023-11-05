@@ -58,13 +58,19 @@ public class ScrimsController {
 
     @PutMapping("/{id}/add_teamB")
     // หาจากทั้งทีม A และ B sort by startDate
-    public ResponseEntity<?> setTeamB(@PathVariable String id, @RequestBody String team_id) {
+    public ResponseEntity<?> setTeamB(@PathVariable String id, @RequestBody String team_name) {
         try {
             if (scrimsService.exsitById(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Scrims not found");
             }
-            Team teamB = teamService.findById(team_id);
+
             Scrims scrims = scrimsService.findScrimsById(id);
+            if (scrims.getTeamB() != null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("This scrims have already opposing team.");
+            }
+            
+            Team teamB = teamService.findByName(team_name);
             scrims.setTeamB(teamB);
             scrimsService.saveScrims(scrims);
             return ResponseEntity.ok(scrims);
