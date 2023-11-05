@@ -112,10 +112,6 @@ public class TournamentService {
 
     public List<Tournament> getAllTournaments() {
         return tournamentRepo.findAll();
-    }
-
-    public Tournament getTournamentById(String id) {
-        return tournamentRepo.findById(id).orElse(null);
-    }    
+    }  
     
 }

@@ -109,7 +109,7 @@ public class TournamentController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTournamentById(@PathVariable String id) {
         try {
-            Tournament tournament = tournamentService.getTournamentById(id);
+            Tournament tournament = tournamentService.findById(id);
             
             if (tournament == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found with ID: " + id);
