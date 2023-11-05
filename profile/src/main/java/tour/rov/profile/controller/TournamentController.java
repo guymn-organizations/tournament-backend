@@ -133,10 +133,18 @@ public class TournamentController {
     public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamId) {
         try {
             Tournament tournament = tournamentService.findById(id);
-            Team team = teamService.findById(teamId);
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+            }
 
-            TeamInTournament teamInTournament = new TeamInTournament(team, 0, 0, 0);
-            tournament.getTeamJoin().add(teamInTournament);
+            Team team = teamService.findById(teamId);
+            if (team == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
+            }
+
+            TeamInTournament teamJoin = new TeamInTournament(team, 0, 0, 0);
+
+            tournament.getTeamJoin().add(teamJoin);
 
             tournamentService.saveTournament(tournament);
 
