@@ -142,11 +142,11 @@ public class TournamentController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found.");
             }
 
-            TeamInTournament teamJoin = new TeamInTournament(team, 0, 0, 0);
+            //TeamInTournament teamJoin = new TeamInTournament(team, 0, 0, 0);
 
-            tournament.getTeamJoin().add(teamJoin);
+            //tournament.getTeamJoin().add(teamJoin);
 
-            tournamentService.saveTournament(tournament);
+            //tournamentService.saveTournament(tournament);
 
             return ResponseEntity.ok("Team added to the tournament successfully.");
         } catch (Exception e) {
