@@ -1,7 +1,9 @@
 package tour.rov.profile.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "payment")
 public class payment {
     @Id
     private String id;

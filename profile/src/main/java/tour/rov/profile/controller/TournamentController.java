@@ -147,7 +147,7 @@ public class TournamentController {
                 }
             }
 
-            TeamInTournament teamInTournament = new TeamInTournament(team, 0, 0, 0);
+            TeamInTournament teamInTournament = new TeamInTournament("",team, 0, 0, 0);
             tournament.getTeamJoin().add(teamInTournament);
 
             tournamentService.saveTournament(tournament);

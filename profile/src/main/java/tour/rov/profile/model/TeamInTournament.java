@@ -1,10 +1,13 @@
 package tour.rov.profile.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "team_in_tournament")
 public class TeamInTournament {
+    @Id
+    private String id;
     @DBRef
     private Team team;
 
@@ -14,9 +17,9 @@ public class TeamInTournament {
 
     public TeamInTournament(){}
     
-    public TeamInTournament(Team team, 
-    int score, int win, int lose) {
-       this.team = team;
+    public TeamInTournament(String id, Team team, int score, int win, int lose) {
+        this.id = id;
+        this.team = team;
         this.score = score;
         this.win = win;
         this.lose = lose;
@@ -46,5 +49,12 @@ public class TeamInTournament {
         this.lose = lose;
     }
 
-    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
