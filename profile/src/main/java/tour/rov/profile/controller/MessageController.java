@@ -50,10 +50,11 @@ public class MessageController {
 
     @PutMapping("{team_name}/REQUEST_TO_JOIN_TEAM/{profile_game_name}")
     public ResponseEntity<?> sendReqToJoinTeam(@PathVariable String team_name, @PathVariable String profile_game_name,
-            @RequestBody PositionType positionType) {
+            @RequestBody String positionType) {
         try {
-            messageService.requestToJoinTeam(team_name, profile_game_name, positionType);
-            return ResponseEntity.ok(null);
+            PositionType positionTypeEnum = PositionType.valueOf(positionType);
+            messageService.requestToJoinTeam(team_name, profile_game_name, positionTypeEnum);
+            return ResponseEntity.ok("success");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
