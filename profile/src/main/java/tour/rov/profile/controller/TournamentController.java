@@ -1,5 +1,6 @@
 package tour.rov.profile.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,5 +146,28 @@ public class TournamentController {
                     .body("Failed to add the team to the tournament: " + e.getMessage());
         }
     }
+
+    @GetMapping("/{id}/team")
+    public ResponseEntity<?> getAllTeamInTournament(@PathVariable String id) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
+
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+            }
+
+            List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+
+            if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No teams found in the tournament.");
+            }
+
+            return ResponseEntity.ok(teamsInTournament);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Failed to retrieve teams in the tournament: " + e.getMessage());
+        }
+    }
+
 
 }
