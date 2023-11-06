@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import tour.rov.profile.model.Match;
 import tour.rov.profile.model.TeamInTournament;
+import tour.rov.profile.model.Tournament;
 import tour.rov.profile.repository.MatchRepo;
 import tour.rov.profile.repository.TeamInTournamentRepo;
 
@@ -92,6 +93,10 @@ public class MatchService {
     public TeamInTournament determineWinnerByAdminInput(Match match) {
         TeamInTournament winner = match.getAdminSpecifiedWinner();
         return winner;
+    }
+
+    public List<Match> getAllMatchesForTournament(Tournament tournament) {
+        return matchRepo.findMatchesByTournament(tournament);
     }
 
 }

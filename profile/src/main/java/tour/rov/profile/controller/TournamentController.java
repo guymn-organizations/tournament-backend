@@ -156,7 +156,7 @@ public class TournamentController {
         }
     }
 
-    @GetMapping("/{id}/matching")
+    @PostMapping("/{id}/matching")
     public ResponseEntity<?> createMatchesForTournament(@PathVariable String id) {
         try {
             Tournament tournament = tournamentService.findById(id);
@@ -185,6 +185,28 @@ public class TournamentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create matches for the tournament: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/matches")
+    public ResponseEntity<?> getAllMatchesForTournament(@PathVariable String id) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
+
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+            }
+
+            List<Match> matches = matchService.getAllMatchesForTournament(tournament);
+
+            if (matches.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matches found for the tournament.");
+            }
+
+            return ResponseEntity.ok(matches);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve matches for the tournament: " + e.getMessage());
         }
     }
 }
