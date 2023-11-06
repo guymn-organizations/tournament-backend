@@ -18,6 +18,8 @@ import tour.rov.profile.model.Match;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
+import tour.rov.profile.repository.TeamInTournamentRepo;
+import tour.rov.profile.service.TeamInTournamentService;
 import tour.rov.profile.service.TeamService;
 import tour.rov.profile.service.TournamentService;
 
@@ -27,6 +29,9 @@ import tour.rov.profile.service.TournamentService;
 public class TournamentController {
     @Autowired
     private TournamentService tournamentService;
+
+    @Autowired
+    private TeamInTournamentService TeamInTournamentService;
 
     @Autowired
     private TeamService teamService;
@@ -99,7 +104,7 @@ public class TournamentController {
     public ResponseEntity<?> getAllTournament() {
         try {
             List<Tournament> tournaments = tournamentService.getAllTournaments();
-            
+
             if (tournaments.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No tournaments found.");
             }
@@ -111,12 +116,11 @@ public class TournamentController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getTournamentById(@PathVariable String id) {
         try {
             Tournament tournament = tournamentService.findById(id);
-            
+
             if (tournament == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found with ID: " + id);
             }
@@ -135,7 +139,7 @@ public class TournamentController {
             Team team = teamService.findById(teamId);
 
             TeamInTournament teamJoin = new TeamInTournament(team, 0, 0, 0);
-
+            TeamInTournamentService.save(teamJoin);
             tournament.getTeamJoin().add(teamJoin);
 
             tournamentService.saveTournament(tournament);
@@ -165,9 +169,8 @@ public class TournamentController {
             return ResponseEntity.ok(teamsInTournament);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Failed to retrieve teams in the tournament: " + e.getMessage());
+                    .body("Failed to retrieve teams in the tournament: " + e.getMessage());
         }
     }
-
 
 }
