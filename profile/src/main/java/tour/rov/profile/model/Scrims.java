@@ -25,9 +25,7 @@ public class Scrims {
 
     public Scrims(){}
 
-    public Scrims(String id, Team teamA, Team teamB, 
-    LocalDate startDate, List<Chat> chat) {
-        this.id = id;
+    public Scrims(Team teamA, Team teamB, LocalDate startDate, List<Chat> chat) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.startDate = startDate;

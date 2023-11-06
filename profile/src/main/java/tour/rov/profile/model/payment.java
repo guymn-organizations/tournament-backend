@@ -12,8 +12,7 @@ public class payment {
 
     public payment(){}
 
-    public payment(String id, String qrCode) {
-        this.id = id;
+    public payment(String qrCode) {
         this.qrCode = qrCode;
     }
 

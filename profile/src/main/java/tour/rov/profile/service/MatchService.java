@@ -1,5 +1,6 @@
 package tour.rov.profile.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,10 @@ public class MatchService {
         matchRepo.save(match);
     }
 
+    public void saveMatches(List<Match> matches) {
+        matchRepo.saveAll(matches);
+    }
+
     public void updateTeamInTournament(TeamInTournament teamInTournament) {
         teamInTournamentRepo.save(teamInTournament);
     }
@@ -52,4 +57,41 @@ public class MatchService {
     public boolean matchExists(String id) {
         return matchRepo.existsById(id);
     }
+
+    public List<Match> generateMatches(List<TeamInTournament> teamsInTournament) {
+        List<Match> matches = new ArrayList<>();
+
+        int round = 1;
+        while (teamsInTournament.size() > 1) {
+            List<Match> roundMatches = new ArrayList<>();
+            for (int i = 0; i < teamsInTournament.size(); i += 2) {
+                TeamInTournament team1 = teamsInTournament.get(i);
+                TeamInTournament team2 = teamsInTournament.get(i + 1);
+                Match match = new Match("Round " + round, team1, team2);
+                roundMatches.add(match);
+            }
+            matches.addAll(roundMatches);
+            teamsInTournament = getWinners(roundMatches);
+            round++;
+        }
+
+        return matches;
+    }
+
+    public List<TeamInTournament> getWinners(List<Match> matches) {
+        List<TeamInTournament> winners = new ArrayList<>();
+        for (Match match : matches) {
+
+            TeamInTournament winner = determineWinnerByAdminInput(match);
+            winners.add(winner);
+
+        }
+        return winners;
+    }
+
+    public TeamInTournament determineWinnerByAdminInput(Match match) {
+        TeamInTournament winner = match.getAdminSpecifiedWinner();
+        return winner;
+    }
+
 }

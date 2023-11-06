@@ -35,12 +35,4 @@ public class TournamentControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    @Test
-    public void testMatching() {
-        String tournamentId = "testTournamentId";
-
-        ResponseEntity<?> response = tournamentController.matching(tournamentId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
 }

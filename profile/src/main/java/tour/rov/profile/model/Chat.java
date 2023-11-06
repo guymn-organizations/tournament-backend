@@ -2,7 +2,12 @@ package tour.rov.profile.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.annotation.Id;
+
 public class Chat {
+    @Id
+    private String id;
+    
     private String sender;
     private String content;
     private LocalDate timeSend;
@@ -31,6 +36,14 @@ public class Chat {
     }
     public void setTimeSend(LocalDate timeSend) {
         this.timeSend = timeSend;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     

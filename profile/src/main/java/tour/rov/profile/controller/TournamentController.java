@@ -1,5 +1,6 @@
 package tour.rov.profile.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import tour.rov.profile.model.Match;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
+import tour.rov.profile.service.MatchService;
 import tour.rov.profile.service.TeamInTournamentService;
 import tour.rov.profile.service.TeamService;
 import tour.rov.profile.service.TournamentService;
@@ -34,6 +36,9 @@ public class TournamentController {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private MatchService matchService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createTournament(@RequestBody Tournament tournament) {
@@ -58,27 +63,6 @@ public class TournamentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to edit Tournament status : " + e.getMessage());
-        }
-    }
-
-    @PostMapping("/{tournament_id}/matching")
-    // สร้าง match และ push ลงตัวแปร matchList
-    public ResponseEntity<?> matching(@PathVariable String tournament_id) {
-        try {
-            Tournament tournament = tournamentService.findById(tournament_id);
-
-            if (tournament == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found");
-            }
-            List<Match> newMatch = tournamentService.createMatchesForAllTeams(tournament_id);
-            tournament.getMatchList().addAll(newMatch);
-
-            tournamentService.saveTournament(tournament);
-
-            return ResponseEntity.ok().body("Match created and added to the tournament's matchList");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to create and add a match to the tournament: " + e.getMessage());
         }
     }
 
@@ -172,4 +156,35 @@ public class TournamentController {
         }
     }
 
+    @GetMapping("/{id}/matching")
+    public ResponseEntity<?> createMatchesForTournament(@PathVariable String id) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
+
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+            }
+
+            List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+
+            if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in the tournament.");
+            }
+
+            int numberOfTeams = teamsInTournament.size();
+
+            if (Integer.bitCount(numberOfTeams) != 1) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams must be a power of 2.");
+            }
+
+            List<Match> matches = matchService.generateMatches(teamsInTournament);
+
+            matchService.saveMatches(matches);
+
+            return ResponseEntity.ok("Matches for the tournament have been created.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create matches for the tournament: " + e.getMessage());
+        }
+    }
 }

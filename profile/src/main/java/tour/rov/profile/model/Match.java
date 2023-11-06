@@ -24,14 +24,19 @@ public class Match {
     @DBRef
     private List<Chat> chat;
 
-    private int[] result; // [ A, B ]
+    private int[] result = {0, 0};
+
+    private String round;
 
     public Match(){}
+
+    public Match(String round, TeamInTournament teamA, TeamInTournament teamB) {
+        this.round = round;
+        this.teamA = teamA;
+        this.teamB = teamB;
+    }
     
-    public Match(String id, TeamInTournament teamA, TeamInTournament teamB, LocalDate startDate, List<String> report,
-            List<Chat> chat, int[] result
-            ) {
-        this.id = id;
+    public Match(TeamInTournament teamA, TeamInTournament teamB, LocalDate startDate, List<String> report, List<Chat> chat, int[] result) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.startDate = startDate;
@@ -82,5 +87,22 @@ public class Match {
         this.result = result;
     }
 
+    public String getRound() {
+        return round;
+    }
+
+    public void setRound(String round) {
+        this.round = round;
+    }
+
+    public TeamInTournament getAdminSpecifiedWinner() {
+        if (result[0] == 1) {
+            return teamA;
+        } else if (result[1] == 2) {
+            return teamB;
+        } else {
+            return null;
+        }
+    }
     
 }

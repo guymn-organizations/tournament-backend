@@ -46,6 +46,8 @@ public class Tournament {
     @DBRef
     private List<payment> payments;
 
+    private int numberOfTeam;
+
     public enum TournamenType {
         Free,
         Paid
@@ -64,11 +66,10 @@ public class Tournament {
         this.status = status.รอดำเนินการ;
     }
 
-    public Tournament(String id, String name, String detail, Double reward, LocalDate startRegisterDate,
+    public Tournament(String name, String detail, Double reward, LocalDate startRegisterDate,
             LocalDate endRegisterDate, LocalDate startTourDate, String imageTourUrl, TournamenType tournamenType,
             int bOqualifyingRound, int bOfinalRound, List<TeamInTournament> teamJoin, Status status,
-            List<Match> matchList, List<payment> payments) {
-        this.id = id;
+            List<Match> matchList, List<payment> payments, int numberOfTeam) {
         this.name = name;
         this.detail = detail;
         this.reward = reward;
@@ -83,6 +84,7 @@ public class Tournament {
         this.status = status;
         this.matchList = matchList;
         this.payments = payments;
+        this.numberOfTeam = numberOfTeam;
     }
 
     public String getId() {
@@ -203,6 +205,14 @@ public class Tournament {
 
     public void setPayments(List<payment> payments) {
         this.payments = payments;
+    }
+
+    public int getNumberOfTeam() {
+        return numberOfTeam;
+    }
+
+    public void setNumberOfTeam(int numberOfTeam) {
+        this.numberOfTeam = numberOfTeam;
     }
 
    
