@@ -203,4 +203,9 @@ public class TeamService {
         saveTeam(team);
     }
 
+    public Boolean checkHaveTeam(String player_name) {
+        Profile profile = profileService.getProfileByProfilegameName(player_name);
+        return profile.getProfileGame().getMyTeam() != null;
+    }
+
 }

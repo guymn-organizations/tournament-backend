@@ -91,6 +91,10 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
             teamService.addPlayer(id, 0, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
@@ -106,6 +110,10 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
             teamService.addPlayer(id, 1, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
@@ -121,6 +129,10 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
             teamService.addPlayer(id, 2, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
@@ -136,8 +148,11 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 3, player_name);
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
 
+            teamService.addPlayer(id, 3, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -152,8 +167,11 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 4, player_name);
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
 
+            teamService.addPlayer(id, 4, player_name);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -168,6 +186,10 @@ public class TeamController {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
+            if (teamService.checkHaveTeam(reserver)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+            
             teamService.addTeamReserve(id, reserver);
             return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
