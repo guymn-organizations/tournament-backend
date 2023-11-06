@@ -43,8 +43,7 @@ public class Tournament {
     @DBRef
     private List<Match> matchList;
 
-    @DBRef
-    private List<payment> payments;
+    private String payments;
 
     private int numberOfTeam;
 
@@ -69,7 +68,7 @@ public class Tournament {
     public Tournament(String name, String detail, Double reward, LocalDate startRegisterDate,
             LocalDate endRegisterDate, LocalDate startTourDate, String imageTourUrl, TournamenType tournamenType,
             int bOqualifyingRound, int bOfinalRound, List<TeamInTournament> teamJoin, Status status,
-            List<Match> matchList, List<payment> payments, int numberOfTeam) {
+            List<Match> matchList, String payments, int numberOfTeam) {
         this.name = name;
         this.detail = detail;
         this.reward = reward;
@@ -199,20 +198,20 @@ public class Tournament {
         this.matchList = matchList;
     }
 
-    public List<payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<payment> payments) {
-        this.payments = payments;
-    }
-
     public int getNumberOfTeam() {
         return numberOfTeam;
     }
 
     public void setNumberOfTeam(int numberOfTeam) {
         this.numberOfTeam = numberOfTeam;
+    }
+
+    public String getPayments() {
+        return payments;
+    }
+
+    public void setPayments(String payments) {
+        this.payments = payments;
     }
 
    
