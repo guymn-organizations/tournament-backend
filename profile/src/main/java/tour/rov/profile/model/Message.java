@@ -22,9 +22,12 @@ public class Message {
 
     private LocalDate sendDate;
 
+    private Boolean isRead;
+
     public Message(MessageType messageType) {
         this.sendDate = LocalDate.now();
         this.messageType = messageType;
+        this.isRead = false;
     }
 
     public enum MessageType {
@@ -88,6 +91,14 @@ public class Message {
 
     public void setPositionType(PositionType positionType) {
         this.positionType = positionType;
+    }
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 
 }

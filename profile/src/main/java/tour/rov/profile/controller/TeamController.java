@@ -177,16 +177,23 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{team_name}/out_reserver/{reserver}")
-    public ResponseEntity<?> outTeamReserve(@PathVariable String team_name, @PathVariable String reserver) {
+    @PutMapping("/{team_name}/out_reserver/{index_reserver}/{index_position}")
+    public ResponseEntity<?> outTeamReserve(@PathVariable String team_name, @PathVariable String index_reserver,
+            @PathVariable String index_position) {
         try {
             if (teamService.existingTeamName(team_name)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
+
             Team team = teamService.findByName(team_name);
-            team.getTeamReserve().remove(Integer.parseInt(reserver));
+            if (team.getPositions().get(Integer.parseInt(index_position)).getPlayer() != null) {
+                team.getTeamReserve().add(team.getPositions().get(Integer.parseInt(index_position)).getPlayer());
+            }
+            team.getPositions().get(Integer.parseInt(index_position))
+                    .setPlayer(team.getTeamReserve().get(Integer.parseInt(index_reserver)));
+            team.getTeamReserve().remove(Integer.parseInt(index_reserver));
             teamService.saveTeam(team);
-            return ResponseEntity.status(HttpStatus.CREATED).body(team.getTeamReserve());
+            return ResponseEntity.status(HttpStatus.CREATED).body(team);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

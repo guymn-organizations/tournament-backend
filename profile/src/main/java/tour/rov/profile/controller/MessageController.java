@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,20 @@ public class MessageController {
         }
     }
 
-    @PutMapping("{team_name}/INVITE_TO_JOIN_TEAM/{profile_game_name}")
+    @PutMapping("/is_read/{id}")
+    public ResponseEntity<?> readMessage(@PathVariable String id) {
+        try {
+            Message message = messageService.findById(id);
+            message.setIsRead(true);
+            messageService.saveMessage(message);
+            return ResponseEntity.ok(message);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
+    @PostMapping("{team_name}/INVITE_TO_JOIN_TEAM/{profile_game_name}")
     public ResponseEntity<?> sendInviteToJoinTeam(@PathVariable String team_name,
             @PathVariable String profile_game_name, @RequestBody PositionType positionType) {
         try {
@@ -48,7 +62,7 @@ public class MessageController {
         }
     }
 
-    @PutMapping("{team_name}/REQUEST_TO_JOIN_TEAM/{profile_game_name}")
+    @PostMapping("{team_name}/REQUEST_TO_JOIN_TEAM/{profile_game_name}")
     public ResponseEntity<?> sendReqToJoinTeam(@PathVariable String team_name, @PathVariable String profile_game_name,
             @RequestBody String positionType) {
         try {
@@ -61,7 +75,7 @@ public class MessageController {
         }
     }
 
-    @PutMapping("{team_nameA}/INVITE_TO_SCRIMS/{team_nameB}")
+    @PostMapping("{team_nameA}/INVITE_TO_SCRIMS/{team_nameB}")
     public ResponseEntity<?> sendInviteToScrims(@PathVariable String team_nameA,
             @PathVariable String team_nameB,
             @RequestBody String scrims_id) {

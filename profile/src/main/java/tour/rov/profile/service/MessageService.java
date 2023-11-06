@@ -32,6 +32,10 @@ public class MessageService {
         messageRepository.save(message);
     }
 
+    public Message findById(String id) {
+        return messageRepository.findById(id).get();
+    }
+
     public List<Message> findAllById(List<String> id) {
         List<Message> messages = messageRepository.findAllByIdIn(id);
         return deleteMessagesIfSendDateMoreThanOneYearAgo(messages);
