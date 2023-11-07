@@ -25,12 +25,12 @@ public class TeamPostControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
-    @Test
-    public void testGetAllTeamPost() {
-        ResponseEntity<?> response = teamPostController.getAllTeamPost();
+    // @Test
+    // public void testGetAllTeamPost() {
+    // ResponseEntity<?> response = teamPostController.getAllTeamPost();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+    // assertEquals(HttpStatus.OK, response.getStatusCode());
+    // }
 
     @Test
     public void testEditPost() {

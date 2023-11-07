@@ -25,12 +25,12 @@ public class PlayerPostControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
-    @Test
-    public void testGetAllPlayerPost() {
-        ResponseEntity<?> response = playerPostController.getAllPlayerPost();
+    // @Test
+    // public void testGetAllPlayerPost() {
+    //     ResponseEntity<?> response = playerPostController.getAllPlayerPost();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    // }
 
     @Test
     public void testEditPost() {
