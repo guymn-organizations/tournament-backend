@@ -22,12 +22,13 @@ public class Team {
     @DBRef
     private List<Profile> teamReserve;
 
-    @DBRef
-    private List<Message> messages;
+    private List<String> messages;
 
     private String imageTeamUrl;
 
     private List<String> tournamentId;
+
+    private String contact;
 
     public Team() {
         setPositions(new ArrayList<Position>());
@@ -70,14 +71,6 @@ public class Team {
         this.teamReserve = teamReserve;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public String getImageTeamUrl() {
         return imageTeamUrl;
     }
@@ -100,6 +93,22 @@ public class Team {
 
     public void setTournamentId(List<String> tournamentId) {
         this.tournamentId = tournamentId;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
     }
 
 }

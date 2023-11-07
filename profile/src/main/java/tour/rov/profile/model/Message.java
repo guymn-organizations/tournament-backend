@@ -1,14 +1,33 @@
 package tour.rov.profile.model;
 
+import java.time.LocalDate;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "message")
 public class Message {
+    @Id
+    private String id;
+
     private String sender;
+
+    private String scrimsId;
+
+    private PositionType positionType;
+
     private MessageType messageType;
+
     private String content;
 
-    public Message(String sender, MessageType class1, String content) {
-        this.sender = sender;
-        this.messageType = class1;
-        this.content = content;
+    private LocalDate sendDate;
+
+    private Boolean isRead;
+
+    public Message(MessageType messageType) {
+        this.sendDate = LocalDate.now();
+        this.messageType = messageType;
+        this.isRead = false;
     }
 
     public enum MessageType {
@@ -40,6 +59,46 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LocalDate getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(LocalDate sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    public String getScrimsId() {
+        return scrimsId;
+    }
+
+    public void setScrimsId(String scrimsId) {
+        this.scrimsId = scrimsId;
+    }
+
+    public PositionType getPositionType() {
+        return positionType;
+    }
+
+    public void setPositionType(PositionType positionType) {
+        this.positionType = positionType;
+    }
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 
 }

@@ -14,15 +14,9 @@ public class TeamPost {
     @DBRef
     private Team team;
 
-    private List<Position> positions;
+    private List<PositionType> positions;
 
     public TeamPost() {
-    }
-
-    public TeamPost(String id, Team team, List<Position> positions) {
-        this.id = id;
-        this.team = team;
-        this.positions = positions;
     }
 
     public String getId() {
@@ -41,11 +35,11 @@ public class TeamPost {
         this.team = team;
     }
 
-    public List<Position> getPositions() {
+    public List<PositionType> getPositions() {
         return positions;
     }
 
-    public void setPositions(List<Position> positions) {
+    public void setPositions(List<PositionType> positions) {
         this.positions = positions;
     }
 

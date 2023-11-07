@@ -1,7 +1,6 @@
 package tour.rov.profile.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.service.ProfileService;
@@ -36,8 +34,9 @@ public class ProfileController {
                         .body("Email is already use");
             }
 
-            profile.setMessages(new ArrayList<Message>());
+            profile.setMessages(new ArrayList<String>());
             profile.setProfileGame(null);
+            profile.setImageProfileUrl(null);
 
             profileService.saveProfile(profile);
             return ResponseEntity.ok(profile);
@@ -80,6 +79,12 @@ public class ProfileController {
 
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> getPrifileByName(@PathVariable String name) {
+        Profile profile = profileService.getProfileByProfilegameName(name);
+        return ResponseEntity.ok(profile);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> editProfile(@PathVariable String id, @RequestBody Profile updatedProfile) {
 
@@ -89,55 +94,33 @@ public class ProfileController {
             }
 
             profileService.updateProfile(id, updatedProfile);
-            return ResponseEntity.ok().body("Profile was updated");
+            return ResponseEntity.ok().body(profileService.findById(id));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to edit profile : " + e.getMessage());
         }
     }
 
-    @PutMapping("/{id}/set_profile_game")
-    public ResponseEntity<?> setProfileGame(@PathVariable String id, @RequestBody ProfileGame profileGame) {
+    @PutMapping("/{id}/game")
+    public ResponseEntity<?> editProfileGame(@PathVariable String id, @RequestBody ProfileGame updatedProfileGame) {
+
         try {
             if (profileService.existingProfile(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
             }
 
-            profileService.updateProfileGame(id, profileGame);
-            return ResponseEntity.ok().body("ProfileGame was updated");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to edit game profile : " + e.getMessage());
-        }
-    }
+            Profile profile = profileService.getProfileByProfilegameName(updatedProfileGame.getName());
+            if (profile != null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Name has already to use");
 
-    @GetMapping("/{id}/message")
-    public ResponseEntity<?> getMessages(@PathVariable String id) {
-        try {
-            if (profileService.existingProfile(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
             }
 
-            List<Message> messages = profileService.getMessages(id);
-            return ResponseEntity.ok(messages);
+            profileService.updateProfileGame(id, updatedProfileGame);
+            return ResponseEntity.ok().body(profileService.findById(id).getProfileGame());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to get message : " + e.getMessage());
+                    .body("Failed to edit profile game : " + e.getMessage());
         }
     }
 
-    @PutMapping("/{id}/add_message")
-    public ResponseEntity<?> addMessages(@PathVariable String id, @RequestBody Message message) {
-        try {
-            if (profileService.existingProfile(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profile not found");
-            }
-
-            profileService.addMeaasge(id, message);
-            return ResponseEntity.ok("Message added");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to get message : " + e.getMessage());
-        }
-    }
 }

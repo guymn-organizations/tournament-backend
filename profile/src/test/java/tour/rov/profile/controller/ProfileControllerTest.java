@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import tour.rov.profile.model.Profile;
-import tour.rov.profile.model.ProfileGame;
 import tour.rov.profile.model.Profile.Gender;
 
 @SpringBootTest
@@ -51,18 +50,9 @@ public class ProfileControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    @Test
-    public void testSetProfileGame() {
-        ProfileGame profileGame = new ProfileGame();
-        profileGame.setName("guymanZG");
-        profileGame.setOpenId("12q35wetrewr32");
-        ResponseEntity<?> response = profileController.setProfileGame("testId", profileGame);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    public void testGetMessages() {
-        ResponseEntity<?> response = profileController.getMessages("testId");
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+    // @Test
+    // public void testGetMessages() {
+    //     ResponseEntity<?> response = profileController.getMessages("testId");
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    // }
 }

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Team;
@@ -34,12 +34,12 @@ public class TeamController {
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody Team team) {
         try {
-            if (teamService.existingTeamName(team.getName())) {
+            if (!teamService.existingTeamName(team.getName())) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body("Name is already use");
             }
             // Save the team to the MongoDB database
-            team.setMessages(new ArrayList<Message>());
+            team.setMessages(new ArrayList<String>());
             team.setTeamReserve(new ArrayList<Profile>());
             team.setPositions(new ArrayList<Position>());
             team.setTournamentId(new ArrayList<String>());
@@ -49,7 +49,7 @@ public class TeamController {
             team.getPositions().add(new Position(PositionType.ADL, "ABYSSAL DRAGON LANE", null));
             team.getPositions().add(new Position(PositionType.SUP, "SUPPORT", null));
 
-            teamService.saveTeam(team);
+            teamService.createTeam(team);
             return ResponseEntity.status(HttpStatus.CREATED).body(team);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
@@ -74,6 +74,19 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/show_scrims")
+    public ResponseEntity<?> getTeamToshowScrims(@RequestParam int pageIndex,
+            @RequestParam int pageSize) {
+        try {
+            List<Team> teams = teamService.getTeamToshowScrims(pageIndex, pageSize);
+            return ResponseEntity.ok(teams);
+        } catch (Exception e) {
+            // Handle exceptions and return an appropriate response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create team: " + e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTeam(@PathVariable String id) {
         try {
@@ -87,14 +100,18 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/DSL/{player_id}")
-    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/DSL/{player_name}")
+    public ResponseEntity<?> addDSLPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 0, player_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added DSL player");
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
+            teamService.addPlayer(id, 0, player_name);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -102,14 +119,18 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/JG/{player_id}")
-    public ResponseEntity<?> addJGPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/JG/{player_name}")
+    public ResponseEntity<?> addJGPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 1, player_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added JG player");
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
+            teamService.addPlayer(id, 1, player_name);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -117,14 +138,18 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/MID/{player_id}")
-    public ResponseEntity<?> addMIDPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/MID/{player_name}")
+    public ResponseEntity<?> addMIDPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 2, player_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added MID player");
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
+            teamService.addPlayer(id, 2, player_name);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -132,15 +157,18 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/ADL/{player_id}")
-    public ResponseEntity<?> addADLPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/ADL/{player_name}")
+    public ResponseEntity<?> addADLPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 3, player_id);
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added ADL player");
+            teamService.addPlayer(id, 3, player_name);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -148,15 +176,18 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/SUP/{player_id}")
-    public ResponseEntity<?> addSUPPlayer(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/SUP/{player_name}")
+    public ResponseEntity<?> addSUPPlayer(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addPlayer(id, 4, player_id);
+            if (teamService.checkHaveTeam(player_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
+            teamService.addPlayer(id, 4, player_name);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -164,14 +195,42 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/reserver/{reserver_id}")
-    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @PathVariable String reserver_id) {
+    @PutMapping("/{id}/reserver/{reserver}")
+    public ResponseEntity<?> addTeamReserve(@PathVariable String id, @PathVariable String reserver) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.addTeamReserve(id, reserver_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added reserver player");
+            if (teamService.checkHaveTeam(reserver)) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This player already has a team.");
+            }
+
+            teamService.addTeamReserve(id, reserver);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
+        } catch (Exception e) {
+            // Handle exceptions and return an appropriate response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add reserver member : " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{team_name}/out_reserver/{index_reserver}/{index_position}")
+    public ResponseEntity<?> outTeamReserve(@PathVariable String team_name, @PathVariable String index_reserver,
+            @PathVariable String index_position) {
+        try {
+            if (teamService.existingTeamName(team_name)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
+            }
+
+            Team team = teamService.findByName(team_name);
+            if (team.getPositions().get(Integer.parseInt(index_position)).getPlayer() != null) {
+                team.getTeamReserve().add(team.getPositions().get(Integer.parseInt(index_position)).getPlayer());
+            }
+            team.getPositions().get(Integer.parseInt(index_position))
+                    .setPlayer(team.getTeamReserve().get(Integer.parseInt(index_reserver)));
+            team.getTeamReserve().remove(Integer.parseInt(index_reserver));
+            teamService.saveTeam(team);
+            return ResponseEntity.status(HttpStatus.CREATED).body(team);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -186,7 +245,7 @@ public class TeamController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
             teamService.addTourNamentId(id, tour_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team was added SUP player");
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -194,14 +253,14 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/leave/{player_id}")
-    public ResponseEntity<?> leaveTeam(@PathVariable String id, @PathVariable String player_id) {
+    @PutMapping("/{id}/leave/{player_name}")
+    public ResponseEntity<?> leaveTeam(@PathVariable String id, @PathVariable String player_name) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
-            teamService.leaveTeam(id, player_id);
-            return ResponseEntity.ok("You leaved");
+            teamService.leaveTeam(id, player_name);
+            return ResponseEntity.ok(null);
         } catch (Exception e) {
             // Handle exceptions and return an appropriate response
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -209,33 +268,20 @@ public class TeamController {
         }
     }
 
-    @GetMapping("/{id}/message")
-    public ResponseEntity<?> getMessages(@PathVariable String id) {
+    @PutMapping("/{id}/set_contact")
+    public ResponseEntity<String> setContact(@PathVariable String id, @RequestBody String contact) {
         try {
             if (teamService.existingTeam(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
             }
 
-            List<Message> messages = teamService.getMessages(id);
-            return ResponseEntity.ok(messages);
+            Team team = teamService.findById(id);
+            team.setContact(contact);
+            teamService.saveTeam(team);
+            return ResponseEntity.ok(team.getContact());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to get message : " + e.getMessage());
-        }
-    }
-
-    @PutMapping("/{id}/add_message")
-    public ResponseEntity<?> addMessages(@PathVariable String id, @RequestBody Message message) {
-        try {
-            if (teamService.existingTeam(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
-            }
-
-            teamService.addMeaasge(id, message);
-            return ResponseEntity.ok("Message added");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to get message : " + e.getMessage());
+                    .body("Failed to set contact : " + e.getMessage());
         }
     }
 }

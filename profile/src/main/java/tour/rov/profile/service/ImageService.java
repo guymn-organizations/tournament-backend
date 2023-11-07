@@ -15,6 +15,12 @@ public class ImageService {
         imageRepository.save(image);
     }
 
+    public void createImage(String url) {
+        Image image = new Image();
+        image.setImageUrl(url);
+        imageRepository.save(image);
+    }
+
     public Image getImageById(String id) {
         return imageRepository.findById(id).get();
     }

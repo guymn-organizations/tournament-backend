@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 public class Position {
     private PositionType positionType;
 
-    private String position_name;
+    private String positionName;
 
     @DBRef
     private Profile player;
@@ -17,18 +17,18 @@ public class Position {
         this.player = player;
     }
 
-    public Position(PositionType positionType, String position_name, Profile player) {
+    public Position(PositionType positionType, String positionName, Profile player) {
         this.positionType = positionType;
-        this.position_name = position_name;
+        this.positionName = positionName;
         this.player = player;
     }
 
-    public String getPosition_name() {
-        return position_name;
+    public String getPositionName() {
+        return positionName;
     }
 
-    public void setPosition_name(String position_name) {
-        this.position_name = position_name;
+    public void setPositionMame(String position_name) {
+        this.positionName = position_name;
     }
 
     public Profile getPlayer() {

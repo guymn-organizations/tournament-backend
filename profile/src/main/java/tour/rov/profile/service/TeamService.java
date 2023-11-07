@@ -3,12 +3,13 @@ package tour.rov.profile.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Image;
-import tour.rov.profile.model.Message;
 import tour.rov.profile.model.Position;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.TeamRepository;
@@ -33,6 +34,21 @@ public class TeamService {
         return teamRepository.findById(id).get();
     }
 
+    public Team findByName(String name) {
+        return teamRepository.findByName(name);
+    }
+
+    public void createTeam(Team team) {
+        if (team.getImageTeamUrl() != null) {
+            Image image = new Image();
+            image.setImageUrl(team.getImageTeamUrl());
+            imageService.saveImage(image);
+
+            team.setImageTeamUrl(image.getId());
+        }
+        saveTeam(team);
+    }
+
     public void deleteTeam(String id) {
         Team team = findById(id);
 
@@ -51,8 +67,10 @@ public class TeamService {
             profileService.saveProfile(temp);
         }
 
-        Image image = imageService.getImageById(team.getImageTeamUrl());
-        imageService.deleteById(image.getId());
+        if (team.getImageTeamUrl() != null) {
+            Image image = imageService.getImageById(team.getImageTeamUrl());
+            imageService.deleteById(image.getId());
+        }
 
         teamRepository.deleteById(id);
     }
@@ -62,7 +80,7 @@ public class TeamService {
     }
 
     public boolean existingTeamName(String name) {
-        return teamRepository.existsByName(name);
+        return !teamRepository.existsByName(name);
     }
 
     public void updateTeam(String id, Team updateTeam) {
@@ -103,29 +121,53 @@ public class TeamService {
 
     public void addTeamReserve(String id, String player) {
         Team team = findById(id);
-        Profile profile = profileService.findById(player);
+        Profile profile = profileService.getProfileByProfilegameName(player);
 
         team.getTeamReserve().add(profile);
         profile.getProfileGame().setMyTeam(id);
 
         profileService.saveProfile(profile);
         saveTeam(team);
+
+        // String content = "Player " + profile.getProfileGame().getName() +
+        // " joins your team.\nPosition : Reserver";
+
+        // messageService.systemAlertToTeam(team.getName(), content);
+
+        // content = "You are now a member of the " + team.getName() + " team.";
+
+        // messageService.systemAlertToProfile(player, content);
     }
 
-    public void addPlayer(String id, int position, String player_id) {
+    public void addPlayer(String id, int position, String player_name) {
         Team team = findById(id);
-        Profile profile = profileService.findById(player_id);
+        Profile profile = profileService.getProfileByProfilegameName(player_name);
+
+        if (team.getPositions().get(position).getPlayer() != null) {
+            addTeamReserve(id, player_name);
+            return;
+        }
 
         team.getPositions().get(position).setPlayer(profile);
         profile.getProfileGame().setMyTeam(id);
 
         profileService.saveProfile(profile);
         saveTeam(team);
+
+        // String content = "Player " + profile.getProfileGame().getName() +
+        // " joins your team.\nPosition : " +
+        // team.getPositions().get(position).getPositionName();
+
+        // messageService.systemAlertToTeam(team.getName(), content);
+
+        // content = "You are now a member of the " + team.getName() + " team.";
+
+        // messageService.systemAlertToProfile(player_name, content);
     }
 
-    public void leaveTeam(String id, String player_id) {
+    public void leaveTeam(String id, String player_name) {
         Team team = findById(id);
-        Profile profile = profileService.findById(player_id);
+        Profile profile = profileService.getProfileByProfilegameName(player_name);
         Boolean breaker = true;
 
         for (Position position : team.getPositions()) {
@@ -146,15 +188,32 @@ public class TeamService {
         saveTeam(team);
     }
 
-    public List<Message> getMessages(String id) {
+    public List<String> getMessages(String id) {
         Team team = findById(id);
         return team.getMessages();
     }
 
-    public void addMeaasge(String id, Message message) {
-        Team team = findById(id);
-        team.getMessages().add(message);
+    public void addMeaasge(String name, String message) {
+        Team team = findByName(name);
+        team.getMessages().add(0, message);
         saveTeam(team);
+    }
+
+    public void addMeaasgeById(String id, String message) {
+        Team team = findById(id);
+        team.getMessages().add(0, message);
+        saveTeam(team);
+    }
+
+    public Boolean checkHaveTeam(String player_name) {
+        Profile profile = profileService.getProfileByProfilegameName(player_name);
+        return profile.getProfileGame().getMyTeam() != null;
+    }
+
+    public List<Team> getTeamToshowScrims(int pageIndex, int pageSize) {
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        List<Team> teams = teamRepository.findAllBy(pageable);
+        return teams;
     }
 
 }

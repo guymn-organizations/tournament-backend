@@ -1,6 +1,5 @@
 package tour.rov.profile.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.TeamPost;
-import tour.rov.profile.model.Position;
 import tour.rov.profile.service.TeamPostService;
 
 @RestController
@@ -24,14 +22,13 @@ import tour.rov.profile.service.TeamPostService;
 @CrossOrigin(origins = { "http://localhost:4200/" })
 public class TeamPostController {
     @Autowired
-    private TeamPostService TeamPostService;
+    private TeamPostService teamPostService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(@RequestBody TeamPost TeamPost) {
+    public ResponseEntity<?> createPost(@RequestBody TeamPost teamPost) {
         try {
-            TeamPost.setPositions(new ArrayList<Position>());
-            TeamPostService.saveTeamPost(TeamPost);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Post was created\n" + TeamPost);
+            teamPostService.saveTeamPost(teamPost);
+            return ResponseEntity.status(HttpStatus.CREATED).body(teamPostService.findById(teamPost.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create post : " + e.getMessage());
@@ -41,7 +38,7 @@ public class TeamPostController {
     @GetMapping
     public ResponseEntity<?> getAllTeamPost() {
         try {
-            List<TeamPost> teamPosts = TeamPostService.getAllTeamPosts();
+            List<TeamPost> teamPosts = teamPostService.getAllTeamPosts();
             return ResponseEntity.ok(teamPosts);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -52,7 +49,7 @@ public class TeamPostController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editPost(@PathVariable String id, @RequestBody TeamPost TeamPost) {
         try {
-            TeamPostService.updateTeamPost(id, TeamPost);
+            teamPostService.updateTeamPost(id, TeamPost);
             return ResponseEntity.ok().body("Post was updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
