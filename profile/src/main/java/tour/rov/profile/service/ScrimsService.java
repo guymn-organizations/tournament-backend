@@ -13,6 +13,7 @@ import tour.rov.profile.repository.ScrimsRepo;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Service
@@ -36,12 +37,13 @@ public class ScrimsService {
         return !scrimsRepo.existsById(id);
     }
 
-    public List<Scrims> findScrimsByTeamId(String teamId) {
+    public List<Scrims> findScrimsByTeamId(String teamId, int pageIndex, int pageSize) {
         Criteria criteria = new Criteria().orOperator(
                 Criteria.where("teamA.id").is(teamId),
                 Criteria.where("teamB.id").is(teamId));
 
-        Query query = new Query(criteria);
+        Query query = new Query(criteria).with(Sort.by(Sort.Order.asc("startDate"))).skip(pageIndex * pageSize).limit(pageSize);
+
         return mongoTemplate.find(query, Scrims.class);
     }
 

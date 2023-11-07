@@ -14,4 +14,6 @@ public interface TeamRepository extends MongoRepository<Team, String> {
 
     List<Team> findAllBy(Pageable pageable);
 
+    List<Team> findByPositionsPlayerIsNotNull(Pageable pageable);
+
 }

@@ -212,7 +212,7 @@ public class TeamService {
 
     public List<Team> getTeamToshowScrims(int pageIndex, int pageSize) {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        List<Team> teams = teamRepository.findAllBy(pageable);
+        List<Team> teams = teamRepository.findByPositionsPlayerIsNotNull(pageable);
         return teams;
     }
 
