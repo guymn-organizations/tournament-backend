@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.TeamPost;
@@ -36,9 +37,11 @@ public class TeamPostController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllTeamPost() {
+    public ResponseEntity<?> getAllTeamPost(
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "10") int pageSize) {
         try {
-            List<TeamPost> teamPosts = teamPostService.getAllTeamPosts();
+            List<TeamPost> teamPosts = teamPostService.getAllTeamPosts(pageIndex, pageSize);
             return ResponseEntity.ok(teamPosts);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
