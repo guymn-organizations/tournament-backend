@@ -92,4 +92,8 @@ public class ScrimsService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:mm");
         return dateTime.format(formatter);
     }
+
+    public void deleteScrims(String id) {
+        scrimsRepo.deleteById(id);
+    }
 }
