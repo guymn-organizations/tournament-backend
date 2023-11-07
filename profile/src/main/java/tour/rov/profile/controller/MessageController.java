@@ -55,7 +55,7 @@ public class MessageController {
             @PathVariable String profile_game_name, @RequestBody PositionType positionType) {
         try {
             messageService.inviteToJoinTeam(team_name, profile_game_name, positionType);
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok("Successfully sent message for INVITE JOIN TEAM.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
@@ -68,20 +68,20 @@ public class MessageController {
         try {
             PositionType positionTypeEnum = PositionType.valueOf(positionType);
             messageService.requestToJoinTeam(team_name, profile_game_name, positionTypeEnum);
-            return ResponseEntity.ok("success");
+            return ResponseEntity.ok("Successfully sent message for REQUEST JOIN TEAM.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
         }
     }
 
-    @PostMapping("{team_nameA}/INVITE_TO_SCRIMS/{team_nameB}")
-    public ResponseEntity<?> sendInviteToScrims(@PathVariable String team_nameA,
-            @PathVariable String team_nameB,
+    @PostMapping("{team_nameB}/REQUEST_TO_SCRIMS/{team_nameA}")
+    public ResponseEntity<?> sendInviteToScrims(@PathVariable String team_nameB,
+            @PathVariable String team_nameA,
             @RequestBody String scrims_id) {
         try {
-            messageService.inviteToScrims(team_nameA, team_nameB, scrims_id);
-            return ResponseEntity.ok(null);
+            messageService.inviteToScrims(team_nameB, team_nameA, scrims_id);
+            return ResponseEntity.ok("Successfully sent message for REQUEST SCRIMS.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());

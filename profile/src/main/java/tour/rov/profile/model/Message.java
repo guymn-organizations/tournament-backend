@@ -33,7 +33,7 @@ public class Message {
     public enum MessageType {
         INVITE_TO_JOIN_TEAM,
         REQUEST_TO_JOIN_TEAM,
-        INVITE_TO_SCRIMS,
+        REQUEST_TO_SCRIMS,
         SYSTEM_ALERT
     }
 
