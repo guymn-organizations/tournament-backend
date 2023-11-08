@@ -47,17 +47,6 @@ public class ImageContriller {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteAll() {
-        try {
-            imageService.deleteAll();
-            return ResponseEntity.ok("Deleted");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to delete image : " + e.getMessage());
-        }
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable String id) {
         try {
