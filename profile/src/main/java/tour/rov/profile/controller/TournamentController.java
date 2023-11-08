@@ -84,7 +84,7 @@ public class TournamentController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAllTournament(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "5") int pageSize) {
+    public ResponseEntity<?> getAllTournament(@RequestParam int pageIndex, @RequestParam int pageSize) {
         try {
             List<Tournament> tournaments = tournamentService.getAllTournaments(pageIndex, pageSize);
 

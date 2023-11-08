@@ -7,7 +7,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import tour.rov.profile.model.Image;
@@ -69,7 +70,9 @@ public class TournamentService {
     }
 
     public List<Tournament> getAllTournaments(int pageIndex, int pageSize) {
-        return tournamentRepo.findAll();
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        List<Tournament> tournaments = tournamentRepo.findAllBy(pageable);
+        return tournaments;
     }  
 
 }

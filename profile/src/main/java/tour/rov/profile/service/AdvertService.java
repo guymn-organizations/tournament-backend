@@ -3,6 +3,8 @@ package tour.rov.profile.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import tour.rov.profile.model.Advert;
@@ -21,8 +23,10 @@ public class AdvertService {
         advertRepo.save(advert);
     }
 
-    public List<Advert> getAllAdverts() {
-        return advertRepo.findAll();
+    public List<Advert> getAllAdverts(int pageIndex, int pageSize) {
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        List<Advert> adverts = advertRepo.findAllBy(pageable);
+        return adverts;
     }
 
     public void createAdvert(Advert advert){
