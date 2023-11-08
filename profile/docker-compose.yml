@@ -4,9 +4,9 @@ services:
     build: .
     container_name: "docker-app"
     ports:
-      - 5000:5000
+      - 8000:8000
   mongodb:
     image: mongo:latest
     container_name: "mongodb"
     ports:
-      - 8000:8000
+      - 27070:27017
