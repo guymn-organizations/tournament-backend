@@ -34,13 +34,13 @@ public class MatchService {
         return match.orElse(null);
     }
 
-    public List<Match> findMatchesByTeamId(String teamId) {
+    public List<Match> findMatchesByTeamId(String teamId, int pageIndex, int pageSize) {
         Criteria criteria = new Criteria().orOperator(
             Criteria.where("teamA.team.id").is(teamId),
             Criteria.where("teamB.team.id").is(teamId)
         );
 
-        Query query = new Query(criteria);
+        Query query = new Query(criteria).skip(pageIndex * pageSize).limit(pageSize);
         return mongoTemplate.find(query, Match.class);
     }
 

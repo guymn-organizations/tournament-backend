@@ -29,9 +29,9 @@ public class MatchController {
 
     @GetMapping("/{team_id}")
     //หาจากทั้งทีม A และ B sort by startDate
-    public ResponseEntity<?> getMatchByTeam(@PathVariable String team_id){
+    public ResponseEntity<?> getMatchByTeam(@PathVariable String team_id, @RequestParam int pageIndex, @RequestParam int pageSize){
         try {
-            List<Match> matchesForTeam = matchService.findMatchesByTeamId(team_id);
+            List<Match> matchesForTeam = matchService.findMatchesByTeamId(team_id, pageIndex, pageSize);
             
             matchesForTeam.sort(Comparator.comparing(Match::getStartDate));
             
