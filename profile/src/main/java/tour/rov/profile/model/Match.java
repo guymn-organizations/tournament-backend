@@ -94,15 +94,5 @@ public class Match {
     public void setRound(String round) {
         this.round = round;
     }
-
-    public TeamInTournament getAdminSpecifiedWinner() {
-        if (result[0] == 1) {
-            return teamA;
-        } else if (result[1] == 2) {
-            return teamB;
-        } else {
-            return null;
-        }
-    }
     
 }

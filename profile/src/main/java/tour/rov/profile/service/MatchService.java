@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tour.rov.profile.model.Chat;
 import tour.rov.profile.model.Match;
 import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
@@ -83,17 +84,39 @@ public class MatchService {
         List<TeamInTournament> winners = new ArrayList<>();
         for (Match match : matches) {
 
-            TeamInTournament winner = determineWinnerByAdminInput(match);
+            TeamInTournament winner = determineWinnerByChatConfirm(match);
             winners.add(winner);
 
         }
         return winners;
     }
 
-    public TeamInTournament determineWinnerByAdminInput(Match match) {
-        TeamInTournament winner = match.getAdminSpecifiedWinner();
-        return winner;
+    public TeamInTournament determineWinnerByChatConfirm(Match match) {
+
+        List<Chat> chatList = match.getChat();
+
+        boolean teamAConfirmed = false;
+        boolean teamBConfirmed = false;
+
+        for (Chat chat : chatList) {
+            if (chat.getSender().equals(match.getTeamA()) && chat.getContent().equals("confirm")) {
+                teamAConfirmed = true;
+            }
+
+            if (chat.getSender().equals(match.getTeamB()) && chat.getContent().equals("confirm")) {
+                teamBConfirmed = true;
+            }
+        }
+
+        if (teamAConfirmed) {
+            return match.getTeamA();
+        } else if (teamBConfirmed) {
+            return match.getTeamB();
+        } else {
+            return null;
+        }
     }
+
 
     public List<Match> getAllMatchesForTournament(Tournament tournament) {
         return matchRepo.findMatchesByTournament(tournament);
