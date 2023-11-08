@@ -89,9 +89,9 @@ public class ScrimsService {
         return mongoTemplate.find(query, Scrims.class);
     }
 
-    public String formatLocalDateTime(LocalDate localDate) {
+    public String formatLocalDateTime(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:mm");
-        return localDate.format(formatter);
+        return localDateTime.format(formatter);
     }
 
     public void deleteScrims(String id) {
