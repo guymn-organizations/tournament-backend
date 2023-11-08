@@ -75,8 +75,8 @@ public class TeamController {
     }
 
     @GetMapping("/show_scrims")
-    public ResponseEntity<?> getTeamToshowScrims(@RequestParam int pageIndex,
-            @RequestParam int pageSize) {
+    public ResponseEntity<?> getTeamToshowScrims(@RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "15") int pageSize) {
         try {
             List<Team> teams = teamService.getTeamToshowScrims(pageIndex, pageSize);
             return ResponseEntity.ok(teams);

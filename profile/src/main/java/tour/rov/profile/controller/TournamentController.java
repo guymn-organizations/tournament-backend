@@ -156,37 +156,37 @@ public class TournamentController {
         }
     }
 
-    @PostMapping("/{id}/matching")
-    public ResponseEntity<?> createMatchesForTournament(@PathVariable String id) {
-        try {
-            Tournament tournament = tournamentService.findById(id);
+    // @PostMapping("/{id}/matching")
+    // public ResponseEntity<?> createMatchesForTournament(@PathVariable String id) {
+    //     try {
+    //         Tournament tournament = tournamentService.findById(id);
 
-            if (tournament == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
-            }
+    //         if (tournament == null) {
+    //             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+    //         }
 
-            List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+    //         List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
 
-            if (teamsInTournament == null || teamsInTournament.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in the tournament.");
-            }
+    //         if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in the tournament.");
+    //         }
 
-            int numberOfTeams = teamsInTournament.size();
+    //         int numberOfTeams = teamsInTournament.size();
 
-            if (Integer.bitCount(numberOfTeams) != 1) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams must be a power of 2.");
-            }
+    //         if (Integer.bitCount(numberOfTeams) != 1) {
+    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams must be a power of 2.");
+    //         }
 
-            List<Match> matches = matchService.generateMatches(teamsInTournament);
+    //         List<Match> matches = matchService.generateMatches(teamsInTournament);
 
-            matchService.saveMatches(matches);
+    //         matchService.saveMatches(matches);
 
-            return ResponseEntity.ok("Matches for the tournament have been created.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to create matches for the tournament: " + e.getMessage());
-        }
-    }
+    //         return ResponseEntity.ok("Matches for the tournament have been created.");
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    //                 .body("Failed to create matches for the tournament: " + e.getMessage());
+    //     }
+    // }
 
     @GetMapping("/{id}/matches")
     public ResponseEntity<?> getAllMatchesForTournament(@PathVariable String id) {
