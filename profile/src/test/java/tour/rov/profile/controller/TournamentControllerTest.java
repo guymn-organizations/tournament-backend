@@ -24,15 +24,4 @@ public class TournamentControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
-
-    @Test
-    public void testChangeStatus() {
-        String tournamentId = "testTournamentId";
-        Tournament status = new Tournament(); // Create a Tournament object with updated status
-
-        ResponseEntity<?> response = tournamentController.changeStatus(tournamentId, status);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
 }

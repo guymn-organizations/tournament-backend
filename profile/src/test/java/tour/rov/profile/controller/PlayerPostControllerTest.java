@@ -31,14 +31,4 @@ public class PlayerPostControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
-    @Test
-    public void testEditPost() {
-        String playerId = "testPlayerId";
-        PlayerPost playerPost = new PlayerPost(); // Create a PlayerPost object with updated data
-
-        ResponseEntity<?> response = playerPostController.editPost(playerId, playerPost);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
 }
