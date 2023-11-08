@@ -238,21 +238,6 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/{id}/join_tournament/{tour_id}")
-    public ResponseEntity<?> joinTournamnet(@PathVariable String id, @PathVariable String tour_id) {
-        try {
-            if (teamService.existingTeam(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
-            }
-            teamService.addTourNamentId(id, tour_id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(teamService.findById(id));
-        } catch (Exception e) {
-            // Handle exceptions and return an appropriate response
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add DSL member : " + e.getMessage());
-        }
-    }
-
     @PutMapping("/{id}/leave/{player_name}")
     public ResponseEntity<?> leaveTeam(@PathVariable String id, @PathVariable String player_name) {
         try {
