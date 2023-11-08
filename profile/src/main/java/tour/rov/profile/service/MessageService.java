@@ -74,15 +74,15 @@ public class MessageService {
 
     }
 
-    public void inviteToScrims(String team_nameA, String team_nameB, String scrims_id) {
-        Message message = new Message(MessageType.INVITE_TO_SCRIMS);
-        message.setSender(team_nameA);
+    public void inviteToScrims(String team_nameB, String team_nameA, String scrims_id) {
+        Message message = new Message(MessageType.REQUEST_TO_SCRIMS);
+        message.setSender(team_nameB);
         Scrims scrims = scrimsService.findScrimsById(scrims_id);
         message.setScrimsId(scrims_id);
         message.setContent(scrimsService.formatLocalDateTime(scrims.getStartDate()));
         saveMessage(message);
 
-        teamService.addMeaasge(team_nameB, message.getId());
+        teamService.addMeaasge(team_nameA, message.getId());
     }
 
     public void systemAlertToProfile(String profile_game_name, String content) {
@@ -103,16 +103,6 @@ public class MessageService {
 
         teamService.addMeaasge(team_name, message.getId());
 
-    }
-
-    public void requestToJoinTeamReserver(String profile_name, String team_id) {
-        Message message = new Message(MessageType.REQUEST_TO_JOIN_TEAM);
-        message.setSender(profile_name);
-        message.setScrimsId("reserver");
-        message.setContent(profile_name + " want to join your team in position reserver");
-        saveMessage(message);
-
-        teamService.addMeaasgeById(team_id, message.getId());
     }
 
 }

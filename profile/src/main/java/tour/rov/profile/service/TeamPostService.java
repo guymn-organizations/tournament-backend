@@ -3,6 +3,8 @@ package tour.rov.profile.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import tour.rov.profile.model.TeamPost;
@@ -17,8 +19,9 @@ public class TeamPostService {
         teamPostRepository.save(teamPost);
     }
 
-    public List<TeamPost> getAllTeamPosts() {
-        return teamPostRepository.findAll();
+    public List<TeamPost> getAllTeamPosts(int pageIndex, int pageSize) {
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        return teamPostRepository.findAllBy(pageable);
     }
 
     public TeamPost findById(String id) {

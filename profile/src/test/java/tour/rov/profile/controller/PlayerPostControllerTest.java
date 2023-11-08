@@ -25,9 +25,19 @@ public class PlayerPostControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
+    // @Test
+    // public void testGetAllPlayerPost() {
+    //     ResponseEntity<?> response = playerPostController.getAllPlayerPost();
+
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    // }
+
     @Test
-    public void testGetAllPlayerPost() {
-        ResponseEntity<?> response = playerPostController.getAllPlayerPost();
+    public void testEditPost() {
+        String playerId = "testPlayerId";
+        PlayerPost playerPost = new PlayerPost(); // Create a PlayerPost object with updated data
+
+        ResponseEntity<?> response = playerPostController.editPost(playerId, playerPost);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }

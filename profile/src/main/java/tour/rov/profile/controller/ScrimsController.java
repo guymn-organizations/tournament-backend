@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Scrims;
@@ -43,8 +45,27 @@ public class ScrimsController {
 
     @GetMapping("/{team_id}")
     // หาจากทั้งทีม A และ B sort by startDate
-    public ResponseEntity<?> getScrimsByTeam(@PathVariable String team_id) {
-        List<Scrims> scrimsList = scrimsService.findScrimsByTeamId(team_id);
+    public ResponseEntity<?> getScrimsByTeam(@PathVariable String team_id,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        List<Scrims> scrimsList = scrimsService.findScrimsByTeamId(team_id, pageIndex, pageSize);
+
+        if (!scrimsList.isEmpty()) {
+            Collections.sort(scrimsList,
+                    (scrims1, scrims2) -> scrims1.getStartDate().compareTo(scrims2.getStartDate()));
+
+            return ResponseEntity.ok(scrimsList);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No scrimmages found for the team");
+        }
+    }
+
+    @GetMapping("/{team_id}/no_opponent")
+    // หาจากทั้งทีม A และ B sort by startDate
+    public ResponseEntity<?> getScrimsByTeamNoOpponent(@PathVariable String team_id,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "2") int pageSize) {
+        List<Scrims> scrimsList = scrimsService.findScrimsByTeamIdNoOpponent(team_id, pageIndex, pageSize);
 
         if (!scrimsList.isEmpty()) {
             Collections.sort(scrimsList,
@@ -69,11 +90,21 @@ public class ScrimsController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body("This scrims have already opposing team.");
             }
-            
+
             Team teamB = teamService.findByName(team_name);
             scrims.setTeamB(teamB);
             scrimsService.saveScrims(scrims);
             return ResponseEntity.ok(scrims);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> delereScrims(@PathVariable String id) {
+        try {
+            scrimsService.deleteScrims(id);
+            return ResponseEntity.ok("Success for delete scrims");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
