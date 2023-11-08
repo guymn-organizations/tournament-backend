@@ -62,7 +62,7 @@ public class Tournament {
     
     public Tournament() {
         this.teamJoin = new ArrayList<>();
-        this.status = status.รอดำเนินการ;
+        this.status = Status.รอดำเนินการ;
     }
 
     public Tournament(String name, String detail, Double reward, LocalDate startRegisterDate,
