@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Match;
@@ -83,9 +84,9 @@ public class TournamentController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAllTournament() {
+    public ResponseEntity<?> getAllTournament(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "5") int pageSize) {
         try {
-            List<Tournament> tournaments = tournamentService.getAllTournaments();
+            List<Tournament> tournaments = tournamentService.getAllTournaments(pageIndex, pageSize);
 
             if (tournaments.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No tournaments found.");

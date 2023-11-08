@@ -68,7 +68,7 @@ public class TournamentService {
         saveTournament(tournament);
     }
 
-    public List<Tournament> getAllTournaments() {
+    public List<Tournament> getAllTournaments(int pageIndex, int pageSize) {
         return tournamentRepo.findAll();
     }  
 
