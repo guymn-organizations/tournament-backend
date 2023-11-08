@@ -1,5 +1,6 @@
 package tour.rov.profile.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -88,9 +89,9 @@ public class ScrimsService {
         return mongoTemplate.find(query, Scrims.class);
     }
 
-    public String formatLocalDateTime(LocalDateTime dateTime) {
+    public String formatLocalDateTime(LocalDate localDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/y HH:mm");
-        return dateTime.format(formatter);
+        return localDate.format(formatter);
     }
 
     public void deleteScrims(String id) {

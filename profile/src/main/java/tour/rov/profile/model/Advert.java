@@ -13,8 +13,7 @@ public class Advert {
 
     public Advert(){}
 
-    public Advert(String id, String imageAdvertUrl, String linkAdvertUrl) {
-        this.id = id;
+    public Advert(String imageAdvertUrl, String linkAdvertUrl) {
         this.imageAdvertUrl = imageAdvertUrl;
         this.linkAdvertUrl = linkAdvertUrl;
     }

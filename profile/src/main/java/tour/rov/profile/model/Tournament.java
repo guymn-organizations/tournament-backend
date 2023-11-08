@@ -1,6 +1,7 @@
 package tour.rov.profile.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -30,36 +31,59 @@ public class Tournament {
 
     private TournamenType tournamenType;
 
-    private int BOqualifyingRound;
+    private int bOqualifyingRound;
 
-    private int BOfinalRound;
+    private int bOfinalRound;
 
     @DBRef
     private List<TeamInTournament> teamJoin;
 
-    private Status status;
+    private Status status ;
 
     @DBRef
     private List<Match> matchList;
 
-    public Tournament() {
+    private String payments;
+
+    private int numberOfTeam;
+
+    public enum TournamenType {
+        Free,
+        Paid
     }
 
-    public Tournament(String id, String name, String detail, Double reward, LocalDate startRegisterDate,
-            LocalDate endRegisterDate, LocalDate startTourDate, int bOqualifyingRound, int bOfinalRound,
-            List<TeamInTournament> teamJoin, Status status, List<Match> matchList) {
-        this.id = id;
+    public enum Status {
+        รอดำเนินการ, 
+        เปิดรับสมัคร, 
+        ปิดรับสมัคร, 
+        กำลังแข่งขัน, 
+        จบการแข่งขัน
+    }
+    
+    public Tournament() {
+        this.teamJoin = new ArrayList<>();
+        this.status = status.รอดำเนินการ;
+    }
+
+    public Tournament(String name, String detail, Double reward, LocalDate startRegisterDate,
+            LocalDate endRegisterDate, LocalDate startTourDate, String imageTourUrl, TournamenType tournamenType,
+            int bOqualifyingRound, int bOfinalRound, List<TeamInTournament> teamJoin, Status status,
+            List<Match> matchList, String payments, int numberOfTeam) {
         this.name = name;
         this.detail = detail;
         this.reward = reward;
         this.startRegisterDate = startRegisterDate;
         this.endRegisterDate = endRegisterDate;
         this.startTourDate = startTourDate;
-        BOqualifyingRound = bOqualifyingRound;
-        BOfinalRound = bOfinalRound;
+        this.imageTourUrl = imageTourUrl;
+        this.tournamenType = tournamenType;
+        this.bOqualifyingRound = bOqualifyingRound;
+        this.bOfinalRound = bOfinalRound;
         this.teamJoin = teamJoin;
         this.status = status;
         this.matchList = matchList;
+        this.payments = payments;
+        this.numberOfTeam = numberOfTeam;
     }
 
     public String getId() {
@@ -118,18 +142,6 @@ public class Tournament {
         this.startTourDate = startTourDate;
     }
 
-    public int getBOqualifyingRound() {
-        return BOqualifyingRound;
-    }
-
-    public void setBOqualifyingRound(int bOqualifyingRound) {
-        BOqualifyingRound = bOqualifyingRound;
-    }
-
-    public int getBOfinalRound() {
-        return BOfinalRound;
-    }
-
     public String getImageTourUrl() {
         return imageTourUrl;
     }
@@ -138,8 +150,28 @@ public class Tournament {
         this.imageTourUrl = imageTourUrl;
     }
 
-    public void setBOfinalRound(int bOfinalRound) {
-        BOfinalRound = bOfinalRound;
+    public TournamenType getTournamenType() {
+        return tournamenType;
+    }
+
+    public void setTournamenType(TournamenType tournamenType) {
+        this.tournamenType = tournamenType;
+    }
+
+    public int getbOqualifyingRound() {
+        return bOqualifyingRound;
+    }
+
+    public void setbOqualifyingRound(int bOqualifyingRound) {
+        this.bOqualifyingRound = bOqualifyingRound;
+    }
+
+    public int getbOfinalRound() {
+        return bOfinalRound;
+    }
+
+    public void setbOfinalRound(int bOfinalRound) {
+        this.bOfinalRound = bOfinalRound;
     }
 
     public List<TeamInTournament> getTeamJoin() {
@@ -166,12 +198,21 @@ public class Tournament {
         this.matchList = matchList;
     }
 
-    public TournamenType getTournamenType() {
-        return tournamenType;
+    public int getNumberOfTeam() {
+        return numberOfTeam;
     }
 
-    public void setTournamenType(TournamenType tournamenType) {
-        this.tournamenType = tournamenType;
+    public void setNumberOfTeam(int numberOfTeam) {
+        this.numberOfTeam = numberOfTeam;
     }
 
+    public String getPayments() {
+        return payments;
+    }
+
+    public void setPayments(String payments) {
+        this.payments = payments;
+    }
+
+   
 }
