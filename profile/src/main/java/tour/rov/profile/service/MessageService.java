@@ -105,14 +105,4 @@ public class MessageService {
 
     }
 
-    public void requestToJoinTeamReserver(String profile_name, String team_id) {
-        Message message = new Message(MessageType.REQUEST_TO_JOIN_TEAM);
-        message.setSender(profile_name);
-        message.setScrimsId("reserver");
-        message.setContent(profile_name + " want to join your team in position reserver");
-        saveMessage(message);
-
-        teamService.addMeaasgeById(team_id, message.getId());
-    }
-
 }
