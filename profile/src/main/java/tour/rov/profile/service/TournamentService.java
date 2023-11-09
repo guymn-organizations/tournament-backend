@@ -1,5 +1,7 @@
 package tour.rov.profile.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Sort;
 
 import tour.rov.profile.model.Image;
 import tour.rov.profile.model.Tournament;
+import tour.rov.profile.model.Tournament.Status;
 import tour.rov.profile.repository.TournamentRepo;
 
 @Service
@@ -59,13 +62,20 @@ public class TournamentService {
 
     public void createTournament(Tournament tournament) {
 
-        //เอารูป base64 จาก tournament มาสร้าง Image 
-        Image image = new Image();
-        image.setImageUrl(tournament.getImageTourUrl());
-        imageService.saveImage(image);
+        if (tournament.getImageTourUrl().length() > 0) {
+            // เอารูป base64 จาก tournament มาสร้าง Image
+            Image image = new Image();
+            image.setImageUrl(tournament.getImageTourUrl());
+            imageService.saveImage(image);
+            // เก็บ id รูปลง tour
+            tournament.setImageTourUrl(image.getId());
+        }
 
-        //เก็บ id รูปลง tour
-        tournament.setImageTourUrl(image.getId());
+        tournament.setStartDateRegister(LocalDate.now());
+        tournament.setTeamJoin(new ArrayList<>());
+        tournament.setMatchList(new ArrayList<>());
+        tournament.setStatus(Status.Register);
+
         saveTournament(tournament);
     }
 
@@ -73,6 +83,6 @@ public class TournamentService {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         List<Tournament> tournaments = tournamentRepo.findAllBy(pageable);
         return tournaments;
-    }  
+    }
 
 }

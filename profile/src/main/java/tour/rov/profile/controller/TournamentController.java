@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Match;
-import tour.rov.profile.model.Team;
-import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
 import tour.rov.profile.service.MatchService;
 import tour.rov.profile.service.TeamInTournamentService;
@@ -43,9 +41,8 @@ public class TournamentController {
     @PostMapping("/create")
     public ResponseEntity<?> createTournament(@RequestBody Tournament tournament) {
         try {
-
             tournamentService.createTournament(tournament);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Tournament was created\n" + tournament);
+            return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.findById(tournament.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create : " + e.getMessage());
@@ -115,77 +112,84 @@ public class TournamentController {
         }
     }
 
-    @PostMapping("/{id}/teamJoin/{teamId}")
-    public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamId) {
-        try {
-            Tournament tournament = tournamentService.findById(id);
-            Team team = teamService.findById(teamId);
+    // @PostMapping("/{id}/teamJoin/{team_name}")
+    // public ResponseEntity<?> addTeamToTournament(@PathVariable String team_name,
+    // @PathVariable String id) {
+    // try {
+    // Tournament tournament = tournamentService.findById(id);
+    // Team team = teamService.findByName(team_name);
 
-            TeamInTournament teamJoin = new TeamInTournament(team, 0, 0, 0);
-            TeamInTournamentService.save(teamJoin);
-            tournament.getTeamJoin().add(teamJoin);
+    // TeamInTournament teamJoin = new TeamInTournament();
+    // teamJoin.setTeam(team);
+    // TeamInTournamentService.save(teamJoin);
+    // tournament.getTeamJoin().add(teamJoin);
+    // tournamentService.saveTournament(tournament);
 
-            tournamentService.saveTournament(tournament);
+    // return ResponseEntity.ok("Team added to the tournament successfully.");
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body("Failed to add the team to the tournament: " + e.getMessage());
+    // }
+    // }
 
-            return ResponseEntity.ok("Team added to the tournament successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to add the team to the tournament: " + e.getMessage());
-        }
-    }
+    // @GetMapping("/{id}/team")
+    // public ResponseEntity<?> getAllTeamInTournament(@PathVariable String id) {
+    // try {
+    // Tournament tournament = tournamentService.findById(id);
 
-    @GetMapping("/{id}/team")
-    public ResponseEntity<?> getAllTeamInTournament(@PathVariable String id) {
-        try {
-            Tournament tournament = tournamentService.findById(id);
+    // if (tournament == null) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not
+    // found.");
+    // }
 
-            if (tournament == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
-            }
+    // List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
 
-            List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+    // if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No teams found in
+    // the tournament.");
+    // }
 
-            if (teamsInTournament == null || teamsInTournament.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No teams found in the tournament.");
-            }
-
-            return ResponseEntity.ok(teamsInTournament);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to retrieve teams in the tournament: " + e.getMessage());
-        }
-    }
+    // return ResponseEntity.ok(teamsInTournament);
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body("Failed to retrieve teams in the tournament: " + e.getMessage());
+    // }
+    // }
 
     // @PostMapping("/{id}/matching")
-    // public ResponseEntity<?> createMatchesForTournament(@PathVariable String id) {
-    //     try {
-    //         Tournament tournament = tournamentService.findById(id);
+    // public ResponseEntity<?> createMatchesForTournament(@PathVariable String id)
+    // {
+    // try {
+    // Tournament tournament = tournamentService.findById(id);
 
-    //         if (tournament == null) {
-    //             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
-    //         }
+    // if (tournament == null) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not
+    // found.");
+    // }
 
-    //         List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+    // List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
 
-    //         if (teamsInTournament == null || teamsInTournament.isEmpty()) {
-    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in the tournament.");
-    //         }
+    // if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in
+    // the tournament.");
+    // }
 
-    //         int numberOfTeams = teamsInTournament.size();
+    // int numberOfTeams = teamsInTournament.size();
 
-    //         if (Integer.bitCount(numberOfTeams) != 1) {
-    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams must be a power of 2.");
-    //         }
+    // if (Integer.bitCount(numberOfTeams) != 1) {
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams
+    // must be a power of 2.");
+    // }
 
-    //         List<Match> matches = matchService.generateMatches(teamsInTournament);
+    // List<Match> matches = matchService.generateMatches(teamsInTournament);
 
-    //         matchService.saveMatches(matches);
+    // matchService.saveMatches(matches);
 
-    //         return ResponseEntity.ok("Matches for the tournament have been created.");
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    //                 .body("Failed to create matches for the tournament: " + e.getMessage());
-    //     }
+    // return ResponseEntity.ok("Matches for the tournament have been created.");
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body("Failed to create matches for the tournament: " + e.getMessage());
+    // }
     // }
 
     @GetMapping("/{id}/matches")

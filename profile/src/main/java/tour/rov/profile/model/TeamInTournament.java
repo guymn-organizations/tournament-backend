@@ -12,18 +12,18 @@ public class TeamInTournament {
     @DBRef
     private Team team;
 
-    private int score;
     private int win;
-    private int lose;
 
     public TeamInTournament() {
+        this.win = 0;
     }
 
-    public TeamInTournament(Team team, int score, int win, int lose) {
-        this.team = team;
-        this.score = score;
-        this.win = win;
-        this.lose = lose;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Team getTeam() {
@@ -34,14 +34,6 @@ public class TeamInTournament {
         this.team = team;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getWin() {
         return win;
     }
@@ -50,19 +42,4 @@ public class TeamInTournament {
         this.win = win;
     }
 
-    public int getLose() {
-        return lose;
-    }
-
-    public void setLose(int lose) {
-        this.lose = lose;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

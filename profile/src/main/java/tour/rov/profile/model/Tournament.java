@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "tournament")
@@ -21,69 +20,34 @@ public class Tournament {
 
     private Double reward;
 
-    private LocalDate startRegisterDate;
+    private Double fee;
 
-    private LocalDate endRegisterDate;
+    private LocalDate startDateRegister;
 
-    private LocalDate startTourDate;
+    private LocalDate startDateMatch;
 
     private String imageTourUrl;
 
-    private TournamenType tournamenType;
+    private int BO;
 
-    private int bOqualifyingRound;
+    private List<String> teamJoin;
 
-    private int bOfinalRound;
+    private Status status;
 
-    @DBRef
-    private List<TeamInTournament> teamJoin;
+    private List<String> matchList;
 
-    private Status status ;
-
-    @DBRef
-    private List<Match> matchList;
-
-    private String payments;
-
-    private int numberOfTeam;
-
-    public enum TournamenType {
-        Free,
-        Paid
-    }
+    private int maxNumberTeam;
 
     public enum Status {
-        รอดำเนินการ, 
-        เปิดรับสมัคร, 
-        ปิดรับสมัคร, 
-        กำลังแข่งขัน, 
-        จบการแข่งขัน
-    }
-    
-    public Tournament() {
-        this.teamJoin = new ArrayList<>();
-        this.status = Status.รอดำเนินการ;
+        Register,
+        Competing,
+        End
     }
 
-    public Tournament(String name, String detail, Double reward, LocalDate startRegisterDate,
-            LocalDate endRegisterDate, LocalDate startTourDate, String imageTourUrl, TournamenType tournamenType,
-            int bOqualifyingRound, int bOfinalRound, List<TeamInTournament> teamJoin, Status status,
-            List<Match> matchList, String payments, int numberOfTeam) {
-        this.name = name;
-        this.detail = detail;
-        this.reward = reward;
-        this.startRegisterDate = startRegisterDate;
-        this.endRegisterDate = endRegisterDate;
-        this.startTourDate = startTourDate;
-        this.imageTourUrl = imageTourUrl;
-        this.tournamenType = tournamenType;
-        this.bOqualifyingRound = bOqualifyingRound;
-        this.bOfinalRound = bOfinalRound;
-        this.teamJoin = teamJoin;
-        this.status = status;
-        this.matchList = matchList;
-        this.payments = payments;
-        this.numberOfTeam = numberOfTeam;
+    public Tournament() {
+        this.teamJoin = new ArrayList<>();
+        this.matchList = new ArrayList<>();
+        this.status = Status.Register;
     }
 
     public String getId() {
@@ -118,28 +82,28 @@ public class Tournament {
         this.reward = reward;
     }
 
-    public LocalDate getStartRegisterDate() {
-        return startRegisterDate;
+    public Double getFee() {
+        return fee;
     }
 
-    public void setStartRegisterDate(LocalDate startRegisterDate) {
-        this.startRegisterDate = startRegisterDate;
+    public void setFee(Double fee) {
+        this.fee = fee;
     }
 
-    public LocalDate getEndRegisterDate() {
-        return endRegisterDate;
+    public LocalDate getStartDateRegister() {
+        return startDateRegister;
     }
 
-    public void setEndRegisterDate(LocalDate endRegisterDate) {
-        this.endRegisterDate = endRegisterDate;
+    public void setStartDateRegister(LocalDate startDateRegister) {
+        this.startDateRegister = startDateRegister;
     }
 
-    public LocalDate getStartTourDate() {
-        return startTourDate;
+    public LocalDate getStartDateMatch() {
+        return startDateMatch;
     }
 
-    public void setStartTourDate(LocalDate startTourDate) {
-        this.startTourDate = startTourDate;
+    public void setStartDateMatch(LocalDate startDateMatch) {
+        this.startDateMatch = startDateMatch;
     }
 
     public String getImageTourUrl() {
@@ -150,35 +114,19 @@ public class Tournament {
         this.imageTourUrl = imageTourUrl;
     }
 
-    public TournamenType getTournamenType() {
-        return tournamenType;
+    public int getBO() {
+        return BO;
     }
 
-    public void setTournamenType(TournamenType tournamenType) {
-        this.tournamenType = tournamenType;
+    public void setBO(int bO) {
+        BO = bO;
     }
 
-    public int getbOqualifyingRound() {
-        return bOqualifyingRound;
-    }
-
-    public void setbOqualifyingRound(int bOqualifyingRound) {
-        this.bOqualifyingRound = bOqualifyingRound;
-    }
-
-    public int getbOfinalRound() {
-        return bOfinalRound;
-    }
-
-    public void setbOfinalRound(int bOfinalRound) {
-        this.bOfinalRound = bOfinalRound;
-    }
-
-    public List<TeamInTournament> getTeamJoin() {
+    public List<String> getTeamJoin() {
         return teamJoin;
     }
 
-    public void setTeamJoin(List<TeamInTournament> teamJoin) {
+    public void setTeamJoin(List<String> teamJoin) {
         this.teamJoin = teamJoin;
     }
 
@@ -190,29 +138,20 @@ public class Tournament {
         this.status = status;
     }
 
-    public List<Match> getMatchList() {
+    public List<String> getMatchList() {
         return matchList;
     }
 
-    public void setMatchList(List<Match> matchList) {
+    public void setMatchList(List<String> matchList) {
         this.matchList = matchList;
     }
 
-    public int getNumberOfTeam() {
-        return numberOfTeam;
+    public int getMaxNumberTeam() {
+        return maxNumberTeam;
     }
 
-    public void setNumberOfTeam(int numberOfTeam) {
-        this.numberOfTeam = numberOfTeam;
+    public void setMaxNumberTeam(int maxNumberTeam) {
+        this.maxNumberTeam = maxNumberTeam;
     }
 
-    public String getPayments() {
-        return payments;
-    }
-
-    public void setPayments(String payments) {
-        this.payments = payments;
-    }
-
-   
 }

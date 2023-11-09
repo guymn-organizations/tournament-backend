@@ -25,6 +25,8 @@ public class Match {
 
     private int round;
 
+    private String nextMatch;
+
     public Match() {
     }
 
@@ -82,6 +84,14 @@ public class Match {
 
     public void setRound(int round) {
         this.round = round;
+    }
+
+    public String getNextMatch() {
+        return nextMatch;
+    }
+
+    public void setNextMatch(String nextMatch) {
+        this.nextMatch = nextMatch;
     }
 
 }
