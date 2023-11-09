@@ -21,7 +21,7 @@ import tour.rov.profile.service.MessageService;
 
 @RestController
 @RequestMapping("/messages")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class MessageController {
     @Autowired
     private MessageService messageService;

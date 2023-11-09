@@ -14,7 +14,7 @@ import tour.rov.profile.service.ChatService;
 
 @RestController
 @RequestMapping("chat")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class Chatcontroller {
 
     @Autowired

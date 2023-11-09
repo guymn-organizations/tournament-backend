@@ -20,7 +20,7 @@ import tour.rov.profile.service.ProfileService;
 
 @RestController
 @RequestMapping("profiles")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class ProfileController {
     @Autowired
     private ProfileService profileService;

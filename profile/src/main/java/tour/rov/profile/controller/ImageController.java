@@ -17,7 +17,7 @@ import tour.rov.profile.service.ImageService;
 
 @RestController
 @RequestMapping("images")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class ImageController {
     @Autowired
     private ImageService imageService;

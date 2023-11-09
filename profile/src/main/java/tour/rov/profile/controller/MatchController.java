@@ -18,7 +18,7 @@ import tour.rov.profile.service.MatchService;
 
 @RestController
 @RequestMapping("match")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class MatchController {
     @Autowired
     private MatchService matchService;

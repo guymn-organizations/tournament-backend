@@ -18,7 +18,7 @@ import tour.rov.profile.service.AdvertService;
 
 @RestController
 @RequestMapping("advert")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class AdvertController {
     @Autowired
     private AdvertService advertService;

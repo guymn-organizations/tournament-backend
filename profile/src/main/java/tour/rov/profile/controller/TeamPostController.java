@@ -20,7 +20,7 @@ import tour.rov.profile.service.TeamPostService;
 
 @RestController
 @RequestMapping("team_post")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class TeamPostController {
     @Autowired
     private TeamPostService teamPostService;

@@ -24,7 +24,7 @@ import tour.rov.profile.service.TeamService;
 
 @RestController
 @RequestMapping("scrims")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class ScrimsController {
     @Autowired
     private ScrimsService scrimsService;

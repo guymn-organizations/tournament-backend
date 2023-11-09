@@ -24,7 +24,7 @@ import tour.rov.profile.service.TournamentService;
 
 @RestController
 @RequestMapping("tournament")
-@CrossOrigin(origins = { "http://localhost:4200/" })
+@CrossOrigin
 public class TournamentController {
     @Autowired
     private TournamentService tournamentService;
