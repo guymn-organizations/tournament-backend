@@ -28,9 +28,9 @@ public class Tournament {
 
     private String imageTourUrl;
 
-    private int BO;
+    private static int BO;
 
-    private List<String> teamJoin;
+    private List<TeamInTournament> teamJoin;
 
     private Status status;
 
@@ -116,7 +116,7 @@ public class Tournament {
         this.imageTourUrl = imageTourUrl;
     }
 
-    public int getBO() {
+    public static int getBO() {
         return BO;
     }
 
@@ -124,11 +124,11 @@ public class Tournament {
         BO = bO;
     }
 
-    public List<String> getTeamJoin() {
+    public List<TeamInTournament> getTeamJoin() {
         return teamJoin;
     }
 
-    public void setTeamJoin(List<String> teamJoin) {
+    public void setTeamJoin(List<TeamInTournament> teamJoin) {
         this.teamJoin = teamJoin;
     }
 

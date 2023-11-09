@@ -29,6 +29,11 @@ public class Match {
 
     public Match() {
     }
+    public Match(int round, TeamInTournament teamA, TeamInTournament teamB){
+        this.teamA = teamA;
+        this.teamB = teamB;
+        this.round = round;
+    }
 
     public String getId() {
         return id;

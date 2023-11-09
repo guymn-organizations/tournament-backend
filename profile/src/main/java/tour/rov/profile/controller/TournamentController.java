@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Match;
+import tour.rov.profile.model.Team;
+import tour.rov.profile.model.TeamInTournament;
 import tour.rov.profile.model.Tournament;
 import tour.rov.profile.service.MatchService;
 import tour.rov.profile.service.TeamInTournamentService;
@@ -112,85 +114,79 @@ public class TournamentController {
         }
     }
 
-    // @PostMapping("/{id}/teamJoin/{team_name}")
-    // public ResponseEntity<?> addTeamToTournament(@PathVariable String team_name,
-    // @PathVariable String id) {
-    // try {
-    // Tournament tournament = tournamentService.findById(id);
-    // Team team = teamService.findByName(team_name);
+    @PostMapping("/{id}/teamJoin/{teamid}")
+    public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamid) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
+            Team team = teamService.findById(teamid);
 
-    // TeamInTournament teamJoin = new TeamInTournament();
-    // teamJoin.setTeam(team);
-    // TeamInTournamentService.save(teamJoin);
-    // tournament.getTeamJoin().add(teamJoin);
-    // tournamentService.saveTournament(tournament);
+            TeamInTournament teamJoin = new TeamInTournament(team, 0);
+            TeamInTournamentService.save(teamJoin);
+            tournament.getTeamJoin().add(teamJoin);
 
-    // return ResponseEntity.ok("Team added to the tournament successfully.");
-    // } catch (Exception e) {
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    // .body("Failed to add the team to the tournament: " + e.getMessage());
-    // }
-    // }
+            tournamentService.saveTournament(tournament);
 
-    // @GetMapping("/{id}/team")
-    // public ResponseEntity<?> getAllTeamInTournament(@PathVariable String id) {
-    // try {
-    // Tournament tournament = tournamentService.findById(id);
+            return ResponseEntity.ok("Team added to the tournament successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("Failed to add the team to the tournament: " + e.getMessage());
+        }
+    }
 
-    // if (tournament == null) {
-    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not
-    // found.");
-    // }
+    @GetMapping("/{id}/team")
+    public ResponseEntity<?> getAllTeamInTournament(@PathVariable String id) {
+        try {
+            Tournament tournament = tournamentService.findById(id);
 
-    // List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+            if (tournament == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+            }
 
-    // if (teamsInTournament == null || teamsInTournament.isEmpty()) {
-    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No teams found in
-    // the tournament.");
-    // }
+            List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
 
-    // return ResponseEntity.ok(teamsInTournament);
-    // } catch (Exception e) {
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    // .body("Failed to retrieve teams in the tournament: " + e.getMessage());
-    // }
-    // }
+            if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No teams found in the tournament.");
+            }
 
-    // @PostMapping("/{id}/matching")
-    // public ResponseEntity<?> createMatchesForTournament(@PathVariable String id)
-    // {
-    // try {
-    // Tournament tournament = tournamentService.findById(id);
+            return ResponseEntity.ok(teamsInTournament);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("Failed to retrieve teams in the tournament: " + e.getMessage());
+        }
+    }
 
-    // if (tournament == null) {
-    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not
-    // found.");
-    // }
+    @PostMapping("/{id}/matching")
+    public ResponseEntity<?> createMatchesForTournament(@PathVariable String id)
+    {
+        try {
+            Tournament tournament = tournamentService.findById(id);
 
-    // List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found.");
+            }
 
-    // if (teamsInTournament == null || teamsInTournament.isEmpty()) {
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in
-    // the tournament.");
-    // }
+            List<TeamInTournament> teamsInTournament = tournament.getTeamJoin();
 
-    // int numberOfTeams = teamsInTournament.size();
+            if (teamsInTournament == null || teamsInTournament.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No teams found in the tournament.");
+            }
 
-    // if (Integer.bitCount(numberOfTeams) != 1) {
-    // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams
-    // must be a power of 2.");
-    // }
+            int numberOfTeams = teamsInTournament.size();
 
-    // List<Match> matches = matchService.generateMatches(teamsInTournament);
+            if (Integer.bitCount(numberOfTeams) != 1) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Number of teams must be a power of 2.");
+            }
 
-    // matchService.saveMatches(matches);
+            List<Match> matches = matchService.generateMatches(teamsInTournament);
 
-    // return ResponseEntity.ok("Matches for the tournament have been created.");
-    // } catch (Exception e) {
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    // .body("Failed to create matches for the tournament: " + e.getMessage());
-    // }
-    // }
+            matchService.saveMatches(matches);
+
+            return ResponseEntity.ok("Matches for the tournament have been created.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("Failed to create matches for the tournament: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/{id}/matches")
     public ResponseEntity<?> getAllMatchesForTournament(@PathVariable String id) {

@@ -18,6 +18,11 @@ public class TeamInTournament {
         this.win = 0;
     }
 
+    public TeamInTournament(Team team, int win) {
+        this.team = team;
+        this.win = win;
+    }
+
     public String getId() {
         return id;
     }
