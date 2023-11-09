@@ -38,10 +38,10 @@ public class TournamentController {
     @Autowired
     private MatchService matchService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createTournament(@RequestBody Tournament tournament) {
+    @PostMapping("/create/{profileId}")
+    public ResponseEntity<?> createTournament(@PathVariable String profileId, @RequestBody Tournament tournament) {
         try {
-            tournamentService.createTournament(tournament);
+            tournamentService.createTournament(tournament, profileId);
             return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.findById(tournament.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

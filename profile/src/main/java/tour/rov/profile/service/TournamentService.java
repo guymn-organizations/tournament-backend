@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import tour.rov.profile.model.Image;
+import tour.rov.profile.model.Profile;
 import tour.rov.profile.model.Tournament;
 import tour.rov.profile.model.Tournament.Status;
 import tour.rov.profile.repository.TournamentRepo;
@@ -28,6 +29,9 @@ public class TournamentService {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private ProfileService profileService;
 
     public Tournament findById(String id) {
         return tournamentRepo.findById(id).get();
@@ -60,7 +64,7 @@ public class TournamentService {
         return mongoTemplate.findOne(query, Tournament.class);
     }
 
-    public void createTournament(Tournament tournament) {
+    public void createTournament(Tournament tournament, String profileId) {
 
         if (tournament.getImageTourUrl().length() > 0) {
             // เอารูป base64 จาก tournament มาสร้าง Image
@@ -71,6 +75,9 @@ public class TournamentService {
             tournament.setImageTourUrl(image.getId());
         }
 
+        Profile creater = profileService.findById(profileId);
+
+        tournament.setCreateer(creater);
         tournament.setStartDateRegister(LocalDate.now());
         tournament.setTeamJoin(new ArrayList<>());
         tournament.setMatchList(new ArrayList<>());

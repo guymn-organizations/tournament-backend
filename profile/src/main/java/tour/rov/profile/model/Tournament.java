@@ -38,6 +38,8 @@ public class Tournament {
 
     private int maxNumberTeam;
 
+    private Profile createer;
+
     public enum Status {
         Register,
         Competing,
@@ -152,6 +154,14 @@ public class Tournament {
 
     public void setMaxNumberTeam(int maxNumberTeam) {
         this.maxNumberTeam = maxNumberTeam;
+    }
+
+    public Profile getCreateer() {
+        return createer;
+    }
+
+    public void setCreateer(Profile createer) {
+        this.createer = createer;
     }
 
 }
