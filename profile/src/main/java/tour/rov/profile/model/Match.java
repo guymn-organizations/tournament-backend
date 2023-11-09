@@ -27,6 +27,8 @@ public class Match {
 
     private String nextMatch;
 
+    private int bo;
+
     public Match() {
         this.resultA = new int[] { 0, 0 };
         this.resultB = new int[] { 0, 0 };
@@ -100,6 +102,14 @@ public class Match {
 
     public void setNextMatch(String nextMatch) {
         this.nextMatch = nextMatch;
+    }
+
+    public int getBo() {
+        return bo;
+    }
+
+    public void setBo(int bo) {
+        this.bo = bo;
     }
 
 }

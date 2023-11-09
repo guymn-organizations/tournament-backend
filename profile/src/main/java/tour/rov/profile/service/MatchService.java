@@ -130,7 +130,6 @@ public class MatchService {
     public List<String> generateMatches(int BO, LocalDate date, int num) {
         int result = (int) (Math.log(num) / Math.log(2));
         List<Match> matchsList = new ArrayList<>();
-        int round = BO / 2;
 
         Queue<String> queue = new LinkedList<>();
 
@@ -140,7 +139,8 @@ public class MatchService {
                 Match match = new Match();
                 match.setNextMatch(queue.poll());
                 match.setStartDate(date.plusDays(result));
-                match.setRound(round);
+                match.setRound(result);
+                match.setBo(BO);
                 matchsList.add(match);
                 saveMatch(match);
 
