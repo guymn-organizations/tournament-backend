@@ -42,7 +42,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>sb-app</finalName>
 	</build>
 
 </project>
