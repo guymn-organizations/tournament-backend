@@ -31,22 +31,22 @@ public class PlayerPostControllerTest {
 
     @Test
     public void testCreatePost_Success() {
-        // // Create an example player post
-        // PlayerPost examplePlayerPost = new PlayerPost();
+        // Create an example player post
+        PlayerPost examplePlayerPost = new PlayerPost();
 
-        // // Mock the behavior of the PlayerPostService to simulate a successful post creation
-        // Mockito.doAnswer(invocation -> {
-        //     PlayerPost playerPost = invocation.getArgument(0);
-        //     return playerPost;
-        // }).when(playerPostService).savePlayerPost(examplePlayerPost);
+        // Mock the behavior of the PlayerPostService to simulate a successful post creation
+        Mockito.doAnswer(invocation -> {
+            PlayerPost playerPost = invocation.getArgument(0);
+            return playerPost;
+        }).when(playerPostService).savePlayerPost(examplePlayerPost);
 
-        // // Perform the POST request to create a player post
-        // ResponseEntity<?> response = playerPostController.createPost(examplePlayerPost);
+        // Perform the POST request to create a player post
+        ResponseEntity<?> response = playerPostController.createPost(examplePlayerPost);
 
-        // // Assert the response
-        // assert response.getStatusCode().equals(HttpStatus.CREATED);
-        // assert response.getBody() != null;
-        // assert response.getBody() instanceof PlayerPost;
+        // Assert the response
+        assert response.getStatusCode().equals(HttpStatus.CREATED);
+        assert response.getBody() != null;
+        assert response.getBody() instanceof PlayerPost;
     }
 
     @Test

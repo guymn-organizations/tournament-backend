@@ -29,23 +29,23 @@ public class ProfileControllerTest {
 
     @Test
     public void testRegisterProfile() {
-        // Profile profile = new Profile();
-        // profile.setEmail("test@example.com");
-        // profile.setPassword("password");
+        Profile profile = new Profile();
+        profile.setEmail("test@example.com");
+        profile.setPassword("password");
 
-        // // Mock the behavior of the profileService
-        // doReturn(false).when(profileService).existingProfileByEmail("test@example.com");
-        // doReturn(profile).when(profileService).saveProfile(profile);
+        // Mock the behavior of the profileService
+        doReturn(false).when(profileService).existingProfileByEmail("test@example.com");
+        doReturn(profile).when(profileService).saveProfile(profile);
 
-        // // Call the method to test
-        // ResponseEntity<?> response = profileController.register(profile);
+        // Call the method to test
+        ResponseEntity<?> response = profileController.register(profile);
 
-        // // Verify the interactions
-        // verify(profileService, times(1)).existingProfileByEmail("test@example.com");
-        // verify(profileService, times(1)).saveProfile(profile);
+        // Verify the interactions
+        verify(profileService, times(1)).existingProfileByEmail("test@example.com");
+        verify(profileService, times(1)).saveProfile(profile);
 
-        // // Assert the result
-        // // You can assert the response status, content, or other properties here
+        // Assert the result
+        // You can assert the response status, content, or other properties here
     }
 
     // Add more test methods for other controller actions

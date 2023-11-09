@@ -87,14 +87,14 @@ public class MessageControllerTest {
 
     @Test
     public void testReadMessage_MessageNotFound() {
-        // // Mock the behavior of the MessageService to return null (message not found)
-        // Mockito.when(messageService.findById("7")).thenReturn(null);
+        // Mock the behavior of the MessageService to return null (message not found)
+        Mockito.when(messageService.findById("7")).thenReturn(null);
 
-        // // Perform the PUT request
-        // ResponseEntity<?> response = messageController.readMessage("7");
+        // Perform the PUT request
+        ResponseEntity<?> response = messageController.readMessage("7");
 
-        // // Assert the response
-        // assert response.getStatusCode().equals(HttpStatus.NOT_FOUND);
+        // Assert the response
+        assert response.getStatusCode().equals(HttpStatus.NOT_FOUND);
     }
 
     // Additional test methods for other controller methods can be added similarly.

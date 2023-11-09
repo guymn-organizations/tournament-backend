@@ -64,20 +64,20 @@ public class MatchControllerTest {
 
     @Test
     public void testCreateReport_Success() {
-        // // Create an example match ID and report
-        // String matchId = "3";
-        // String report = "Match report";
+        // Create an example match ID and report
+        String matchId = "3";
+        String report = "Match report";
 
-        // // Mock the behavior of the MatchService to simulate a successful operation
-        // Match exampleMatch = new Match("Round 2", new TeamInTournament(), new TeamInTournament());
-        // Mockito.when(matchService.findMatchById(matchId)).thenReturn(exampleMatch);
-        // Mockito.doNothing().when(matchService).saveMatch(exampleMatch);
+        // Mock the behavior of the MatchService to simulate a successful operation
+        Match exampleMatch = new Match("Round 2", new TeamInTournament(), new TeamInTournament());
+        Mockito.when(matchService.findMatchById(matchId)).thenReturn(exampleMatch);
+        Mockito.doNothing().when(matchService).saveMatch(exampleMatch);
 
-        // // Perform the POST request
-        // ResponseEntity<?> response = matchController.createReport(matchId, report);
+        // Perform the POST request
+        ResponseEntity<?> response = matchController.createReport(matchId, report);
 
-        // // Assert the response
-        // assert response.getStatusCode().equals(HttpStatus.OK);
+        // Assert the response
+        assert response.getStatusCode().equals(HttpStatus.OK);
     }
 
     @Test

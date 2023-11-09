@@ -65,23 +65,23 @@ public class ScrimsControllerTest {
 
     @Test
     public void testSetTeamB() throws Exception {
-        // String scrimsId = "1";
-        // String teamName = "TeamB";
+        String scrimsId = "1";
+        String teamName = "TeamB";
 
-        // Scrims scrims = new Scrims();
-        // scrims.setId(scrimsId);
+        Scrims scrims = new Scrims();
+        scrims.setId(scrimsId);
 
-        // Team team = new Team();
-        // team.setName(teamName);
+        Team team = new Team();
+        team.setName(teamName);
 
-        // when(scrimsService.exsitById(scrimsId)).thenReturn(true);
-        // when(scrimsService.findScrimsById(scrimsId)).thenReturn(scrims);
-        // when(teamService.findByName(teamName)).thenReturn(team);
+        when(scrimsService.exsitById(scrimsId)).thenReturn(true);
+        when(scrimsService.findScrimsById(scrimsId)).thenReturn(scrims);
+        when(teamService.findByName(teamName)).thenReturn(team);
 
-        // mockMvc.perform(put("/scrims/" + scrimsId + "/add_teamB")
-        //         .contentType(MediaType.APPLICATION_JSON)
-        //         .content(teamName))
-        //         .andExpect(status().isOk());
+        mockMvc.perform(put("/scrims/" + scrimsId + "/add_teamB")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(teamName))
+                .andExpect(status().isOk());
     }
 
     @Test
