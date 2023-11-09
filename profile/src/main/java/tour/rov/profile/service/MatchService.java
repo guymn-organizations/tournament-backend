@@ -133,31 +133,24 @@ public class MatchService {
         int round = BO / 2;
 
         Queue<String> queue = new LinkedList<>();
-        Match match = new Match();
-        match.setStartDate(date.plusDays(result));
-        match.setRound(round);
-        matchsList.add(match);
-        result--;
 
-        queue.add(match.getId());
-        queue.add(match.getId());
-
+        int loop = 1;
         while (result > 0) {
-            for (int j = 1; j < 3; j++) {
-                Match match2 = new Match();
+            for (int j = 0; j < loop; j++) {
+                Match match = new Match();
                 match.setNextMatch(queue.poll());
-                match.setRound(round);
                 match.setStartDate(date.plusDays(result));
+                match.setRound(round);
+                matchsList.add(match);
+                saveMatch(match);
 
-                matchsList.add(match2);
-                queue.add(match2.getId());
-                queue.add(match2.getId());
+                queue.add(match.getId());
+                queue.add(match.getId());
             }
             result--;
+            loop = loop * 2;
 
         }
-
-        matchRepo.saveAll(matchsList);
 
         List<String> matchIds = matchsList.stream().map(Match::getId).collect(Collectors.toList());
         return matchIds;

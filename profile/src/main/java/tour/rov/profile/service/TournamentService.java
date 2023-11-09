@@ -69,7 +69,7 @@ public class TournamentService {
 
     public void createTournament(Tournament tournament, String profileId) {
 
-        if (tournament.getImageTourUrl().length() > 0) {
+        if (tournament.getImageTourUrl() != null) {
             // เอารูป base64 จาก tournament มาสร้าง Image
             Image image = new Image();
             image.setImageUrl(tournament.getImageTourUrl());

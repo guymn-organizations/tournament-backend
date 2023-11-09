@@ -28,7 +28,7 @@ public class Tournament {
 
     private String imageTourUrl;
 
-    private static int BO;
+    private int BO;
 
     private List<String> teamJoin;
 
@@ -116,12 +116,20 @@ public class Tournament {
         this.imageTourUrl = imageTourUrl;
     }
 
-    public  int getBO() {
+    public int getBO() {
         return BO;
     }
 
     public void setBO(int bO) {
         BO = bO;
+    }
+
+    public List<String> getTeamJoin() {
+        return teamJoin;
+    }
+
+    public void setTeamJoin(List<String> teamJoin) {
+        this.teamJoin = teamJoin;
     }
 
     public Status getStatus() {
@@ -154,14 +162,6 @@ public class Tournament {
 
     public void setCreateer(Profile createer) {
         this.createer = createer;
-    }
-
-    public List<String> getTeamJoin() {
-        return teamJoin;
-    }
-
-    public void setTeamJoin(List<String> teamJoin) {
-        this.teamJoin = teamJoin;
     }
 
 }
