@@ -12,12 +12,12 @@ public class Match {
     private String id;
 
     @DBRef
-    private TeamInTournament teamA;
+    private Team teamA;
 
     private int[] resultA = { 0, 0 };
 
     @DBRef
-    private TeamInTournament teamB;
+    private Team teamB;
 
     private int[] resultB = { 0, 0 };
 
@@ -29,7 +29,7 @@ public class Match {
 
     public Match() {
     }
-    public Match(int round, TeamInTournament teamA, TeamInTournament teamB){
+    public Match(int round, Team teamA, Team teamB){
         this.teamA = teamA;
         this.teamB = teamB;
         this.round = round;
@@ -43,11 +43,11 @@ public class Match {
         this.id = id;
     }
 
-    public TeamInTournament getTeamA() {
+    public Team getTeamA() {
         return teamA;
     }
 
-    public void setTeamA(TeamInTournament teamA) {
+    public void setTeamA(Team teamA) {
         this.teamA = teamA;
     }
 
@@ -59,11 +59,11 @@ public class Match {
         this.resultA = resultA;
     }
 
-    public TeamInTournament getTeamB() {
+    public Team getTeamB() {
         return teamB;
     }
 
-    public void setTeamB(TeamInTournament teamB) {
+    public void setTeamB(Team teamB) {
         this.teamB = teamB;
     }
 

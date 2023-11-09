@@ -30,7 +30,7 @@ public class Tournament {
 
     private static int BO;
 
-    private List<TeamInTournament> teamJoin;
+    private List<String> teamJoin;
 
     private Status status;
 
@@ -124,14 +124,6 @@ public class Tournament {
         BO = bO;
     }
 
-    public List<TeamInTournament> getTeamJoin() {
-        return teamJoin;
-    }
-
-    public void setTeamJoin(List<TeamInTournament> teamJoin) {
-        this.teamJoin = teamJoin;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -162,6 +154,14 @@ public class Tournament {
 
     public void setCreateer(Profile createer) {
         this.createer = createer;
+    }
+
+    public List<String> getTeamJoin() {
+        return teamJoin;
+    }
+
+    public void setTeamJoin(List<String> teamJoin) {
+        this.teamJoin = teamJoin;
     }
 
 }

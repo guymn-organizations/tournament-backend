@@ -23,22 +23,19 @@ public class MatchController {
     @Autowired
     private MatchService matchService;
 
-    // @GetMapping("/{team_id}")
-    // public ResponseEntity<?> getMatchByTeam(@PathVariable String team_id,
-    //         @RequestParam(defaultValue = "0") int pageIndex,
-    //         @RequestParam(defaultValue = "7") int pageSize) {
-    //     try {
-    //         // Call the MatchService to retrieve matches for the specified team
-    //         List<Match> matchesForTeam = matchService.findMatchesByTeamId(team_id, pageIndex, pageSize);
+    @GetMapping("/{team_id}")
+    public ResponseEntity<?> getMatchByTeam(@PathVariable String team_id,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "7") int pageSize) {
+        try {
+            List<Match> matchesForTeam = matchService.findMatchesByTeamId(team_id, pageIndex, pageSize);
 
-    //         // Return a ResponseEntity with the list of matches if successful
-    //         return ResponseEntity.ok(matchesForTeam);
-    //     } catch (Exception e) {
-    //         // Return an error response if there's an exception
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    //                 .body("Failed to retrieve matches for the team: " + e.getMessage());
-    //     }
-    // }
+            return ResponseEntity.ok(matchesForTeam);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve matches for the team: " + e.getMessage());
+        }
+    }
 
 
     @PutMapping("/{match_id}/results")
