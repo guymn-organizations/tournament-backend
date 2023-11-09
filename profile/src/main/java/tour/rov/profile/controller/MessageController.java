@@ -52,9 +52,10 @@ public class MessageController {
 
     @PostMapping("{team_name}/INVITE_TO_JOIN_TEAM/{profile_game_name}")
     public ResponseEntity<?> sendInviteToJoinTeam(@PathVariable String team_name,
-            @PathVariable String profile_game_name, @RequestBody PositionType positionType) {
+            @PathVariable String profile_game_name, @RequestBody String positionType) {
         try {
-            messageService.inviteToJoinTeam(team_name, profile_game_name, positionType);
+            PositionType positionTypeEnum = PositionType.valueOf(positionType);
+            messageService.inviteToJoinTeam(team_name, profile_game_name, positionTypeEnum);
             return ResponseEntity.ok("Successfully sent message for INVITE JOIN TEAM.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
