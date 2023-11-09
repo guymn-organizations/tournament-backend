@@ -3,6 +3,9 @@ package tour.rov.profile.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,6 +34,22 @@ public class MatchController {
             List<Match> matchesForTeam = matchService.findMatchesByTeamId(team_id, pageIndex, pageSize);
 
             return ResponseEntity.ok(matchesForTeam);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve matches for the team: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/round/{round}")
+    public ResponseEntity<?> getMatchByRound(@PathVariable int round,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "8") int pageSize,
+            @RequestParam List<String> idList) {
+        try {
+            Pageable pageable = PageRequest.of(pageIndex, pageSize);
+            Page<Match> matchesPage = matchService.findByRoundAllById(round, idList, pageable);
+
+            return ResponseEntity.ok(matchesPage.getContent());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to retrieve matches for the team: " + e.getMessage());
@@ -104,5 +123,4 @@ public class MatchController {
         }
     }
 
-    
 }

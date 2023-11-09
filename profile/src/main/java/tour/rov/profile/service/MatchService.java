@@ -17,7 +17,8 @@ import tour.rov.profile.repository.MatchRepo;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -154,6 +155,10 @@ public class MatchService {
 
         List<String> matchIds = matchsList.stream().map(Match::getId).collect(Collectors.toList());
         return matchIds;
+    }
+
+    public Page<Match> findByRoundAllById(int round, List<String> idList, Pageable pageable) {
+        return matchRepo.findAllByRoundAndIdIn(round, idList, pageable);
     }
 
 }
