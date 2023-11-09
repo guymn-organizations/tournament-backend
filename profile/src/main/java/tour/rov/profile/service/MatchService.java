@@ -1,16 +1,18 @@
 package tour.rov.profile.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tour.rov.profile.model.Match;
-import tour.rov.profile.model.Team;
-import tour.rov.profile.model.Tournament;
 import tour.rov.profile.repository.MatchRepo;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -59,70 +61,106 @@ public class MatchService {
         return matchRepo.existsById(id);
     }
 
-    public List<Match> generateMatches(List<Team> teamsInTournament) {
-        List<Match> matches = new ArrayList<>();
+    // public List<Match> generateMatches(List<Team> teamsInTournament) {
+    // List<Match> matches = new ArrayList<>();
 
-        int round = 1;
-        while (teamsInTournament.size() > 1) {
-            List<Match> roundMatches = new ArrayList<>();
-            for (int i = 0; i < teamsInTournament.size(); i += 2) {
-                Team team1 = teamsInTournament.get(i);
-                Team team2 = teamsInTournament.get(i + 1);
-                Match match = new Match(round, team1, team2);
-                roundMatches.add(match);
-            }
-            matches.addAll(roundMatches);
-            teamsInTournament = getWinners(roundMatches);
-            round++;
-        }
+    // int round = 1;
+    // while (teamsInTournament.size() > 1) {
+    // List<Match> roundMatches = new ArrayList<>();
+    // for (int i = 0; i < teamsInTournament.size(); i += 2) {
+    // Team team1 = teamsInTournament.get(i);
+    // Team team2 = teamsInTournament.get(i + 1);
+    // Match match = new Match(round, team1, team2);
+    // roundMatches.add(match);
+    // }
+    // matches.addAll(roundMatches);
+    // teamsInTournament = getWinners(roundMatches);
+    // round++;
+    // }
 
-        return matches;
-    }
+    // return matches;
+    // }
 
-    public List<Team> getWinners(List<Match> matches) {
-        List<Team> winners = new ArrayList<>();
-        for (Match match : matches) {
+    // public List<Team> getWinners(List<Match> matches) {
+    // List<Team> winners = new ArrayList<>();
+    // for (Match match : matches) {
 
-            Team winner = confirmWinner(match);
-            winners.add(winner);
+    // Team winner = confirmWinner(match);
+    // winners.add(winner);
 
-        }
-        return winners;
-    }
+    // }
+    // return winners;
+    // }
 
-    public Team confirmWinner(Match match) {
-        int[] resultA = match.getResultA();
-        int[] resultB = match.getResultB();
-        int BO = Tournament.getBO();
+    // public Team confirmWinner(Match match) {
+    // int[] resultA = match.getResultA();
+    // int[] resultB = match.getResultB();
+    // int BO = tournament.getBO();
 
-        // Assuming resultA and resultB are scores
-        if (resultA[0] > resultB[0]) {
-            return match.getTeamA();
-        } else if (resultA[0] < resultB[0]) {
-            return match.getTeamB();
-        } else {
-            // Scores are tied, check tiebreaker condition
-            int resultWinner = getResultWinner(match);
+    // // Assuming resultA and resultB are scores
+    // if (resultA[0] > resultB[0]) {
+    // return match.getTeamA();
+    // } else if (resultA[0] < resultB[0]) {
+    // return match.getTeamB();
+    // } else {
+    // // Scores are tied, check tiebreaker condition
+    // int resultWinner = getResultWinner(match);
 
-            // Assuming the tiebreaker condition is result winner > BO/2
-            if (resultWinner > BO / 2) {
-                return match.getTeamA();
-            } else {
-                return match.getTeamB();
-            }
-        }
-    }
+    // // Assuming the tiebreaker condition is result winner > BO/2
+    // if (resultWinner > BO / 2) {
+    // return match.getTeamA();
+    // } else {
+    // return match.getTeamB();
+    // }
+    // }
+    // }
 
-    private int getResultWinner(Match match) {
-        int[] resultA = match.getResultA();
-        int[] resultB = match.getResultB();
+    // private int getResultWinner(Match match) {
+    // int[] resultA = match.getResultA();
+    // int[] resultB = match.getResultB();
 
-        // Assuming result winner is the sum of scores
-        return resultA[0] + resultB[0];
-    }
+    // // Assuming result winner is the sum of scores
+    // return resultA[0] + resultB[0];
+    // }
 
     // public List<Match> getAllMatchesForTournament(Tournament tournament) {
     // return matchRepo.findMatchesByTournament(tournament);
     // }
+
+    public List<String> generateMatches(int BO, LocalDate date, int num) {
+        int result = (int) (Math.log(num) / Math.log(2));
+        List<Match> matchsList = new ArrayList<>();
+        int round = BO / 2;
+
+        Queue<String> queue = new LinkedList<>();
+        Match match = new Match();
+        match.setStartDate(date.plusDays(result));
+        match.setRound(round);
+        matchsList.add(match);
+        result--;
+
+        queue.add(match.getId());
+        queue.add(match.getId());
+
+        while (result > 0) {
+            for (int j = 1; j < 3; j++) {
+                Match match2 = new Match();
+                match.setNextMatch(queue.poll());
+                match.setRound(round);
+                match.setStartDate(date.plusDays(result));
+
+                matchsList.add(match2);
+                queue.add(match2.getId());
+                queue.add(match2.getId());
+            }
+            result--;
+
+        }
+
+        matchRepo.saveAll(matchsList);
+
+        List<String> matchIds = matchsList.stream().map(Match::getId).collect(Collectors.toList());
+        return matchIds;
+    }
 
 }

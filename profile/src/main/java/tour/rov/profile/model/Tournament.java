@@ -116,7 +116,7 @@ public class Tournament {
         this.imageTourUrl = imageTourUrl;
     }
 
-    public static int getBO() {
+    public  int getBO() {
         return BO;
     }
 

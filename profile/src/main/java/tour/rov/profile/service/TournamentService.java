@@ -33,6 +33,9 @@ public class TournamentService {
     @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    private MatchService matchService;
+
     public Tournament findById(String id) {
         return tournamentRepo.findById(id).get();
     }
@@ -80,7 +83,12 @@ public class TournamentService {
         tournament.setCreateer(creater);
         tournament.setStartDateRegister(LocalDate.now());
         tournament.setTeamJoin(new ArrayList<>());
-        tournament.setMatchList(new ArrayList<>());
+
+        int bo = tournament.getBO();
+        LocalDate date = tournament.getStartDateMatch();
+        int num = tournament.getMaxNumberTeam();
+        List<String> matchIdList = matchService.generateMatches(bo, date, num);
+        tournament.setMatchList(matchIdList);
         tournament.setStatus(Status.Register);
 
         saveTournament(tournament);

@@ -14,12 +14,12 @@ public class Match {
     @DBRef
     private Team teamA;
 
-    private int[] resultA = { 0, 0 };
+    private int[] resultA;
 
     @DBRef
     private Team teamB;
 
-    private int[] resultB = { 0, 0 };
+    private int[] resultB;
 
     private LocalDate startDate;
 
@@ -28,8 +28,11 @@ public class Match {
     private String nextMatch;
 
     public Match() {
+        this.resultA = new int[] { 0, 0 };
+        this.resultB = new int[] { 0, 0 };
     }
-    public Match(int round, Team teamA, Team teamB){
+
+    public Match(int round, Team teamA, Team teamB) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.round = round;
