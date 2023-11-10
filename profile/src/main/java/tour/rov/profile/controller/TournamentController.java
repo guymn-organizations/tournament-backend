@@ -123,8 +123,8 @@ public class TournamentController {
             tournament.getTeamJoin().add(teamid);
             team.getTournamentId().add(id);
 
-            for (String match_id : tournament.getMatchList()) {
-                Match match = matchService.findMatchById(match_id);
+            for (int i = tournament.getMatchList().size()-1; i >= 0; i--) {
+                Match match = matchService.findMatchById(tournament.getMatchList().get(i));
                 if (match.getTeamA() == null || match.getTeamB() == null) {
                     matchService.addPlayerToMatch(match, team);
                     break;
