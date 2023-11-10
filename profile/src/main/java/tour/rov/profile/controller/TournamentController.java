@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tour.rov.profile.model.Team;
+import tour.rov.profile.model.Match;
 import tour.rov.profile.model.Tournament;
+import tour.rov.profile.service.MatchService;
 import tour.rov.profile.service.TeamService;
 import tour.rov.profile.service.TournamentService;
 
@@ -28,6 +30,9 @@ public class TournamentController {
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private MatchService matchService;
 
     @PostMapping("/create/{profileId}")
     public ResponseEntity<?> createTournament(@PathVariable String profileId, @RequestBody Tournament tournament) {
@@ -110,12 +115,21 @@ public class TournamentController {
 
             // Check if the team has at least 5 players
             if (team.getPositions().stream().filter(position -> position.getPlayer() != null).count() < 5) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team must have at least 5 players to join the tournament.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Team must have at least 5 players to join the tournament.");
             }
 
             // Add the team to the tournament and the tournament to the team
             tournament.getTeamJoin().add(teamid);
             team.getTournamentId().add(id);
+
+            for (String match_id : tournament.getMatchList()) {
+                Match match = matchService.findMatchById(match_id);
+                if (match.getTeamA() == null || match.getTeamB() == null) {
+                    matchService.addPlayerToMatch(match, team);
+                    break;
+                }
+            }
 
             // Save the changes
             tournamentService.saveTournament(tournament);
@@ -127,7 +141,5 @@ public class TournamentController {
                     .body("Failed to add the team to the tournament: " + e.getMessage());
         }
     }
-
-
 
 }
