@@ -17,6 +17,7 @@ import tour.rov.profile.model.Match;
 import tour.rov.profile.model.Team;
 import tour.rov.profile.model.Tournament;
 import tour.rov.profile.repository.MatchRepo;
+import tour.rov.profile.repository.TournamentRepo;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,7 +35,7 @@ public class MatchService {
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    private TournamentService tournamentService;
+    private TournamentRepo tournamentService;
 
     public Match findMatchById(String id) {
         Optional<Match> match = matchRepo.findById(id);
@@ -63,7 +64,7 @@ public class MatchService {
         List<Match> mList = mongoTemplate.find(query, Match.class);
 
         for (Match match : mList) {
-            Tournament tournament = tournamentService.findById(match.getId());
+            Tournament tournament = tournamentService.findById(match.getId()).get();
             Boolean bool = false;
             for (int i = 0; i < 2; i++) {
                 if (match.getResultA()[i] != match.getResultA()[i]) {
@@ -114,7 +115,7 @@ public class MatchService {
 
             }
 
-            tournamentService.saveTournament(tournament);
+            tournamentService.save(tournament);
 
         }
     }

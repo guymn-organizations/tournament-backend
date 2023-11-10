@@ -29,16 +29,16 @@ public class TournamentController {
     @Autowired
     private TeamService teamService;
 
-    @PostMapping("/create/{profileId}")
-    public ResponseEntity<?> createTournament(@PathVariable String profileId, @RequestBody Tournament tournament) {
-        try {
-            tournamentService.createTournament(tournament, profileId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.findById(tournament.getId()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to create : " + e.getMessage());
-        }
-    }
+    // @PostMapping("/create/{profileId}")
+    // public ResponseEntity<?> createTournament(@PathVariable String profileId, @RequestBody Tournament tournament) {
+    //     try {
+    //         tournamentService.createTournament(tournament, profileId);
+    //         return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.findById(tournament.getId()));
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    //                 .body("Failed to create : " + e.getMessage());
+    //     }
+    // }
 
     @GetMapping("/Featured")
     // หา tournament ที่มี reward สูงที่สุด
