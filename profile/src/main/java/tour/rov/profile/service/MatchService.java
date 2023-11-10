@@ -42,12 +42,18 @@ public class MatchService {
                 Criteria.where("teamA.id").is(teamId),
                 Criteria.where("teamB.id").is(teamId));
 
+        checkCinfirmWiner(criteria.and("startDate").lt(now));
+
         criteria = criteria.and("startDate").gt(now);
 
         Query query = new Query(criteria).with(Sort.by(Sort.Order.asc("startDate"))).skip(pageIndex * pageSize)
                 .limit(pageSize);
 
         return mongoTemplate.find(query, Match.class);
+    }
+
+    public void checkCinfirmWiner(Criteria criteriaOut) {
+
     }
 
     public void saveMatch(Match match) {

@@ -98,12 +98,14 @@ public class TournamentController {
             team.getTournamentId().add(id);
             tournament.getTeamJoin().add(teamid);
 
-            return ResponseEntity.ok("Team added to the tournament successfully.");
+            teamService.saveTeam(team);
+            tournamentService.saveTournament(tournament);
+
+            return ResponseEntity.ok(tournament);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to add the team to the tournament: " + e.getMessage());
         }
     }
 
-    
 }
