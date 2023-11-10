@@ -49,7 +49,7 @@ public class MatchService {
                 Criteria.where("teamA.id").is(teamId),
                 Criteria.where("teamB.id").is(teamId));
 
-        checkConfirmWiner(criteria.and("startDate").lt(now));
+        checkConfirmWiner(teamId);
 
         criteria = criteria.and("startDate").gt(now);
 
@@ -59,8 +59,17 @@ public class MatchService {
         return mongoTemplate.find(query, Match.class);
     }
 
-    public void checkConfirmWiner(Criteria criteriaOut) {
-        Query query = new Query(criteriaOut);
+    public void checkConfirmWiner(String teamId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        Criteria criteria = new Criteria().orOperator(
+                Criteria.where("teamA.id").is(teamId),
+                Criteria.where("teamB.id").is(teamId));
+
+        criteria = criteria.and("startDate").lt(now);
+
+        Query query = new Query(criteria);
+
         List<Match> mList = mongoTemplate.find(query, Match.class);
 
         for (Match match : mList) {

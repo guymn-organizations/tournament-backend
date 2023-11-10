@@ -26,7 +26,7 @@ public class MatchController {
     @Autowired
     private MatchService matchService;
 
-    @GetMapping("/{team_id}")
+    @GetMapping("/{team_id}/getTour")
     public ResponseEntity<?> getMatchByTeam(@PathVariable String team_id,
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "7") int pageSize) {
