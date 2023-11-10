@@ -87,7 +87,7 @@ public class TournamentService {
         int bo = tournament.getBO();
         LocalDate date = tournament.getStartDateMatch();
         int num = tournament.getMaxNumberTeam();
-        List<String> matchIdList = matchService.generateMatches(bo, date, num);
+        List<String> matchIdList = matchService.generateMatches(tournament.getId(), bo, date, num);
         tournament.setMatchList(matchIdList);
         tournament.setStatus(Status.Register);
 

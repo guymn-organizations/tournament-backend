@@ -180,7 +180,7 @@ public class MatchService {
     // return matchRepo.findMatchesByTournament(tournament);
     // }
 
-    public List<String> generateMatches(int BO, LocalDate date, int num) {
+    public List<String> generateMatches(String tourId, int BO, LocalDate date, int num) {
         int result = (int) (Math.log(num) / Math.log(2));
         List<Match> matchsList = new ArrayList<>();
 
@@ -194,6 +194,7 @@ public class MatchService {
                 match.setStartDate(date.plusDays(result));
                 match.setRound(result);
                 match.setBo(BO);
+                match.setTourId(tourId);
                 matchsList.add(match);
                 saveMatch(match);
 

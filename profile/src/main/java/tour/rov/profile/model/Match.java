@@ -29,6 +29,8 @@ public class Match {
 
     private int bo;
 
+    private String tourId;
+
     public Match() {
         this.resultA = new int[] { 0, 0 };
         this.resultB = new int[] { 0, 0 };
@@ -110,6 +112,14 @@ public class Match {
 
     public void setBo(int bo) {
         this.bo = bo;
+    }
+
+    public String getTourId() {
+        return tourId;
+    }
+
+    public void setTourId(String tourId) {
+        this.tourId = tourId;
     }
 
 }

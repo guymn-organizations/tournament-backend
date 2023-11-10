@@ -40,6 +40,8 @@ public class Tournament {
 
     private Profile createer;
 
+    private List<Alert> alerts;
+
     public enum Status {
         Register,
         Competing,
@@ -49,6 +51,7 @@ public class Tournament {
     public Tournament() {
         this.teamJoin = new ArrayList<>();
         this.matchList = new ArrayList<>();
+        this.alerts = new ArrayList<>();
         this.status = Status.Register;
     }
 
@@ -162,6 +165,14 @@ public class Tournament {
 
     public void setCreateer(Profile createer) {
         this.createer = createer;
+    }
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
     }
 
 }
