@@ -89,17 +89,56 @@ public class TournamentController {
         }
     }
 
+    // @PostMapping("/{id}/teamJoin/{teamid}")
+    // public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamid) {
+    //     try {
+    //         Tournament tournament = tournamentService.findById(id);
+    //         Team team = teamService.findById(teamid);
+
+    //         team.getTournamentId().add(id);
+    //         tournament.getTeamJoin().add(teamid);
+
+    //         teamService.saveTeam(team);
+    //         tournamentService.saveTournament(tournament);
+
+    //         return ResponseEntity.ok(tournament);
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    //                 .body("Failed to add the team to the tournament: " + e.getMessage());
+    //     }
+    // }
+
     @PostMapping("/{id}/teamJoin/{teamid}")
     public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamid) {
         try {
             Tournament tournament = tournamentService.findById(id);
             Team team = teamService.findById(teamid);
 
-            team.getTournamentId().add(id);
-            tournament.getTeamJoin().add(teamid);
+            if (tournament == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tournament not found with ID: " + id);
+            }
 
-            teamService.saveTeam(team);
+            if (team == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found with ID: " + teamid);
+            }
+
+            // Check if the team has already joined the tournament
+            if (tournament.getTeamJoin().contains(teamid)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team is already part of the tournament.");
+            }
+
+            // Check if the team has at least 5 players
+            if (team.getPositions().stream().filter(position -> position.getPlayer() != null).count() < 5) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team must have at least 5 players to join the tournament.");
+            }
+
+            // Add the team to the tournament and the tournament to the team
+            tournament.getTeamJoin().add(teamid);
+            team.getTournamentId().add(id);
+
+            // Save the changes
             tournamentService.saveTournament(tournament);
+            teamService.saveTeam(team);
 
             return ResponseEntity.ok(tournament);
         } catch (Exception e) {
@@ -107,5 +146,7 @@ public class TournamentController {
                     .body("Failed to add the team to the tournament: " + e.getMessage());
         }
     }
+
+
 
 }
