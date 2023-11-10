@@ -72,10 +72,10 @@ public class MatchService {
             } else {
                 if (match.getResultA()[0] > match.getResultA()[1] && match.getResultA()[0] > match.getBo() / 2) {
                     // A Win
-                    addPlayerToMatch(match.getNextMatch(), match.getTeamA());
+                    addPlayerToMatch(match, match.getTeamA());
                 } else if (match.getResultA()[0] < match.getResultA()[1] && match.getResultA()[1] > match.getBo() / 2) {
                     // B Win
-                    addPlayerToMatch(match.getNextMatch(), match.getTeamB());
+                    addPlayerToMatch(match, match.getTeamB());
                 } else {
                     // alert คะแนนเพื้ยน
                 }
@@ -85,15 +85,20 @@ public class MatchService {
         }
     }
 
-    public void addPlayerToMatch(String matchId, Team team) {
+    public void addPlayerToMatch(Match match, Team team) {
+        if (match.getNextMatch() == null) {
+            // youare champ
+            return;
+        }
+
+        String matchId = match.getNextMatch();
         Match nextMath = findMatchById(matchId);
         if (nextMath.getTeamA() == null) {
             nextMath.setTeamA(team);
         } else if (nextMath.getTeamB() == null) {
             nextMath.setTeamB(team);
-        } else {
-            // alert nextMatch ที่มเต็ม
         }
+
         saveMatch(nextMath);
     }
 
