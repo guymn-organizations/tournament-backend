@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tour.rov.profile.model.Match;
+import tour.rov.profile.model.Team;
 import tour.rov.profile.repository.MatchRepo;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -42,7 +43,7 @@ public class MatchService {
                 Criteria.where("teamA.id").is(teamId),
                 Criteria.where("teamB.id").is(teamId));
 
-        checkCinfirmWiner(criteria.and("startDate").lt(now));
+        checkConfirmWiner(criteria.and("startDate").lt(now));
 
         criteria = criteria.and("startDate").gt(now);
 
@@ -52,8 +53,48 @@ public class MatchService {
         return mongoTemplate.find(query, Match.class);
     }
 
-    public void checkCinfirmWiner(Criteria criteriaOut) {
+    public void checkConfirmWiner(Criteria criteriaOut) {
+        Query query = new Query(criteriaOut);
+        List<Match> mList = mongoTemplate.find(query, Match.class);
 
+        for (Match match : mList) {
+            Boolean bool = false;
+            for (int i = 0; i < 2; i++) {
+                if (match.getResultA()[i] != match.getResultA()[i]) {
+                    bool = true;
+                    break;
+                }
+            }
+
+            if (bool) {
+                // alert คะแนนไม่ตรง
+
+            } else {
+                if (match.getResultA()[0] > match.getResultA()[1] && match.getResultA()[0] > match.getBo() / 2) {
+                    // A Win
+                    addPlayerToMatch(match.getNextMatch(), match.getTeamA());
+                } else if (match.getResultA()[0] < match.getResultA()[1] && match.getResultA()[1] > match.getBo() / 2) {
+                    // B Win
+                    addPlayerToMatch(match.getNextMatch(), match.getTeamB());
+                } else {
+                    // alert คะแนนเพื้ยน
+                }
+
+            }
+
+        }
+    }
+
+    public void addPlayerToMatch(String matchId, Team team) {
+        Match nextMath = findMatchById(matchId);
+        if (nextMath.getTeamA() == null) {
+            nextMath.setTeamA(team);
+        } else if (nextMath.getTeamB() == null) {
+            nextMath.setTeamB(team);
+        } else {
+            // alert nextMatch ที่มเต็ม
+        }
+        saveMatch(nextMath);
     }
 
     public void saveMatch(Match match) {
