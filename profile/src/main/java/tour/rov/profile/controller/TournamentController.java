@@ -29,16 +29,16 @@ public class TournamentController {
     @Autowired
     private TeamService teamService;
 
-    // @PostMapping("/create/{profileId}")
-    // public ResponseEntity<?> createTournament(@PathVariable String profileId, @RequestBody Tournament tournament) {
-    //     try {
-    //         tournamentService.createTournament(tournament, profileId);
-    //         return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.findById(tournament.getId()));
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    //                 .body("Failed to create : " + e.getMessage());
-    //     }
-    // }
+    @PostMapping("/create/{profileId}")
+    public ResponseEntity<?> createTournament(@PathVariable String profileId, @RequestBody Tournament tournament) {
+        try {
+            tournamentService.createTournament(tournament, profileId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.findById(tournament.getId()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create : " + e.getMessage());
+        }
+    }
 
     @GetMapping("/Featured")
     // หา tournament ที่มี reward สูงที่สุด
@@ -88,25 +88,6 @@ public class TournamentController {
                     .body("Failed to retrieve the tournament: " + e.getMessage());
         }
     }
-
-    // @PostMapping("/{id}/teamJoin/{teamid}")
-    // public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamid) {
-    //     try {
-    //         Tournament tournament = tournamentService.findById(id);
-    //         Team team = teamService.findById(teamid);
-
-    //         team.getTournamentId().add(id);
-    //         tournament.getTeamJoin().add(teamid);
-
-    //         teamService.saveTeam(team);
-    //         tournamentService.saveTournament(tournament);
-
-    //         return ResponseEntity.ok(tournament);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    //                 .body("Failed to add the team to the tournament: " + e.getMessage());
-    //     }
-    // }
 
     @PostMapping("/{id}/teamJoin/{teamid}")
     public ResponseEntity<?> addTeamToTournament(@PathVariable String id, @PathVariable String teamid) {

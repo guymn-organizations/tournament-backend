@@ -86,27 +86,6 @@ public class MatchController {
         }
     }
 
-    // @PostMapping("/{match_id}/report")
-    // public ResponseEntity<?> createReport(@PathVariable String match_id,
-    // @RequestBody String report){
-    // try {
-    // Match match = matchService.findMatchById(match_id);
-
-    // if (match == null) {
-    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Match not found");
-    // }
-
-    // match.getReport().add(report);
-
-    // matchService.saveMatch(match);
-
-    // return ResponseEntity.ok("Report added to the match");
-    // } catch (Exception e) {
-    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-    // .body("Failed to create match report: " + e.getMessage());
-    // }
-    // }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getmatchById(@PathVariable String id) {
         try {
